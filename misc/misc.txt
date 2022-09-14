@@ -1,0 +1,29 @@
+    "content_scripts": [
+      {
+        "matches": [
+          "https://twitter.com/*",
+          "https://mobile.twitter.com/*"
+        ],
+        "js": [
+          "js/contentScript.bundle.js"
+        ],
+        "css": [
+          "css/contentScript.css"
+        ]
+      }
+    ]
+
+    
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "frame.html",
+          "js/frame.bundle.js"
+        ],
+        "matches": [
+          "https://twitter.com/*",
+          "https://mobile.twitter.com/*"
+        ],
+        "extension_ids": []
+      }
+    ],
