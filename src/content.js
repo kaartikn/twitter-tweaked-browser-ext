@@ -1,4 +1,5 @@
 var backgroundColor = document.body.style.backgroundColor;
+var textColor = (backgroundColor == "rgb(255,255,255)") ? "black" : "white";
 var borderColor;
 
 handleEventsPostLoading();
@@ -6,12 +7,6 @@ handleEventsPostLoading();
 setupOnMessageListener();
 
 var iframe = setupSidePanelCSS();
-
-
-// document.addEventListener("DOMContentLoaded", function(e) {
-//     // May have to move away from identifying by classname because I think it's generated?
-
-//   });
 
 function setupOnMessageListener() {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -24,12 +19,16 @@ function setupOnMessageListener() {
 function setupSidePanelCSS() {
     var iframe = document.createElement('iframe');
     iframe.style.background = backgroundColor;
+    iframe.style.textColor = textColor;
     iframe.style.height = "100%";
     iframe.style.position = "fixed";
     iframe.style.top = "0px";
     iframe.style.right = "0px";
     iframe.style.zIndex = "9000000000000000000";
-    iframe.style.border = "1px";
+    iframe.style.margin = "0px";
+    iframe.style.padding = "0px";
+    iframe.style.borderWidth = "5px";
+    iframe.style.borderStyle = "solid";
     iframe.src = chrome.runtime.getURL("popup.html");
     document.body.appendChild(iframe);
     return iframe;
@@ -49,6 +48,8 @@ function setBorderColor() {
         elemsWithBorderColor = document.getElementsByClassName("r-14wv3jr");
         var arr = Array.from(elemsWithBorderColor);
         borderColor = window.getComputedStyle(arr[0]).borderColor;
+        console.log(borderColor)
+        iframe.style.borderColor = borderColor;
     } catch (e) { }
 }
 
@@ -71,6 +72,7 @@ function toggleTwitterTweaked(){
 
 }
 
+// Need to run this every time change content
 function toggleSidePanelVisibility(isTwitterTweakedVisible) {
     Array.from(document.querySelectorAll("[data-testid=sidebarColumn]"))
     .forEach(function(val) {
@@ -86,7 +88,7 @@ function toggleSidePanelVisibility(isTwitterTweakedVisible) {
 
 function toggleTwitterTweakedVisibility(isTwitterTweakedVisible){
     if(isTwitterTweakedVisible){
-        iframe.style.width="400px";
+        iframe.style.width="450px";
     }
     else{
         iframe.style.width="0px";
