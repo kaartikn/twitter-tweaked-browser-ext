@@ -3,16 +3,42 @@
     "version": "1.0.0",
     "description": "Supercharge your Twitter Experience!",
     "manifest_version": 3,
-    "action": {
-      "default_popup": "popup.html"
-    },
+    "action": {},
     "host_permission": [
         "https://twitter.com/*",
         "https://mobile.twitter.com/*"
     ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "scripting",
+      "storage"
+    ],
+    "content_scripts": [
+      {
+        "matches": [
+          "https://twitter.com/*",
+          "https://mobile.twitter.com/*"
+        ],
+        "js": ["content.js"]
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": ["popup.html" ],
+        "matches": [
+          "https://twitter.com/*",
+          "https://mobile.twitter.com/*"
+        ],
+        "extension_ids": []
+      }
+    ],
     "content_security_policy": {
       "extension_pages": "script-src 'self'; object-src 'self'"
     },
-    "author": "kaartikn",
+    "author": "kaartiknagarajan",
     "minimum_chrome_version": "88"
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 
 function Popup() {
     return (
@@ -9,5 +9,7 @@ function Popup() {
         </div>
     )
 }
+const container = document.getElementById("react-target")
+const root = createRoot(container)
 
-render(<Popup />, document.getElementById("react-target"))
+root.render(<Popup />)
