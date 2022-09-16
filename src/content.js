@@ -1,12 +1,14 @@
-var backgroundColor = document.body.style.backgroundColor;
-var textColor = (backgroundColor == "rgb(255,255,255)") ? "black" : "white";
-var borderColor;
+if(window == top){
+    var backgroundColor = document.body.style.backgroundColor;
+    var borderColor;
 
-handleEventsPostLoading();
+    handleEventsPostLoading();
 
-setupOnMessageListener();
+    setupOnMessageListener();
+    
+    var iframe = setupSidePanelCSS();
+}
 
-var iframe = setupSidePanelCSS();
 
 function setupOnMessageListener() {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -19,7 +21,6 @@ function setupOnMessageListener() {
 function setupSidePanelCSS() {
     var iframe = document.createElement('iframe');
     iframe.style.background = backgroundColor;
-    iframe.style.textColor = textColor;
     iframe.style.height = "100%";
     iframe.style.position = "fixed";
     iframe.style.top = "0px";
@@ -38,7 +39,7 @@ function handleEventsPostLoading() {
     window.addEventListener("load", function load(event) {
         setupTwitterTweaked();
         setBorderColor();
-        
+
         this.window.removeEventListener("load", load, false);
     });
 }
@@ -48,7 +49,6 @@ function setBorderColor() {
         elemsWithBorderColor = document.getElementsByClassName("r-14wv3jr");
         var arr = Array.from(elemsWithBorderColor);
         borderColor = window.getComputedStyle(arr[0]).borderColor;
-        console.log(borderColor)
         iframe.style.borderColor = borderColor;
     } catch (e) { }
 }
