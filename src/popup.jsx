@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
+import MyDropdown from "./components/dropdown";
+
 
 function Popup() {
     return (
         <div>
             <h1>Hello, world</h1>
             <p>This is a simple Popup</p>
+            <MyDropdown />
         </div>
     )
 }

@@ -7,22 +7,25 @@ module.exports = {
     popup: './src/popup.jsx',
     background: './src/background.js',
     content: './src/content.js',
-    colors: './src/colors.js'
+    script: './src/script.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
   },
+  resolve: {
+    extensions: ['.jsx', '.js']
+  },
   module: {
     rules: [{ 
-    test: /\.(js|jsx)$/,
-    exclude: /node_modules/,
-    use: {
-        loader: 'babel-loader',
-        options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-        }
-    }
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      use: {
+          loader: 'babel-loader',
+          options: {
+              presets: ['@babel/preset-env', ["@babel/preset-react", {"runtime": "automatic"}]]
+          }
+      }
     }],
   },
   plugins: [
