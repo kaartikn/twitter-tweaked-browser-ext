@@ -4,6 +4,19 @@ observe();
 var sidebarColumn;
 var isSidepanelVisible = false;
 
+if(window == top){
+    var backgroundColor = document.body.style.backgroundColor;
+    var borderColor = (backgroundColor == "rgb(255, 255, 255)") ? "rgb(139, 152, 165)" : "rgb(22, 24, 28)";
+    chrome.storage.local.set({color: backgroundColor}, function() {});
+
+    setupOnMessageListener();
+    handleEventsPostLoading();
+    
+    var iframe = setupSidePanelCSS();
+}
+
+// Function that hides that Twitter sidebar column as DOM elements are added to the DOM tree by twitter.
+// Initially, the Twitter sidepanel is hidden by default and only reappears if that's the setting chosen by the user through a function call later (after DOM loaded).
 function onMutation(mutations) {
     let stopped;
     for (const {addedNodes} of mutations) {
@@ -28,6 +41,7 @@ function onMutation(mutations) {
     if (stopped) observe();
 }
 
+// Linked to the on Mutation function by specifying the mutation properties to look out for
 function observe() {
     mo.observe(document, {
       subtree: true,
@@ -35,18 +49,7 @@ function observe() {
     });
   }
 
-if(window == top){
-    var backgroundColor = document.body.style.backgroundColor;
-    var borderColor = (backgroundColor == "rgb(255, 255, 255)") ? "rgb(139, 152, 165)" : "rgb(22, 24, 28)";
-    chrome.storage.local.set({color: backgroundColor}, function() {});
-
-    setupOnMessageListener();
-    handleEventsPostLoading();
-    
-    var iframe = setupSidePanelCSS();
-}
-
-
+// Communicates with the background script to handle the on Message listener
 function setupOnMessageListener() {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         if (message == "toggle") {
@@ -55,13 +58,21 @@ function setupOnMessageListener() {
     });
 }
 
+// Shows / hides the twitter side panel & twitter tweaked accordingly depending on the user's settings.
 function handleEventsPostLoading() {
     window.addEventListener("load", function load(event) {
-        setupTwitterTweaked();
+        chrome.storage.local.get({ isTwitterTweakedVisible: true }, function (result) {
+            isSidepanelVisible = !result.isTwitterTweakedVisible;
+            if (isSidepanelVisible) sidebarColumn.style.display = "block";
+            toggleSidePanelVisibility(result.isTwitterTweakedVisible);
+            toggleTwitterTweakedVisibility(result.isTwitterTweakedVisible);
+            chrome.storage.local.set({ isTwitterTweakedVisible: result.isTwitterTweakedVisible });
+        });
         this.window.removeEventListener("load", load, false);
     });    
 }
 
+// Sets up the iframe to be injected as Twitter Tweaked.
 function setupSidePanelCSS() {
     var iframe = document.createElement('iframe');
     iframe.style.background = backgroundColor;
@@ -81,16 +92,7 @@ function setupSidePanelCSS() {
     return iframe;
 }
 
-function setupTwitterTweaked() {
-    chrome.storage.local.get({ isTwitterTweakedVisible: true }, function (result) {
-        isSidepanelVisible = !result.isTwitterTweakedVisible;
-        if (isSidepanelVisible) sidebarColumn.style.display = "block";
-        toggleSidePanelVisibility(result.isTwitterTweakedVisible);
-        toggleTwitterTweakedVisibility(result.isTwitterTweakedVisible);
-        chrome.storage.local.set({ isTwitterTweakedVisible: result.isTwitterTweakedVisible });
-    });
-}
-
+// Access chrome storage memory to amend the user's setting and toggles the Twitter sidepanel and Twtitter Tweaked iframe correspondingly
 function toggleTwitterTweaked(){
 
     chrome.storage.local.get("isTwitterTweakedVisible", function(result){
@@ -103,7 +105,7 @@ function toggleTwitterTweaked(){
 
 }
 
-// Need to run this every time change content
+// toggles the Twitter sidepanel visibility
 function toggleSidePanelVisibility(isTwitterTweakedVisible) {
     if (isTwitterTweakedVisible) {
         sidebarColumn.style.display = "none";
@@ -112,6 +114,7 @@ function toggleSidePanelVisibility(isTwitterTweakedVisible) {
     } 
 }
 
+// toggles Twitter Tweaked visibility
 function toggleTwitterTweakedVisibility(isTwitterTweakedVisible){
     if(isTwitterTweakedVisible){
         iframe.style.width="450px";
