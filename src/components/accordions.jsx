@@ -9,7 +9,7 @@ import Tweet from './tweet';
 export default function MyDropdown() {
     return (
         <>
-    <Accordion flush>
+    <Accordion flush defaultActiveKey={0}>
       <Search eventKey={0} />
       <Highlights eventKey={1} />
       <Conversations eventKey={2} />
