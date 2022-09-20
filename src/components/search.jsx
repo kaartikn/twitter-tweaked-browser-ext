@@ -1,4 +1,7 @@
 import Accordion from 'react-bootstrap/Accordion';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import LanguageMenu from './language_menu';
 
 export default function Search(props) {
 
@@ -9,13 +12,51 @@ export default function Search(props) {
       <Accordion.Item eventKey={ eventKey }>
         <Accordion.Header>Search</Accordion.Header>
         <Accordion.Body>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+            {/* Once results appear, offer the user the ability to search again */}
+            {/* Swap main advanced search component for the results */}
+
+            <Form>
+              <Form.Group className="mb-1" controlId="allWords">
+                <Form.Control type="all_words" placeholder="All of these words" />
+                <Form.Text className="text-muted">
+                  Example: what's happening · contains both “what's” and “happening”
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group className="mb-1" controlId="exactPhrase">
+                <Form.Control type="all_words" placeholder="This exact phrase" />
+                <Form.Text className="text-muted">
+                  Example: happy hour · contains the exact phrase “happy hour”
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group className="mb-1" controlId="anyWords">
+                <Form.Control type="any_words" placeholder="Any of these words" />
+                <Form.Text className="text-muted">
+                  Example: cats dogs · contains either “cats” or “dogs” (or both)
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group className="mb-1" controlId="noneWords">
+                <Form.Control type="any_words" placeholder="None of these words" />
+                <Form.Text className="text-muted">
+                  Example: cats dogs · does not contain “cats” and does not contain “dogs”
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group className="mb-1" controlId="hashtags">
+                <Form.Control type="any_words" placeholder="These hashtags" />
+                <Form.Text className="text-muted">
+                  Example: #ThrowbackThursday · contains the hashtag #ThrowbackThursday
+                </Form.Text>
+              </Form.Group>
+
+              <LanguageMenu />
+
+
+
+
+            </Form>
         </Accordion.Body>
       </Accordion.Item>
         </>

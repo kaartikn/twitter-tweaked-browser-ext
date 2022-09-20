@@ -7,3 +7,12 @@
 .accordion-button:focus, .accordion-button:active  {
     box-shadow: none !important;
 }
+
+
+.form-control, .form-select {
+    font-size: 0.85rem !important;
+}
+
+.form-text {
+    font-size: 0.75em !important;
+}
