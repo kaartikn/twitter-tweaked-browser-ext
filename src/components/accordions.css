@@ -1,0 +1,9 @@
+.accordion, .accordion-item .accordion-header, .accordion-button {
+    background-color: rgb(158, 148, 148) !important;
+    color: #000 !important;
+    border-color: inherit !important;
+}
+
+.accordion-button:focus, .accordion-button:active  {
+    box-shadow: none !important;
+}

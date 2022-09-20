@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import MyDropdown from "./components/dropdown";
+import MyDropdown from "./components/accordions";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Popup() {
     return (
