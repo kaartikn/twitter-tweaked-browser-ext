@@ -21,8 +21,32 @@ export default function Search(props) {
       return new Array(end - start).fill().map((d, i) => i + start + 1);
     }
 
+    const [ allWords, setAllWords ] = useState("");
+    const [ exactPhrsae, setExactPhrase ] = useState("");
+    const [ anyWords, setAnyWords ] = useState("");
+    const [ noneWords, setNoneWords ] = useState("");
+    const [ hashtags, setHashtags ] = useState("");
+    const [ language, setLanguage ] = useState("");
+    const [ fromAccounts, setFromAccounts ] = useState("");
+    const [ toAccounts, setToAccounts ] = useState("");
+    const [ mentioningAccounts, setMentioningAccounts ] = useState("");
+    const [ repliesBool, setRepliesBool ] = useState(true);
+    const [ includeOriginalTweetsBool, setIncludeOriginalTweetsBool ] = useState(false);
+    const [ onlyShowReplies, setOnlyShowReplies ] = useState(false);
+    const [ linksBool, setLinksBool ] = useState(true);
+    const [ includeTweetsWithLinksBool, setIncludeTweetsWithLinksBool ] = useState(false);
+    const [ onlyShowTweetsWithLinksBool, setOnlyShowTweetsWithLinksBool ] = useState(false);
+    const [ minimumReplies, setMinimumReplies ] = useState(0);
+    const [ minimumLikes, setMinimumLikes ] = useState(0);
+    const [ minimumRetweets, setMinimumRetweets ] = useState(0);
+
     const [ startMonth, setStartMonth ] = useState("Month");
+    const [ startDay, setStartDay ] = useState("Day");
+    const [ startYear, setStartYear ] = useState("Year");
+
     const [ endMonth, setEndMonth ] = useState("Month");
+    const [ endDay, setEndDay ] = useState("Day");
+    const [ endYear, setEndYear ] = useState("Year");
 
     return (
         <>
@@ -35,14 +59,26 @@ export default function Search(props) {
             <h5>Words</h5>
             <Form>
               <Form.Group className="mb-1" controlId="allWords">
-                <Form.Control type="all_words" placeholder="All of these words" />
+                <Form.Control type="all_words" placeholder="All of these words" 
+                    onChange={(e) => {
+                      e.preventDefault(); 
+                      setAllWords(e.target.value)
+                    }
+                  } 
+                />
                 <Form.Text className="text-muted">
                   Example: what's happening · contains both “what's” and “happening”
                 </Form.Text>
               </Form.Group>
 
               <Form.Group className="mb-1" controlId="exactPhrase">
-                <Form.Control type="all_words" placeholder="This exact phrase" />
+                <Form.Control type="exact_phrase" placeholder="This exact phrase"
+                    onChange={(e) => {
+                      e.preventDefault(); 
+                      setExactPhrase(e.target.value)
+                    }
+                  }
+                />
                 <Form.Text className="text-muted">
                   Example: happy hour · contains the exact phrase “happy hour”
                 </Form.Text>
@@ -139,7 +175,7 @@ export default function Search(props) {
                 <Form.Check
                   className='col-2'
                   reverse
-                  type="radio"
+                  type="switch"
                   id="linksSwitch"
                 />
               </div>
