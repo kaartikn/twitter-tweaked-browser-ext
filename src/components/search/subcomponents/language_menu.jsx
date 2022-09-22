@@ -1,11 +1,17 @@
 import Form from "react-bootstrap/Form";
 
-export default function LanguageMenu() {
+export default function LanguageMenu({props: {language, setLanguage}}) {
 
     return (
-
               <Form.Group className="mb-1">
-              <Form.Select>
+              <Form.Select
+                    onChange={(e) => {
+                      e.preventDefault(); 
+                      setLanguage(e.target.value)
+                      console.log(language);
+                    }
+                  }
+              >
                 <option>Any Language</option>
                 <option>Arabic</option>
                 <option>Arabic (Feminine)</option>

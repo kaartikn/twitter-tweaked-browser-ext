@@ -1,7 +1,7 @@
+import Form from 'react-bootstrap/Form';
 
-export default function AllWords(props) {
+export default function AllWords({props: {allWords, setAllWords}}) {
 
-    const { AllWords, setAllWords } = {props};
 
     return (
         <Form.Group className="mb-1" controlId="allWords">
@@ -9,7 +9,6 @@ export default function AllWords(props) {
             onChange={(e) => {
               e.preventDefault(); 
               setAllWords(e.target.value);
-              console.log(words);
             }
           } 
         />
