@@ -18,6 +18,7 @@ import MinimumRetweets from './subcomponents/minimumRetweets';
 import Replies from './subcomponents/replies';
 import Links from './subcomponents/links';
 import StartDate from './subcomponents/startDate';
+import EndDate from './subcomponents/endDate';
 
 export default function Search(props) {
 
@@ -104,71 +105,8 @@ export default function Search(props) {
               <hr/>
 
               <h5>Dates</h5>
-              <StartDate
-                props = {{"startMonth": startMonth, "setStartMonth": setStartMonth, "startDay": startDay, "setStartDay": setStartDay, "startYear": startYear, "setStartYear": setStartYear}}
-              />
-
-              {/* <p className='filter-subtitle'>To</p>
-
-              <Dropdown className="mb-2 w-100 d-inline">
-                  <Dropdown.Toggle
-                    className='col-6'
-                    id="month"
-                    title="Month">
-                      {endMonth}
-                  </Dropdown.Toggle>
-                  <DropdownMenu>
-                    {
-                          months.map((month) => (
-                            <Dropdown.Item 
-                              onClick={() => setEndMonth(month)}
-                              key={month.toLowerCase()}>
-                              {month}
-                            </Dropdown.Item>
-                          ))
-                    }
-                  </DropdownMenu>
-
-                  <DropdownButton
-                    className='col-3'
-                    as={ButtonGroup}
-                    id="day"
-                    title="Day">
-                      {
-                        days.map((day) => (
-                          <Dropdown.Item 
-                            key={day}
-                            eventKey={day}
-                          >
-                            {day}
-                          </Dropdown.Item>
-                        ))
-                      }
-                  </DropdownButton>
-
-                  <DropdownButton
-                    className='col-3'
-                    as={ButtonGroup}
-                    id="year"
-                    title="Year">
-                      {
-                        years.map((year) => (
-                          <Dropdown.Item 
-                            key={year}
-                            eventKey={year}
-                          >
-                            {year}
-                          </Dropdown.Item>
-                        ))
-                      }
-                  </DropdownButton>
-
-              </Dropdown> */}
-
-
-
-
-
+              <StartDate props = {{"startMonth": startMonth, "setStartMonth": setStartMonth, "startDay": startDay, "setStartDay": setStartDay, "startYear": startYear, "setStartYear": setStartYear}} />
+              <EndDate props = {{"endMonth": endMonth, "setEndMonth": setEndMonth, "endDay": endDay, "setEndDay": setEndDay, "endYear": endYear, "setEndYear": setEndYear}} />
 
             </Form>
         </Accordion.Body>

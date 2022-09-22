@@ -3,7 +3,7 @@ import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 import { useState, useEffect } from 'react';
 
 
-export default function StartDate({props: { startMonth, setStartMonth, startDay, setStartDay, startYear, setStartYear }}) {
+export default function EndDate({props: { endMonth, setEndMonth, endDay, setEndDay, endYear, setEndYear }}) {
 
     const Months = {
         Month: "Month",
@@ -46,7 +46,7 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
     }
 
     useEffect(() => {
-        switch (startMonth){
+        switch (endMonth){
             case Months.Month:
             case Months.January: 
             case Months.March: 
@@ -64,38 +64,38 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
             case Months.November:
                 setYearsSelection(allYears);
                 setDaysSelection(days30);
-                if(startDay == 31){
-                    setStartDay("Day");
+                if(endDay == 31){
+                    setEndDay("Day");
                 }
                 break;
             case Months.February:
-                if(startDay > 29){
-                    if (leapYears.includes(startYear)){
+                if(endDay > 29){
+                    if (leapYears.includes(endYear)){
                         setDaysSelection(days29);
                         setYearsSelection(leapYears);
                     } else {
                         setDaysSelection(days28);
                     }
-                    setStartDay("Day");
-                } else if(startDay === 29){
+                    setEndDay("Day");
+                } else if(endDay === 29){
                     setDaysSelection(days29);
                     setYearsSelection(leapYears);
-                    if (!yearsSelection.includes(startYear)){
-                        setStartYear("Year");
+                    if (!yearsSelection.includes(endYear)){
+                        setEndYear("Year");
                     } 
                 } else {
                     setDaysSelection(days28);
-                    if(!daysSelection.includes(startDay)){
-                        setStartDay("Day");
+                    if(!daysSelection.includes(endDay)){
+                        setEndDay("Day");
                     }
                 }
                 break;
         }
-    }, [startMonth])
+    }, [endMonth])
 
     useEffect(() => {
-        if(leapYears.includes(startYear)){
-            if(startMonth == Months.February){
+        if(leapYears.includes(endYear)){
+            if(endMonth == Months.February){
                 setDaysSelection(days29);
                 setYearsSelection(leapYears);
             } else {
@@ -103,11 +103,11 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
             }
         } else {
             setYearsSelection(allYears);
-            if(startMonth == Months.February){
+            if(endMonth == Months.February){
                 setDaysSelection(days28);
             } 
         }
-    }, [startYear])
+    }, [endYear])
 
     return (
         <>
@@ -119,13 +119,13 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
                 className='w-100'
                 id="month"
                 title="Month">
-                    {startMonth}
+                    {endMonth}
                 </Dropdown.Toggle>
                 <DropdownMenu>
                 {
                         Object.keys(Months).map((key) => (
                         <Dropdown.Item 
-                            onClick={() => {setStartMonth(Months[key]);}}
+                            onClick={() => {setEndMonth(Months[key]);}}
                             key={Months[key].toLowerCase()}>
                             {Months[key]}
                         </Dropdown.Item>
@@ -140,14 +140,14 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
                 <Dropdown.Toggle
                 id="day"
                 className='w-100'
-                title={startDay}>
-                    {startDay}
+                title={endDay}>
+                    {endDay}
                 </Dropdown.Toggle>
                 <DropdownMenu>
                 {
                         daysSelection.map((day) => (
                         <Dropdown.Item 
-                            onClick={() => {setStartDay(day);}}
+                            onClick={() => {setEndDay(day);}}
                             key={day}>
                             {day}
                         </Dropdown.Item>
@@ -163,13 +163,13 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
                 id="year"
                 className='w-100'
                 title="Year">
-                    {startYear}
+                    {endYear}
                 </Dropdown.Toggle>
                 <DropdownMenu>
                 {
                         yearsSelection.map((year) => (
                         <Dropdown.Item 
-                            onClick={() => {setStartYear(year);}}
+                            onClick={() => {setEndYear(year);}}
                             key={year}>
                             {year}
                         </Dropdown.Item>
