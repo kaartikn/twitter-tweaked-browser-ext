@@ -8,7 +8,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import './search.css'
 import DropdownToggle from 'react-bootstrap/esm/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import AllWords from './subcomponents/allWords';
 
 export default function Search(props) {
 
@@ -58,18 +59,10 @@ export default function Search(props) {
 
             <h5>Words</h5>
             <Form>
-              <Form.Group className="mb-1" controlId="allWords">
-                <Form.Control type="all_words" placeholder="All of these words" 
-                    onChange={(e) => {
-                      e.preventDefault(); 
-                      setAllWords(e.target.value)
-                    }
-                  } 
+
+              <AllWords 
+                props = {{"allWords": allWords, "setAllWords": setAllWords}}
                 />
-                <Form.Text className="text-muted">
-                  Example: what's happening · contains both “what's” and “happening”
-                </Form.Text>
-              </Form.Group>
 
               <Form.Group className="mb-1" controlId="exactPhrase">
                 <Form.Control type="exact_phrase" placeholder="This exact phrase"

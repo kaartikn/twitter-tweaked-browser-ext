@@ -1,5 +1,5 @@
 import Accordion from 'react-bootstrap/Accordion';
-import Search from './search'
+import Search from './search/search'
 import './accordions.css';
 import Highlights from './highlights';
 import Conversations from './conversations';
