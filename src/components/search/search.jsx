@@ -64,7 +64,11 @@ export default function Search(props) {
         (errorData) => {
           // Handle error
         })
-    } 
+    }
+    
+    useEffect(() => {
+      console.log("Do something")
+    }, [data])
 
     const clearSearchQueries = (e) => {
         setAllWords("");
