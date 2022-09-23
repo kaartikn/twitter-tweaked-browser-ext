@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import LanguageMenu from './subcomponents/language_menu';
 import './search.css'
 import { useState } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 import AllWords from './subcomponents/allWords';
 import ExactPhrase from './subcomponents/exactPhrase';
 import AnyWords from './subcomponents/anyWords';
@@ -19,7 +20,7 @@ import Replies from './subcomponents/replies';
 import Links from './subcomponents/links';
 import StartDate from './subcomponents/startDate';
 import EndDate from './subcomponents/endDate';
-import { convertLanguageTo2CharCode, removeAtFromString, splitStringToArr } from '../../services/advancedSearch';
+import { doAdvancedSearch, formatAdvancedSearchBody } from '../../services/advancedSearch';
 
 export default function Search(props) {
 
@@ -50,16 +51,11 @@ export default function Search(props) {
     const [ endDay, setEndDay ] = useState("Day");
     const [ endYear, setEndYear ] = useState("Year");
 
-    const handleClick = (e) => {
-        const anyWordsFinal = splitStringToArr(anyWords);
-        const noneWordsFinal = splitStringToArr(noneWords);
-        const hashtagsFinal = splitStringToArr(hashtags);
-        const fromAccountsFinal = splitStringToArr(removeAtFromString(fromAccounts));
-        const toAccountsFinal = splitStringToArr(removeAtFromString(toAccounts));
-        const mentioningAccountsFinal = splitStringToArr(removeAtFromString(mentioningAccounts));
-        const languageFinal = convertLanguageTo2CharCode(language);
-        // stopped before buuilding the function to convert languages to two letter codes
+    const [ loading, setLoading ] = useState(false);
 
+    const handleClick = (e) => {
+      const advancedSearchBody = formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minimumReplies, minimumLikes, minimumRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, repliesBool, onlyShowReplies, linksBool, onlyShowTweetsWithLinksBool);
+      doAdvancedSearch(advancedSearchBody, setLoading);
     } 
 
     return (
@@ -69,6 +65,12 @@ export default function Search(props) {
         <Accordion.Body>
             {/* Once results appear, offer the user the ability to search again */}
             {/* Swap main advanced search component for the results */}
+
+            <Button disabled={loading} className='w-100' onClick={handleClick}> 
+                Search
+            </Button>
+
+            <hr />
 
             <h5>Words</h5>
             <Form>
@@ -110,10 +112,6 @@ export default function Search(props) {
               <EndDate props = {{"endMonth": endMonth, "setEndMonth": setEndMonth, "endDay": endDay, "setEndDay": setEndDay, "endYear": endYear, "setEndYear": setEndYear}} />
 
               <hr />
-              
-              <Button className='w-100' onClick={handleClick}> 
-                Search
-              </Button>
 
             </Form>
         </Accordion.Body>

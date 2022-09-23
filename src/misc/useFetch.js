@@ -1,21 +1,31 @@
-import { useEffect, useState } from "react";
- 
-const useFetch = (url) => {
-  const [data, setdata] = useState(null);
-  const [loading, setloading] = useState(true);
-  const [error, seterror] = useState("");
- 
-  useEffect(() => {
-    fetch(url)
-    .then((res) => res.json())
-    .then((data) => {
-        seterror(data.error)
-        setdata(data)
-        setloading(false)
-    })
-  }, [url]);
- 
-  return { data, loading, error };
+export function useFetch(url, method, accessToken, accessTokenSecret, bodyContent, setLoading){
+
+  const headers = {
+    method: method,
+    headers: {
+        'Content-Type': 'application/json',
+        'Access-Token': accessToken,
+        "Access-Token-Secret": accessTokenSecret
+    },
+    ...(bodyContent != null ) && {body: JSON.stringify(bodyContent)}
+  }
+
+  console.log(headers);
+
+  return fetch(url, headers)
+            .then((response) => {
+                if(!response.ok) {
+                    setLoading(false);
+                    throw new Error(response.status)
+                }
+                else return response.json();
+            })
+            .then((data) => {
+                setLoading(false);
+                console.log(data);
+                // Should return data here
+            })
+            .catch((error) => {
+                console.log('error: ' + error);
+            });
 };
- 
-export default useFetch;

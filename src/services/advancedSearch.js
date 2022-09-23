@@ -1,12 +1,63 @@
 import { languages } from "../components/search/subcomponents/language_menu";
+import { Months } from "../components/search/subcomponents/startDate";
+import { useFetch } from "../misc/useFetch";
 
-export function doAdvancedSearch() {
-    return fetch("http://localhost:8081/search")
-        .then(data => data.json())
+export function doAdvancedSearch(advancedSearchBody, setLoading) {
+    useFetch(
+        "http://127.0.0.1:8081/tweets/search", 
+        "POST", 
+        "1546282785752551426-Z6wecftUZNlF5VTqePnYTWlppvz0xT", 
+        "95W4P9j0tkJJsKYrbGRRh3fXRO1KSwwTTIherhdhS8lBx", 
+        advancedSearchBody, 
+        setLoading
+    )
+}
+
+
+
+
+// Data cleaning / formatting functions
+
+export function formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minReplies, minFaves, minRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, showReplies, showRepliesOnly, showLinks, showLinksOnly){
+    
+    const anyWordsFinal = splitStringToArr(anyWords);
+    const noneWordsFinal = splitStringToArr(noneWords);
+    const hashtagsFinal = splitStringToArr(hashtags);
+    const fromAccountsFinal = splitStringToArr(removeAtFromString(fromAccounts));
+    const toAccountsFinal = splitStringToArr(removeAtFromString(toAccounts));
+    const mentioningAccountsFinal = splitStringToArr(removeAtFromString(mentioningAccounts));
+    const languageFinal = convertLanguageTo2CharCode(language);
+    const startDateFinal = convertDayMonthYearFinal(startDay, startMonth, startYear);
+    const endDateFinal = convertDayMonthYearFinal(endDay, endMonth, endYear);
+
+    return {
+        all_words_query : allWords,
+        exact_phrase : exactPhrase,
+        any_of_these_words : anyWordsFinal,
+        none_of_these_words : noneWordsFinal,
+        hashtags: hashtagsFinal,
+        from_accounts: fromAccountsFinal,
+        to_accounts: toAccountsFinal,
+        mentioning_accounts: mentioningAccountsFinal,
+        min_replies: minReplies,
+        min_faves: minFaves,
+        min_retweets: minRetweets,
+        language: languageFinal,
+        to_date: startDateFinal,
+        from_date: endDateFinal,
+        show_replies: showReplies,
+        show_replies_only: showRepliesOnly,
+        show_links: showLinks,
+        show_links_only: showLinksOnly
+    }
+
 }
 
 export function splitStringToArr(str){
-    return str.trim().split(/\s+/);
+    if(str.trim() != ""){
+        return str.trim().split(/\s+/);
+    }
+    return [];
 }
 
 export function removeAtFromString(str){
@@ -105,4 +156,43 @@ export function convertLanguageTo2CharCode(language){
         case languages.Vietnamese:
             return "vi";
     }
+}
+
+export function convertMonthToNum(month){
+    switch(month){
+        case Months.Month:
+            return "Month";
+        case Months.January:
+            return 1;
+        case Months.February:
+            return 2;
+        case Months.March:
+            return 3;
+        case Months.April:
+            return 4;
+        case Months.May:
+            return 5;
+        case Months.June:
+            return 6;
+        case Months.July:
+            return 7;
+        case Months.August:
+            return 8;
+        case Months.September:
+            return 9;
+        case Months.October:
+            return 10;
+        case Months.November:
+            return 11;
+        case Months.December:
+            return 12;
+    }
+}
+
+export function convertDayMonthYearFinal(day, month, year){
+    const monthFinal = convertMonthToNum(month);
+    if (day != "Day" && monthFinal != "Month" && year != "Year"){
+        return year + "-" + monthFinal + "-" + day;
+    }
+    return "";
 }

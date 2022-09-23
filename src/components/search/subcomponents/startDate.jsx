@@ -2,26 +2,26 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownMenu from 'react-bootstrap/esm/DropdownMenu';
 import { useState, useEffect } from 'react';
 
+export const Months = {
+    Month: "Month",
+    January: "January",
+    February: "February",
+    March: "March",
+    April: "April",
+    May: "May",
+    June: "June",
+    July: "July",
+    August: "August",
+    September: "September",
+    October: "October",
+    November: "November",
+    December: "December"
+}
+
 // Start date logic is a bit messy. Most cases are accounted for but could be done cleaner.
 // The only caveat is that right now if a user is tries to set the date of February 29 from 1-2 entrypoints it won't work, 
 // but it's so miniscule it probably doesn't matter.
 export default function StartDate({props: { startMonth, setStartMonth, startDay, setStartDay, startYear, setStartYear }}) {
-
-    const Months = {
-        Month: "Month",
-        January: "January",
-        February: "February",
-        March: "March",
-        April: "April",
-        May: "May",
-        June: "June",
-        July: "July",
-        August: "August",
-        September: "September",
-        October: "October",
-        November: "November",
-        December: "December"
-    }
 
     const days28 = calendarRange(0, 28, "Day");
     const days29 = calendarRange(0, 29, "Day");
