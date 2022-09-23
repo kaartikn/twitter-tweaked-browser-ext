@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import LanguageMenu from './subcomponents/language_menu';
 import './search.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import AllWords from './subcomponents/allWords';
 import ExactPhrase from './subcomponents/exactPhrase';
@@ -105,7 +105,7 @@ export default function Search(props) {
 
             {
              (data != null) ?
-             <Button variant="link" onClick={clearSearchQueries}>Clear Search Query</Button> :
+             <Button variant="link" className='w-100 mt-1' onClick={clearSearchQueries}>Clear Search Query</Button> :
              <></> 
             }
 

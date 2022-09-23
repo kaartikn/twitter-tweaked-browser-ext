@@ -4,8 +4,8 @@ export default function HashtagWords({props: {hashtags, setHashtags}}) {
     return (
         <Form.Group className="mb-1" controlId="hashtags">
         <Form.Control type="any_words" placeholder="These hashtags" 
+                    value={hashtags}
                     onChange={(e) => {
-                      value={hashtags}
                         e.preventDefault(); 
                         setHashtags(e.target.value)
                       }

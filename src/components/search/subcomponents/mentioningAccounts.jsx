@@ -4,8 +4,8 @@ export default function MentioningAccounts({props: {mentioningAccounts, setMenti
     return (
         <Form.Group className="mb-1" controlId="mentioningAccounts">
             <Form.Control type="mentioning_accounts" placeholder="Mentioning these accounts" 
+                value={mentioningAccounts}
                 onChange={(e) => {
-                    value={mentioningAccounts}
                     e.preventDefault(); 
                     setMentioningAccounts(e.target.value);
                     }

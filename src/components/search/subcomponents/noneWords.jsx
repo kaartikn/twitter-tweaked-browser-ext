@@ -5,8 +5,8 @@ export default function NoneWords({props: {noneWords, setNoneWords}}) {
 
         <Form.Group className="mb-1" controlId="noneWords">
         <Form.Control type="none_words" placeholder="None of these words" 
+            value={noneWords}
             onChange={(e) => {
-              value={noneWords}
               e.preventDefault(); 
               setNoneWords(e.target.value)
             }

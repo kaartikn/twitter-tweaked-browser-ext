@@ -4,8 +4,8 @@ export default function MinimumRetweets({props: {minimumRetweets, setMinimumRetw
     return (
         <Form.Group className="mb-1" controlId="minimumRetweets">
         <Form.Control type="min_retweets" placeholder="Minimum Retweets" 
+            value={minimumRetweets}
             onChange={(e) => {
-                value={minimumRetweets}
                 e.preventDefault(); 
                 setMinimumRetweets(e.target.value);
                 }

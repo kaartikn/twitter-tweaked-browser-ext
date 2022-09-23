@@ -4,8 +4,8 @@ export default function ToAccounts({props: {toAccounts, setToAccounts}}) {
     return (
         <Form.Group className="mb-1" controlId="toAccounts">
             <Form.Control type="to_accounts" placeholder="To these accounts" 
+                value={toAccounts}
                 onChange={(e) => {
-                    value={toAccounts}
                     e.preventDefault(); 
                     setToAccounts(e.target.value);
                     }
