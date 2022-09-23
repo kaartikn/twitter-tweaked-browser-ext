@@ -5,8 +5,9 @@ export default function MinimumReplies({props: {minimumReplies, setMinimumReplie
         <Form.Group className="mb-1" controlId="minimumReplies">
         <Form.Control type="min_replies" placeholder="Minimum replies" 
                         onChange={(e) => {
-                        e.preventDefault(); 
-                        setMinimumReplies(e.target.value)
+                            value={minimumReplies}
+                            e.preventDefault(); 
+                            setMinimumReplies(e.target.value)
                         }
                     }
                 />

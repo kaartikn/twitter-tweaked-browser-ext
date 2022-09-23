@@ -5,6 +5,7 @@ export default function AnyWords({props: {anyWords, setAnyWords}}) {
         <Form.Group className="mb-1" controlId="anyWords">
         <Form.Control type="any_words" placeholder="Any of these words" 
             onChange={(e) => {
+              value={anyWords}
               e.preventDefault(); 
               setAnyWords(e.target.value)
             }

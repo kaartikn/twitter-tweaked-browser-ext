@@ -10,7 +10,7 @@ export function useFetch(url, method, accessToken, accessTokenSecret, bodyConten
     ...(bodyContent != null ) && {body: JSON.stringify(bodyContent)}
   }
 
-  console.log(headers);
+  setLoading(true);
 
   return fetch(url, headers)
             .then((response) => {
@@ -22,7 +22,7 @@ export function useFetch(url, method, accessToken, accessTokenSecret, bodyConten
             })
             .then((data) => {
                 setLoading(false);
-                console.log(data);
+                return data;
                 // Should return data here
             })
             .catch((error) => {

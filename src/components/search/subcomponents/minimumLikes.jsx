@@ -5,6 +5,7 @@ export default function MinimumLikes({props: {minimumLikes, setMinimumLikes}}) {
         <Form.Group className="mb-1" controlId="minimumLikes">
         <Form.Control type="min_likes" placeholder="Minimum likes" 
                         onChange={(e) => {
+                        value={minimumLikes}
                         e.preventDefault(); 
                         setMinimumLikes(e.target.value);
                         }

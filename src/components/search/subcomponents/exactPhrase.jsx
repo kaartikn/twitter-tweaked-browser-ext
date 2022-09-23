@@ -5,6 +5,7 @@ export default function ExactPhrase({props: {exactPhrase, setExactPhrase}}) {
         <Form.Group className="mb-1" controlId="exactPhrase">
         <Form.Control type="exact_phrase" placeholder="This exact phrase"
             onChange={(e) => {
+              value={exactPhrase}
               e.preventDefault(); 
               setExactPhrase(e.target.value)
             }

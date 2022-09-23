@@ -53,6 +53,7 @@ export default function LanguageMenu({props: {language, setLanguage}}) {
     return (
               <Form.Group className="mb-1">
               <Form.Select
+                    value={language}
                     onChange={(e) => {
                       e.preventDefault(); 
                       setLanguage(e.target.value);

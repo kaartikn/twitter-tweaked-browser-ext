@@ -52,11 +52,44 @@ export default function Search(props) {
     const [ endYear, setEndYear ] = useState("Year");
 
     const [ loading, setLoading ] = useState(false);
+    const [ data, setData ] = useState(null);
 
-    const handleClick = (e) => {
+    const handleSearch = (e) => {
       const advancedSearchBody = formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minimumReplies, minimumLikes, minimumRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, repliesBool, onlyShowReplies, linksBool, onlyShowTweetsWithLinksBool);
-      doAdvancedSearch(advancedSearchBody, setLoading);
+      const tweets = doAdvancedSearch(advancedSearchBody, setLoading);
+      tweets.then(
+        (successData) =>{
+          setData(successData);
+        }, 
+        (errorData) => {
+          // Handle error
+        })
     } 
+
+    const clearSearchQueries = (e) => {
+        setAllWords("");
+        setExactPhrase("");
+        setAnyWords("");
+        setNoneWords("");
+        setHashtags("");
+        setLanguage("");
+        setFromAccounts("");
+        setToAccounts("");
+        setMentioningAccounts("");
+        setRepliesBool(true);
+        setOnlyShowReplies(false);
+        setLinksBool(true);
+        setOnlyShowTweetsWithLinksBool(false);
+        setMinimumReplies(0);
+        setMinimumLikes(0);
+        setMinimumRetweets(0);
+        setStartMonth("Month");
+        setStartDay("Day");
+        setStartYear("Year");
+        setEndMonth("Month");
+        setEndDay("Day");
+        setEndYear("Year");
+    }
 
     return (
         <>
@@ -66,9 +99,16 @@ export default function Search(props) {
             {/* Once results appear, offer the user the ability to search again */}
             {/* Swap main advanced search component for the results */}
 
-            <Button disabled={loading} className='w-100' onClick={handleClick}> 
+            <Button disabled={loading} className='w-100' onClick={handleSearch}> 
                 Search
             </Button>
+
+            {
+             (data != null) ?
+             <Button variant="link" onClick={clearSearchQueries}>Clear Search Query</Button> :
+             <></> 
+            }
+
 
             <hr />
 
