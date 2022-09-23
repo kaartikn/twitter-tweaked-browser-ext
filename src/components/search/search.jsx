@@ -19,7 +19,7 @@ import Replies from './subcomponents/replies';
 import Links from './subcomponents/links';
 import StartDate from './subcomponents/startDate';
 import EndDate from './subcomponents/endDate';
-import { removeAtFromString, splitStringToArr } from '../../services/advancedSearch';
+import { convertLanguageTo2CharCode, removeAtFromString, splitStringToArr } from '../../services/advancedSearch';
 
 export default function Search(props) {
 
@@ -57,6 +57,7 @@ export default function Search(props) {
         const fromAccountsFinal = splitStringToArr(removeAtFromString(fromAccounts));
         const toAccountsFinal = splitStringToArr(removeAtFromString(toAccounts));
         const mentioningAccountsFinal = splitStringToArr(removeAtFromString(mentioningAccounts));
+        const languageFinal = convertLanguageTo2CharCode(language);
         // stopped before buuilding the function to convert languages to two letter codes
 
     } 

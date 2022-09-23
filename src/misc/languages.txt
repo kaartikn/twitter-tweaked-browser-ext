@@ -1,43 +1,43 @@
-<option>Any Language</option>
-<option>Arabic</option>
-<option>Arabic (Feminine)</option>
-<option>Bangla</option>
-<option>Basque</option>
-<option>Bulgarian</option>
-<option>Catalan</option>
-<option>Croatian</option>
-<option>Czech</option>
-<option>Danish</option>
-<option>Dutch</option>
-<option>English</option>
-<option>Finnish</option>
-<option>French</option>
-<option>German</option>
-<option>Greek</option>
-<option>Gujarati</option>
-<option>Hebrew</option>
-<option>Hindi</option>
-<option>Hungarian</option>
-<option>Indonesian</option>
-<option>Italian</option>
-<option>Japanese</option>
-<option>Kannada</option>
-<option>Korean</option>
-<option>Marathi</option>
-<option>Norwegian</option>
-<option>Persian</option>
-<option>Polish</option>
-<option>Portuguese</option>
-<option>Romanian</option>
-<option>Russian</option>
-<option>Serbian</option>
-<option>Simplified Chinese</option>
-<option>Slovak</option>
-<option>Spanish</option>
-<option>Swedish</option>
-<option>Tamil</option>
-<option>Thai</option>
-<option>Traditional Chinese</option>
-<option>Ukrainian</option>
-<option>Urdu</option>
-<option>Vietnamese</option>
+"Any Language": "Any Language",
+"Arabic": "Arabic",
+"Arabic": "Arabic",
+"Bangla": "Bangla",
+"Basque": "Basque",
+"Bulgarian": "Bulgarian",
+"Catalan": "Catalan",
+"Croatian": "Croatian",
+"Czech": "Czech",
+"Danish": "Danish",
+"Dutch": "Dutch",
+"English": "English",
+"Finnish": "Finnish",
+"French": "French",
+"German": "German",
+"Greek": "Greek",
+"Gujarati": "Gujarati",
+"Hebrew": "Hebrew",
+"Hindi": "Hindi",
+"Hungarian": "Hungarian",
+"Indonesian": "Indonesian",
+"Italian": "Italian",
+"Japanese": "Japanese",
+"Kannada": "Kannada",
+"Korean": "Korean",
+"Marathi": "Marathi",
+"Norwegian": "Norwegian",
+"Persian": "Persian",
+"Polish": "Polish",
+"Portuguese": "Portuguese",
+"Romanian": "Romanian",
+"Russian": "Russian",
+"Serbian": "Serbian",
+"Simplified Chinese": "Simplified Chinese",
+"Slovak": "Slovak",
+"Spanish": "Spanish",
+"Swedish": "Swedish",
+"Tamil": "Tamil",
+"Thai": "Thai",
+"Traditional Chinese": "Traditional Chinese",
+"Ukrainian": "Ukrainian",
+"Urdu": "Urdu",
+"Vietnamese": "Vietnamese"
