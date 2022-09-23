@@ -6,8 +6,7 @@ export default function ToAccounts({props: {toAccounts, setToAccounts}}) {
             <Form.Control type="to_accounts" placeholder="To these accounts" 
                 onChange={(e) => {
                     e.preventDefault(); 
-                    setToAccounts(e.target.value)
-                    console.log(toAccounts);
+                    setToAccounts(e.target.value);
                     }
                 }
             />

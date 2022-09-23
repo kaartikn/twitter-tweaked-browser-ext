@@ -8,7 +8,6 @@ export default function NoneWords({props: {noneWords, setNoneWords}}) {
             onChange={(e) => {
               e.preventDefault(); 
               setNoneWords(e.target.value)
-              console.log(noneWords);
             }
           }
         />

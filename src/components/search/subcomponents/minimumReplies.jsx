@@ -7,7 +7,6 @@ export default function MinimumReplies({props: {minimumReplies, setMinimumReplie
                         onChange={(e) => {
                         e.preventDefault(); 
                         setMinimumReplies(e.target.value)
-                        console.log(minimumReplies);
                         }
                     }
                 />

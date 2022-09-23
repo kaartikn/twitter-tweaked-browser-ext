@@ -7,8 +7,7 @@ export default function FromAccounts({props: {fromAccounts, setFromAccounts}}) {
         <Form.Control type="from_accounts" placeholder="From these accounts" 
             onChange={(e) => {
                 e.preventDefault(); 
-                setFromAccounts(e.target.value)
-                console.log(fromAccounts);
+                setFromAccounts(e.target.value);
                 }
             }
         />

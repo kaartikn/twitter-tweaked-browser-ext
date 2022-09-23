@@ -7,7 +7,6 @@ export default function AnyWords({props: {anyWords, setAnyWords}}) {
             onChange={(e) => {
               e.preventDefault(); 
               setAnyWords(e.target.value)
-              console.log(anyWords);
             }
           }
         />

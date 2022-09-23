@@ -7,7 +7,6 @@ export default function HashtagWords({props: {hashtags, setHashtags}}) {
                     onChange={(e) => {
                         e.preventDefault(); 
                         setHashtags(e.target.value)
-                        console.log(hashtags);
                       }
                     }
                   />

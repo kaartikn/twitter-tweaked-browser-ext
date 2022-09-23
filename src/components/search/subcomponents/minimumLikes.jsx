@@ -6,8 +6,7 @@ export default function MinimumLikes({props: {minimumLikes, setMinimumLikes}}) {
         <Form.Control type="min_likes" placeholder="Minimum likes" 
                         onChange={(e) => {
                         e.preventDefault(); 
-                        setMinimumLikes(e.target.value)
-                        console.log(minimumLikes);
+                        setMinimumLikes(e.target.value);
                         }
                     }
                 />

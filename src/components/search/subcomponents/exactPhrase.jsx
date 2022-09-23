@@ -7,7 +7,6 @@ export default function ExactPhrase({props: {exactPhrase, setExactPhrase}}) {
             onChange={(e) => {
               e.preventDefault(); 
               setExactPhrase(e.target.value)
-              console.log(exactPhrase);
             }
           }
         />

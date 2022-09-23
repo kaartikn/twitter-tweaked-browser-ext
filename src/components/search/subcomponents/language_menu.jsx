@@ -8,7 +8,6 @@ export default function LanguageMenu({props: {language, setLanguage}}) {
                     onChange={(e) => {
                       e.preventDefault(); 
                       setLanguage(e.target.value)
-                      console.log(language);
                     }
                   }
               >

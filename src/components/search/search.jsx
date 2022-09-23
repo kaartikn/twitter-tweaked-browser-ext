@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import LanguageMenu from './subcomponents/language_menu';
 import './search.css'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import AllWords from './subcomponents/allWords';
 import ExactPhrase from './subcomponents/exactPhrase';
 import AnyWords from './subcomponents/anyWords';
@@ -19,13 +19,14 @@ import Replies from './subcomponents/replies';
 import Links from './subcomponents/links';
 import StartDate from './subcomponents/startDate';
 import EndDate from './subcomponents/endDate';
+import { removeAtFromString, splitStringToArr } from '../../services/advancedSearch';
 
 export default function Search(props) {
 
     const { eventKey } = props;
 
     const [ allWords, setAllWords ] = useState("");
-    const [ exactPhrsae, setExactPhrase ] = useState("");
+    const [ exactPhrase, setExactPhrase ] = useState("");
     const [ anyWords, setAnyWords ] = useState("");
     const [ noneWords, setNoneWords ] = useState("");
     const [ hashtags, setHashtags ] = useState("");
@@ -49,6 +50,17 @@ export default function Search(props) {
     const [ endDay, setEndDay ] = useState("Day");
     const [ endYear, setEndYear ] = useState("Year");
 
+    const handleClick = (e) => {
+        const anyWordsFinal = splitStringToArr(anyWords);
+        const noneWordsFinal = splitStringToArr(noneWords);
+        const hashtagsFinal = splitStringToArr(hashtags);
+        const fromAccountsFinal = splitStringToArr(removeAtFromString(fromAccounts));
+        const toAccountsFinal = splitStringToArr(removeAtFromString(toAccounts));
+        const mentioningAccountsFinal = splitStringToArr(removeAtFromString(mentioningAccounts));
+        // stopped before buuilding the function to convert languages to two letter codes
+
+    } 
+
     return (
         <>
       <Accordion.Item eventKey={ eventKey }>
@@ -61,7 +73,7 @@ export default function Search(props) {
             <Form>
 
               <AllWords props = {{"allWords": allWords, "setAllWords": setAllWords}} />
-              <ExactPhrase props = {{"exactPhrase": exactPhrsae, "setExactPhrase": setExactPhrase}} />
+              <ExactPhrase props = {{"exactPhrase": exactPhrase, "setExactPhrase": setExactPhrase}} />
               <AnyWords props = {{"anyWords": anyWords, "setAnyWords": setAnyWords}} />
               <NoneWords props = {{"noneWords": noneWords, "setNoneWords": setNoneWords}} />
               <HashtagWords props = {{"hashtags": hashtags, "setHashtags": setHashtags}} />
@@ -79,21 +91,9 @@ export default function Search(props) {
 
               <h5>Filters</h5>
 
-              <Replies props = {{
-                "repliesBool": repliesBool,
-                "setRepliesBool": setRepliesBool,
-                "onlyShowReplies": onlyShowReplies,
-                "setOnlyShowReplies": setOnlyShowReplies
-                }} />
+              <Replies props = {{"repliesBool": repliesBool, "setRepliesBool": setRepliesBool, "onlyShowReplies": onlyShowReplies, "setOnlyShowReplies": setOnlyShowReplies}} />
               <hr />
-
-              <Links props = {{
-                "linksBool": linksBool,
-                "setLinksBool": setLinksBool,
-                "onlyShowTweetsWithLinksBool": onlyShowTweetsWithLinksBool,
-                "setOnlyShowTweetsWithLinksBool": setOnlyShowTweetsWithLinksBool
-                }} />
-
+              <Links props = {{"linksBool": linksBool, "setLinksBool": setLinksBool, "onlyShowTweetsWithLinksBool": onlyShowTweetsWithLinksBool, "setOnlyShowTweetsWithLinksBool": setOnlyShowTweetsWithLinksBool}} />
               <hr />
 
               <h5>Engagement</h5>
@@ -107,6 +107,12 @@ export default function Search(props) {
               <h5>Dates</h5>
               <StartDate props = {{"startMonth": startMonth, "setStartMonth": setStartMonth, "startDay": startDay, "setStartDay": setStartDay, "startYear": startYear, "setStartYear": setStartYear}} />
               <EndDate props = {{"endMonth": endMonth, "setEndMonth": setEndMonth, "endDay": endDay, "setEndDay": setEndDay, "endYear": endYear, "setEndYear": setEndYear}} />
+
+              <hr />
+              
+              <Button className='w-100' onClick={handleClick}> 
+                Search
+              </Button>
 
             </Form>
         </Accordion.Body>
