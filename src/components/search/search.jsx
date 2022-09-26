@@ -52,14 +52,23 @@ export default function Search(props) {
     const [ endYear, setEndYear ] = useState("Year");
 
     const [ loading, setLoading ] = useState(false);
-    const [ data, setData ] = useState(null);
+    const [ tweetData, setTweetData ] = useState(null);
+    const [ queryData, setQueryData ] = useState(null);
 
     const handleSearch = (e) => {
       const advancedSearchBody = formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minimumReplies, minimumLikes, minimumRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, repliesBool, onlyShowReplies, linksBool, onlyShowTweetsWithLinksBool);
       const tweets = doAdvancedSearch(advancedSearchBody, setLoading);
       tweets.then(
         (successData) =>{
-          setData(successData);
+          setQueryData(successData.query);
+          const data = JSON.parse(successData.tweets);
+          for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            if(element.media != null){
+              element.media = JSON.parse(element.media)[0];
+            }
+          }
+          setTweetData(data);
         }, 
         (errorData) => {
           // Handle error
@@ -68,7 +77,7 @@ export default function Search(props) {
     
     useEffect(() => {
       console.log("Do something")
-    }, [data])
+    }, [tweetData])
 
     const clearSearchQueries = (e) => {
         setAllWords("");
@@ -108,7 +117,7 @@ export default function Search(props) {
             </Button>
 
             {
-             (data != null) ?
+             (tweetData != null) ?
              <Button variant="link" className='w-100 mt-1' onClick={clearSearchQueries}>Clear Search Query</Button> :
              <></> 
             }
