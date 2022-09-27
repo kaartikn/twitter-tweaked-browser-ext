@@ -1,0 +1,14 @@
+.filter-title {
+    font-size: 0.85rem !important;
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.3rem !important;
+}
+
+.filter-subtitle {
+    font-size: 0.75rem !important;
+    margin-top: 0.3rem !important;
+}
+
+.filter-subtitle:last-of-type {
+    margin-bottom: 0.3rem !important;
+}

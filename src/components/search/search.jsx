@@ -1,26 +1,10 @@
 import Accordion from 'react-bootstrap/Accordion';
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import LanguageMenu from './subcomponents/language_menu';
 import './search.css'
 import { useEffect, useState } from 'react';
-import Spinner from 'react-bootstrap/Spinner';
-import AllWords from './subcomponents/allWords';
-import ExactPhrase from './subcomponents/exactPhrase';
-import AnyWords from './subcomponents/anyWords';
-import NoneWords from './subcomponents/noneWords';
-import HashtagWords from './subcomponents/hashtags';
-import FromAccounts from './subcomponents/fromAccounts';
-import ToAccounts from './subcomponents/toAccounts';
-import MentioningAccounts from './subcomponents/mentioningAccounts';
-import MinimumReplies from './subcomponents/minimumReplies';
-import MinimumLikes from './subcomponents/minimumLikes';
-import MinimumRetweets from './subcomponents/minimumRetweets';
-import Replies from './subcomponents/replies';
-import Links from './subcomponents/links';
-import StartDate from './subcomponents/startDate';
-import EndDate from './subcomponents/endDate';
+
 import { doAdvancedSearch, formatAdvancedSearchBody } from '../../services/advancedSearch';
+import SearchForm from './searchForm';
 
 export default function Search(props) {
 
@@ -54,6 +38,7 @@ export default function Search(props) {
     const [ loading, setLoading ] = useState(false);
     const [ tweetData, setTweetData ] = useState(null);
     const [ queryData, setQueryData ] = useState(null);
+    const [ viewTweets, setViewTweets ] = useState(false);
 
     const handleSearch = (e) => {
       const advancedSearchBody = formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minimumReplies, minimumLikes, minimumRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, repliesBool, onlyShowReplies, linksBool, onlyShowTweetsWithLinksBool);
@@ -69,6 +54,7 @@ export default function Search(props) {
             }
           }
           setTweetData(data);
+          setViewTweets(true);
         }, 
         (errorData) => {
           // Handle error
@@ -76,8 +62,8 @@ export default function Search(props) {
     }
     
     useEffect(() => {
-      console.log("Do something")
-    }, [tweetData])
+      console.log("Viewing tweets bool is " + viewTweets);
+    }, [viewTweets])
 
     const clearSearchQueries = (e) => {
         setAllWords("");
@@ -112,61 +98,21 @@ export default function Search(props) {
             {/* Once results appear, offer the user the ability to search again */}
             {/* Swap main advanced search component for the results */}
 
-            <Button disabled={loading} className='w-100' onClick={handleSearch}> 
-                Search
-            </Button>
-
             {
-             (tweetData != null) ?
-             <Button variant="link" className='w-100 mt-1' onClick={clearSearchQueries}>Clear Search Query</Button> :
-             <></> 
+              viewTweets ?
+              <>
+                <Button className='w-100'> See Full Results </Button>
+                <Button variant="link" className='w-100 mt-1' onClick={() => setViewTweets(false)}>Search Again</Button>
+              </> :
+              <>
+                <Button disabled={loading} className='w-100' onClick={handleSearch}> Search </Button>
+                <Button variant="link" className='w-100 mt-1' onClick={clearSearchQueries}>Clear Search Query</Button>
+                <SearchForm allWords = {allWords} setAllWords = {setAllWords} exactPhrase = {exactPhrase} setExactPhrase = {setExactPhrase} anyWords = {anyWords} setAnyWords = {setAnyWords} noneWords = {noneWords}  setNoneWords = {setNoneWords}  hashtags = {hashtags} setHashtags = {setHashtags} language = {language} setLanguage = {setLanguage} fromAccounts = {fromAccounts} setFromAccounts = {setFromAccounts} toAccounts = {toAccounts} setToAccounts = {setToAccounts} mentioningAccounts = {mentioningAccounts} setMentioningAccounts = {setMentioningAccounts}  repliesBool = {repliesBool} setRepliesBool = {setRepliesBool} onlyShowReplies = {onlyShowReplies} setOnlyShowReplies = {setOnlyShowReplies} linksBool = {linksBool} setLinksBool = {setLinksBool} onlyShowTweetsWithLinksBool = {onlyShowTweetsWithLinksBool} setOnlyShowTweetsWithLinksBool = {setOnlyShowTweetsWithLinksBool} minimumReplies = {minimumReplies} setMinimumReplies = {setMinimumReplies} minimumLikes = {minimumLikes} setMinimumLikes = {setMinimumLikes}  minimumRetweets = {minimumRetweets} setMinimumRetweets = {setMinimumRetweets} startMonth = {startMonth} setStartMonth = {setStartMonth} startDay = {startDay} setStartDay = {setStartDay} startYear = {startYear} setStartYear = {setStartYear} endMonth = {endMonth} setEndMonth = {setEndMonth} endDay = {endDay} setEndDay = {setEndDay} endYear = {endYear} setEndYear = {setEndYear} />
+              </>
             }
 
 
-            <hr />
 
-            <h5>Words</h5>
-            <Form>
-
-              <AllWords props = {{"allWords": allWords, "setAllWords": setAllWords}} />
-              <ExactPhrase props = {{"exactPhrase": exactPhrase, "setExactPhrase": setExactPhrase}} />
-              <AnyWords props = {{"anyWords": anyWords, "setAnyWords": setAnyWords}} />
-              <NoneWords props = {{"noneWords": noneWords, "setNoneWords": setNoneWords}} />
-              <HashtagWords props = {{"hashtags": hashtags, "setHashtags": setHashtags}} />
-              <LanguageMenu props = {{"language": language, "setLanguage": setLanguage}} />
-
-              <hr />
-
-              <h5>Accounts</h5>
-
-              <FromAccounts props = {{"fromAccounts": fromAccounts, "setFromAccounts": setFromAccounts}} />
-              <ToAccounts props = {{"toAccounts": toAccounts, "setToAccounts": setToAccounts}} />
-              <MentioningAccounts props = {{"mentioningAccounts": mentioningAccounts, "setMentioningAccounts": setMentioningAccounts}} />
-
-              <hr />
-
-              <h5>Filters</h5>
-
-              <Replies props = {{"repliesBool": repliesBool, "setRepliesBool": setRepliesBool, "onlyShowReplies": onlyShowReplies, "setOnlyShowReplies": setOnlyShowReplies}} />
-              <hr />
-              <Links props = {{"linksBool": linksBool, "setLinksBool": setLinksBool, "onlyShowTweetsWithLinksBool": onlyShowTweetsWithLinksBool, "setOnlyShowTweetsWithLinksBool": setOnlyShowTweetsWithLinksBool}} />
-              <hr />
-
-              <h5>Engagement</h5>
-
-              <MinimumReplies props = {{"minimumReplies": minimumReplies, "setMinimumReplies": setMinimumReplies}} />          
-              <MinimumLikes props = {{"minimumLikes": minimumLikes, "setMinimumLikes": setMinimumLikes}} />          
-              <MinimumRetweets props = {{"minimumRetweets": minimumRetweets, "setMinimumRetweets": setMinimumRetweets}} /> 
-
-              <hr/>
-
-              <h5>Dates</h5>
-              <StartDate props = {{"startMonth": startMonth, "setStartMonth": setStartMonth, "startDay": startDay, "setStartDay": setStartDay, "startYear": startYear, "setStartYear": setStartYear}} />
-              <EndDate props = {{"endMonth": endMonth, "setEndMonth": setEndMonth, "endDay": endDay, "setEndDay": setEndDay, "endYear": endYear, "setEndYear": setEndYear}} />
-
-              <hr />
-
-            </Form>
         </Accordion.Body>
       </Accordion.Item>
         </>
