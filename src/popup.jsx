@@ -4,6 +4,8 @@ import MyDropdown from "./components/accordions";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from "react-bootstrap/Image";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faX } from '@fortawesome/free-solid-svg-icons'
 import "./popup.css"
 
 function Popup() {
@@ -24,16 +26,26 @@ function Popup() {
         });
     }, [])
 
+    const handleClick = (e) => {
+        setIsTwitterTweakedVisible(!isTwitterTweakedVisible);
+        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+            var activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, "toggle");
+        });
+    }
+
     return (
         <div>
             {
                 isTwitterTweakedVisible ?
                 <>
-                    <h1>Hello, world</h1>
-                    <p>This is a simple Popup</p>
+                    <div className="d-flex headline-container">
+                        <FontAwesomeIcon className="closeButton" icon={faX} onClick={handleClick} />
+                        <h4 className="col-9 welcome-text">Welcome to Twitter-Tweaked!</h4>
+                    </div>
                     <MyDropdown />
                 </> :
-                <div className="d-flex align-items-center twitter-tweaked-button"> 
+                <div className="d-flex align-items-center twitter-tweaked-button" onClick={handleClick}> 
                     <p className="col-1 text">«</p> 
                     <Image 
                         className="col-3 pic"
