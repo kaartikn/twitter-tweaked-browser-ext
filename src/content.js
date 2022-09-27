@@ -118,8 +118,14 @@ function toggleSidePanelVisibility(isTwitterTweakedVisible) {
 function toggleTwitterTweakedVisibility(isTwitterTweakedVisible){
     if(isTwitterTweakedVisible){
         iframe.style.width="450px";
+        iframe.style.height = "100%";
+        iframe.style.padding = "0px";
+        iframe.style.borderRadius = "0px";    
     }
     else{
-        iframe.style.width="0px";
+        iframe.style.width="200px";
+        iframe.style.height = "50px";
+        iframe.style.padding = "2px";
+        iframe.style.borderRadius = "0px 0px 0px 10px";    
     }
 }

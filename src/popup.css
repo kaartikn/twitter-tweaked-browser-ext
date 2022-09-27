@@ -1,0 +1,15 @@
+.twitter-tweaked-button {
+    cursor: pointer;
+}
+
+.text {
+    font-size: 0.8rem !important;
+    margin: 0 !important;
+}
+
+.pic {
+    object-fit: cover;
+    flex: 1;
+    margin-right: 0.3rem;
+    overflow: hidden;
+}
