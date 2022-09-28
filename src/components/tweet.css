@@ -30,3 +30,19 @@
     margin-top: -3px;
     cursor: pointer;
 }
+
+.tweetBody {
+    cursor: pointer;
+}
+
+.tweetAction {
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: text-bottom;
+    position: relative;
+    max-width: 100%;
+    display: inline-block;
+    fill: gray;
+    cursor: pointer;
+    transform: scale(0.8);
+}

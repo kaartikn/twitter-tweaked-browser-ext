@@ -122,7 +122,7 @@ function toggleSidePanelVisibility(isTwitterTweakedVisible) {
 // toggles Twitter Tweaked visibility
 function toggleTwitterTweakedVisibility(isTwitterTweakedVisible){
     if(isTwitterTweakedVisible){
-        iframe.style.width="450px";
+        iframe.style.width="400px";
         iframe.style.height = "100%";
         iframe.style.padding = "0px";
         iframe.style.borderRadius = "0px";    
