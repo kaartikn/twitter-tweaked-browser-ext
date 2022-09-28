@@ -7,7 +7,7 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
         console.log("Click");
         chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
             var activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, "tog");
+            chrome.tabs.sendMessage(activeTab.id, {"redirect": "https://twitter.com/" + username});
         });
     } 
 

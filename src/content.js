@@ -55,8 +55,11 @@ function setupOnMessageListener() {
         if (message == "toggle") {
             console.log("Listening from content js");
             toggleTwitterTweaked();
-        } 
-        console.log(message);
+        } else if (typeof(message) == "object"){
+            if ("redirect" in message){
+                chrome.runtime.sendMessage({redirect: message.redirect});
+            }
+        }
     });
 }
 
