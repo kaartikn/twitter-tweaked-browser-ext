@@ -1,0 +1,32 @@
+.verified {
+    max-width: 20px;
+    max-height: 20px;
+    margin-left: 5px;
+    vertical-align: text-bottom;
+    position: relative;
+    height: 1.25em;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.profile-image {
+    border-radius: 50%;
+    max-width: 50px;
+    max-height: 50px;
+    cursor: pointer;
+}
+
+.name-container {
+    margin-left: 15px;
+}
+
+.displayName {
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.username {
+    color: grey;
+    margin-top: -3px;
+    cursor: pointer;
+}

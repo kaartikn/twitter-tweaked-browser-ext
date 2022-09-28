@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { doAdvancedSearch, formatAdvancedSearchBody } from '../../services/advancedSearch';
 import SearchForm from './searchForm';
+import SearchResults from './searchResults';
 
 export default function Search(props) {
 
@@ -60,10 +61,6 @@ export default function Search(props) {
           // Handle error
         })
     }
-    
-    useEffect(() => {
-      console.log("Viewing tweets bool is " + viewTweets);
-    }, [viewTweets])
 
     const clearSearchQueries = (e) => {
         setAllWords("");
@@ -103,6 +100,7 @@ export default function Search(props) {
               <>
                 <Button className='w-100'> See Full Results </Button>
                 <Button variant="link" className='w-100 mt-1' onClick={() => setViewTweets(false)}>Search Again</Button>
+                <SearchResults tweetData = {tweetData} />
               </> :
               <>
                 <Button disabled={loading} className='w-100' onClick={handleSearch}> Search </Button>

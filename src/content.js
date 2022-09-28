@@ -55,7 +55,8 @@ function setupOnMessageListener() {
         if (message == "toggle") {
             console.log("Listening from content js");
             toggleTwitterTweaked();
-        }
+        } 
+        console.log(message);
     });
 }
 
