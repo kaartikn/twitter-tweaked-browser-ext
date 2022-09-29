@@ -25,6 +25,11 @@
     cursor: pointer;
 }
 
+.tweetDate {
+    color: grey;
+    margin-left: 5px;
+}
+
 .username {
     color: grey;
     margin-top: -3px;
