@@ -43,6 +43,28 @@
     max-width: 100%;
     display: inline-block;
     fill: gray;
-    cursor: pointer;
     transform: scale(0.8);
+    cursor: pointer;
+}
+
+.actionText {
+    cursor: pointer;
+}
+
+.retweetedText {
+    color: #19cf86;
+}
+.actionRetweet {
+    fill: #19cf86;
+}
+
+.likedText {
+    color: #d51f81;
+}
+.actionFavourite {
+    fill: #d51f81;
+}
+
+.bodyContainer {
+    margin-left: 65px;
 }
