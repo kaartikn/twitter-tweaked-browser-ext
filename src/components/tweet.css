@@ -11,8 +11,8 @@
 
 .profile-image {
     border-radius: 50%;
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 1.5em;
+    max-height: 1.5em;
     cursor: pointer;
 }
 
@@ -22,16 +22,19 @@
 
 .displayName {
     font-weight: 700;
+    font-size: 14px;
     cursor: pointer;
 }
 
 .tweetDate {
     color: grey;
+    font-size: 14px;
     margin-left: 5px;
 }
 
 .username {
     color: grey;
+    font-size: 14px;
     margin-top: -3px;
     cursor: pointer;
 }
