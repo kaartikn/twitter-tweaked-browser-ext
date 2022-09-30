@@ -26,10 +26,19 @@
     cursor: pointer;
 }
 
+.displayName:hover {
+    text-decoration: underline;
+}
+
 .tweetDate {
     color: grey;
     font-size: 14px;
     margin-left: 5px;
+    cursor: pointer;
+}
+
+.tweetDate:hover {
+    text-decoration: underline;
 }
 
 .username {
@@ -41,6 +50,8 @@
 
 .tweetBody {
     cursor: pointer;
+    font-size: 0.9em;
+    margin-bottom: 0.5em;
 }
 
 .tweetAction {
@@ -51,12 +62,13 @@
     max-width: 100%;
     display: inline-block;
     fill: gray;
-    transform: scale(0.8);
+    transform: scale(0.6);
     cursor: pointer;
 }
 
 .actionText {
     cursor: pointer;
+    font-size: 0.9em;
 }
 
 .retweetedText {
@@ -71,8 +83,4 @@
 }
 .actionFavourite {
     fill: #d51f81;
-}
-
-.bodyContainer {
-    margin-left: 65px;
 }

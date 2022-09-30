@@ -92,6 +92,7 @@ function setupSidePanelCSS() {
     iframe.style.borderStyle = "solid";
     iframe.style.width = "0px";
     iframe.style.borderColor = borderColor;
+    iframe.allow = "clipboard-write";
     iframe.src = chrome.runtime.getURL("popup.html");
     document.body.appendChild(iframe);
     return iframe;

@@ -15,7 +15,8 @@
       "tabs",
       "activeTab",
       "scripting",
-      "storage"
+      "storage",
+      "clipboardWrite"
     ],
     "content_scripts": [
       {
