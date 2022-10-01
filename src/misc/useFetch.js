@@ -18,12 +18,15 @@ export function useFetch(url, method, accessToken, accessTokenSecret, bodyConten
                     setLoading(false);
                     throw new Error(response.status)
                 }
-                else return response.json();
+                else {
+                    if (response.status!=204){
+                        return response.json();
+                    }
+                }
             })
             .then((data) => {
-                setLoading(false);
+                setLoading(false);                
                 return data;
-                // Should return data here
             })
             .catch((error) => {
                 console.log('error: ' + error);

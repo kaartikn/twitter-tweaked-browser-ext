@@ -10,7 +10,7 @@ export default function SearchResults(props) {
                 <>
                     { 
                         tweetData.map((tweet) => {
-                            return <Tweet props={tweet} key={tweet.tweetUrl} /> 
+                            return <Tweet props={tweet} key={tweet.id} /> 
                         })
                     }
                 </> :

@@ -1,14 +1,15 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import Image from "react-bootstrap/Image";
+import { favourite, formatTweetInteractionBody, retweet, unfavourite, unretweet } from "../services/likeRetweet";
 import "./tweet.css";
 
-export default function Tweet({props: {tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, username, displayName, verified, profileImageUrl, profileUrl}}) {
+export default function Tweet({props: {tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl}}) {
 
     const [ retweetCountState, setRetweetCount ] = useState(retweetCount);
     const [ likeCountState, setLikeCount ] =  useState(likeCount);
-    const [ selfLiked, setSelfLiked ] = useState(false);
-    const [ selfRetweet, setSelfRetweet ] = useState(false);
+    const [ selfLiked, setSelfLiked ] = useState(favorited);
+    const [ selfRetweet, setSelfRetweet ] = useState(retweeted);
+    const [ loading, setLoading ] = useState(false);
 
     const handleProfileClick = (e) => {
         chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
@@ -27,15 +28,25 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
     const handleLikeClick = (e) => {
         setSelfLiked(!selfLiked);
         // Make API call to like to switch like property of tweet -- below just mimics logic of that
-        if (!selfLiked) setLikeCount(likeCountState + 1);
-        else setLikeCount(likeCountState - 1);
+        if (!selfLiked) {
+            favourite(formatTweetInteractionBody(id), setLoading);
+            setLikeCount(likeCountState + 1);
+        }else{
+            unfavourite(formatTweetInteractionBody(id), setLoading);
+            setLikeCount(likeCountState - 1);
+        }
     }
 
     const handleRetweetClick = (e) => {
         setSelfRetweet(!selfRetweet);
         // Make API call to like to switch retweet property of tweet -- below just mimics logic of that
-        if (!selfRetweet) setRetweetCount(retweetCountState + 1);
-        else setRetweetCount(retweetCountState - 1);
+        if (!selfRetweet) {
+            retweet(formatTweetInteractionBody(id), setLoading);
+            setRetweetCount(retweetCountState + 1)
+        } else { 
+            unretweet(formatTweetInteractionBody(id), setLoading);
+            setRetweetCount(retweetCountState - 1)
+        };
     }
 
 
