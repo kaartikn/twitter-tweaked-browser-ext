@@ -1,4 +1,4 @@
-import Tweet from "../tweet";
+import Tweet from "../tweet/tweet";
 
 export default function SearchResults(props) {
     const { tweetData } = props;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Image from "react-bootstrap/Image";
-import { favourite, formatTweetInteractionBody, retweet, unfavourite, unretweet } from "../services/likeRetweet";
+import { favourite, formatTweetInteractionBody, retweet, unfavourite, unretweet } from "../../services/likeRetweet";
+import RetweetOverlay from "./retweetOverlay";
 import "./tweet.css";
 
 export default function Tweet({props: {tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl}}) {
@@ -27,7 +28,6 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
 
     const handleLikeClick = (e) => {
         setSelfLiked(!selfLiked);
-        // Make API call to like to switch like property of tweet -- below just mimics logic of that
         if (!selfLiked) {
             favourite(formatTweetInteractionBody(id), setLoading);
             setLikeCount(likeCountState + 1);
@@ -39,7 +39,6 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
 
     const handleRetweetClick = (e) => {
         setSelfRetweet(!selfRetweet);
-        // Make API call to like to switch retweet property of tweet -- below just mimics logic of that
         if (!selfRetweet) {
             retweet(formatTweetInteractionBody(id), setLoading);
             setRetweetCount(retweetCountState + 1)
@@ -121,9 +120,15 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
                                     <svg viewBox="0 0 24 24" fill="red" aria-hidden="true" className="tweetAction actionReply"><g><path d="M14.046 2.242l-4.148-.01h-.002c-4.374 0-7.8 3.427-7.8 7.802 0 4.098 3.186 7.206 7.465 7.37v3.828c0 .108.044.286.12.403.142.225.384.347.632.347.138 0 .277-.038.402-.118.264-.168 6.473-4.14 8.088-5.506 1.902-1.61 3.04-3.97 3.043-6.312v-.017c-.006-4.367-3.43-7.787-7.8-7.788zm3.787 12.972c-1.134.96-4.862 3.405-6.772 4.643V16.67c0-.414-.335-.75-.75-.75h-.396c-3.66 0-6.318-2.476-6.318-5.886 0-3.534 2.768-6.302 6.3-6.302l4.147.01h.002c3.532 0 6.3 2.766 6.302 6.296-.003 1.91-.942 3.844-2.514 5.176z"></path></g></svg>
                                     <p className="actionText">{formatCount(replyCount)}</p>
                                 </div>
-                                <div className="d-flex" onClick={handleRetweetClick}>
+                                <RetweetOverlay 
+                                    handleRetweetClick = {handleRetweetClick} 
+                                    selfRetweet = {selfRetweet} 
+                                    formatCount = {formatCount} 
+                                    retweetCountState = {retweetCountState}
+                                />
+                                {/* <div className="d-flex" onClick={handleRetweetClick}>
                                     {
-                                        selfRetweet ? //Replace this with a state holding the prop value of selfRetweeted once backend configured to return this.
+                                        selfRetweet ?
                                         <>
                                             <svg viewBox="0 0 24 24" aria-hidden="true" className="tweetAction actionRetweet"><g><path d="M23.615 15.477c-.47-.47-1.23-.47-1.697 0l-1.326 1.326V7.4c0-2.178-1.772-3.95-3.95-3.95h-5.2c-.663 0-1.2.538-1.2 1.2s.537 1.2 1.2 1.2h5.2c.854 0 1.55.695 1.55 1.55v9.403l-1.326-1.326c-.47-.47-1.23-.47-1.697 0s-.47 1.23 0 1.697l3.374 3.375c.234.233.542.35.85.35s.613-.116.848-.35l3.375-3.376c.467-.47.467-1.23-.002-1.697zM12.562 18.5h-5.2c-.854 0-1.55-.695-1.55-1.55V7.547l1.326 1.326c.234.235.542.352.848.352s.614-.117.85-.352c.468-.47.468-1.23 0-1.697L5.46 3.8c-.47-.468-1.23-.468-1.697 0L.388 7.177c-.47.47-.47 1.23 0 1.697s1.23.47 1.697 0L3.41 7.547v9.403c0 2.178 1.773 3.95 3.95 3.95h5.2c.664 0 1.2-.538 1.2-1.2s-.535-1.2-1.198-1.2z"></path></g></svg> 
                                             <p className="actionText retweetedText">{formatCount(retweetCountState)}</p>
@@ -133,10 +138,10 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
                                             <p className="actionText">{formatCount(retweetCountState)}</p>
                                         </>
                                     }
-                                </div>
+                                </div> */}
                                 <div className="d-flex" onClick={handleLikeClick}>
                                     {
-                                        selfLiked ? //Replace this with a state holding the prop value of selfFavourited once backend configured to return this.
+                                        selfLiked ?
                                         <>
                                             <svg viewBox="0 0 24 24" aria-hidden="true" className="tweetAction actionFavourite"><g><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12z"></path></g></svg>
                                             <p className="actionText likedText">{formatCount(likeCountState)}</p>
@@ -149,11 +154,9 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
                                 </div>
                                 <div className="d-flex" onClick={handleCopy}>
                                     <svg viewBox="0 0 24 24" className="tweetAction"><g><path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.942-2.605 2.068-3.438l3.53-2.608c2.322-1.716 5.61-1.224 7.33 1.1.83 1.127 1.175 2.51.967 3.895s-.943 2.605-2.07 3.438l-1.48 1.094c-.333.246-.804.175-1.05-.158-.246-.334-.176-.804.158-1.05l1.48-1.095c.803-.592 1.327-1.463 1.476-2.45.148-.988-.098-1.975-.69-2.778-1.225-1.656-3.572-2.01-5.23-.784l-3.53 2.608c-.802.593-1.326 1.464-1.475 2.45-.15.99.097 1.975.69 2.778.498.675 1.187 1.15 1.992 1.377.4.114.633.528.52.928-.092.33-.394.547-.722.547z"></path><path d="M7.27 22.054c-1.61 0-3.197-.735-4.225-2.125-.832-1.127-1.176-2.51-.968-3.894s.943-2.605 2.07-3.438l1.478-1.094c.334-.245.805-.175 1.05.158s.177.804-.157 1.05l-1.48 1.095c-.803.593-1.326 1.464-1.475 2.45-.148.99.097 1.975.69 2.778 1.225 1.657 3.57 2.01 5.23.785l3.528-2.608c1.658-1.225 2.01-3.57.785-5.23-.498-.674-1.187-1.15-1.992-1.376-.4-.113-.633-.527-.52-.927.112-.4.528-.63.926-.522 1.13.318 2.096.986 2.794 1.932 1.717 2.324 1.224 5.612-1.1 7.33l-3.53 2.608c-.933.693-2.023 1.026-3.105 1.026z"></path></g></svg>
-                                    {/* Change the ID below to the tweet ID soon */}
-                                    <p className="actionText" id={tweetUrl}>link</p>                        
+                                    <p className="actionText" id={id}>link</p>                        
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
