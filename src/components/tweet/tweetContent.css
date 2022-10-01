@@ -1,0 +1,7 @@
+.taggedUser, .hashtaggedWord, .linkedSite {
+    color: rgb(29, 155, 240);
+}
+
+.taggedUser:hover, .hashtaggedWord:hover, .linkedSite:hover {
+    text-decoration: underline;
+}

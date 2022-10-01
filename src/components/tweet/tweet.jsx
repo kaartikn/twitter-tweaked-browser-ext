@@ -9,9 +9,9 @@ import ReplyButton from "./replyButton";
 import ProfileHeader from "./profileHeader";
 import TweetContent from "./tweetContent";
 
-export default function Tweet({props: {tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl}}) {
+export default function Tweet({props: {tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, tcolinks, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl}}) {
 
-    const [ retweetCountState, setRetweetCount ] = useState(retweetCount);
+    const [ retweetCountState, setRetweetCount ] = useState(retweetCount + quoteCount);
     const [ likeCountState, setLikeCount ] =  useState(likeCount);
     const [ selfLiked, setSelfLiked ] = useState(favorited);
     const [ selfRetweet, setSelfRetweet ] = useState(retweeted);
@@ -123,6 +123,10 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
                             <TweetContent 
                                 handleTweetClick = {handleTweetClick}
                                 content = {content}
+                                renderedContent = {renderedContent}
+                                mentionedUsers = {mentionedUsers}
+                                hashtags = {hashtags}
+                                tcolinks = {tcolinks}
                             />
                             <div className="d-flex justify-content-between">
                                 <ReplyButton
