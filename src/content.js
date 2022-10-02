@@ -53,7 +53,6 @@ function observe() {
 function setupOnMessageListener() {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         if (message == "toggle") {
-            console.log("Listening from content js");
             toggleTwitterTweaked();
         } else if (typeof(message) == "object"){
             if ("redirect" in message){

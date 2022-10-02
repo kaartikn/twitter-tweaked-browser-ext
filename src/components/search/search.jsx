@@ -1,11 +1,12 @@
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import './search.css'
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { doAdvancedSearch, formatAdvancedSearchBody } from '../../services/advancedSearch';
 import SearchForm from './searchForm';
 import SearchResults from './searchResults';
+import { ThemeContext } from '../../popup';
 
 export default function Search(props) {
 
@@ -87,11 +88,13 @@ export default function Search(props) {
         setEndYear("Year");
     }
 
+    var contextType = useContext(ThemeContext);
+
     return (
         <>
-      <Accordion.Item eventKey={ eventKey }>
+      <Accordion.Item eventKey={ eventKey } style={{backgroundColor: contextType.backgroundColor, color: contextType.textColor}}>
         <Accordion.Header>Search</Accordion.Header>
-        <Accordion.Body>
+        <Accordion.Body  >
             {/* Once results appear, offer the user the ability to search again */}
             {/* Swap main advanced search component for the results */}
 
