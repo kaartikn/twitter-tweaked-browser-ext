@@ -157,7 +157,6 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
                     </div>
                 </div>
             </div>
-            <hr />
         </>
     )
 }

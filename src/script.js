@@ -1,15 +1,11 @@
-var textColor;
-var background;
-
-chrome.storage.local.get(['color'], function(result) {
-    backgroundColor = result.color;
-    textColor = (backgroundColor == "rgb(255, 255, 255)") ? "black" : "white";
-  });
 window.addEventListener("load", function load(event) {
     var frame = document.body;
 
-    frame.style.color = textColor;
-    frame.style.backgroundColor = backgroundColor;
+    chrome.storage.local.get("backgroundColor", function(result){
+        frame.style.backgroundColor = result.backgroundColor;
+        frame.style.color = (result.backgroundColor == "rgb(255, 255, 255)") ? "rgb(0, 0, 0)" : "rgb(255, 255, 255)";;
+    });
+
     this.window.removeEventListener("load", load, false);
 });
 
