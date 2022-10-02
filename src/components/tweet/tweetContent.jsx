@@ -24,31 +24,44 @@ export default function TweetContent(props) {
         if (highlightedContent.length != 0){
             const contentArr = content.split(" ");
             contentFinal = contentArr.map((word) => {
-                if (word.charAt(0) == '@'){
-                    return <span className='taggedUser' onClick={handleAccountClick} >{word} </span>;
-                } else if (word.charAt(0) == '#') {
-                    return <span className='hashtaggedWord'>{word} </span>;
-                } else if (word.substring(0, 4) == "http"){
-                    return <span className='linkedSite'>{word} </span>;
+                const finalWord = word.trim();
+                if (finalWord.charAt(0) == '@'){
+                    return <span key={finalWord} className='taggedUser' onClick={() => handleAccountClick(finalWord)}>{finalWord} </span>;
+                } else if (finalWord.charAt(0) == '#') {
+                    return <span key={finalWord} className='hashtaggedfinalWord' onClick={() => handleHashtagClick(finalWord)}>{finalWord} </span>;
+                } else if (finalWord.substring(0, 4) == "http"){
+                    return <span key={finalWord} onClick={() =>handleLinkClick(finalWord)} className='linkedSite'>{finalWord} </span>;
                 } else {
-                    return <>{word} </>;
+                    return <span key={finalWord} onClick={handleTweetClick}>{finalWord} </span>;
                 }
             });
         }
     }
 
-    const handleAccountClick = (e) => {
-        // chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-        //     var activeTab = tabs[0];
-        //     chrome.tabs.sendMessage(activeTab.id, {"redirect": "https://twitter.com/universaluk" + tweetUrl});
-        // });
-        console.log(e);
-        return false;
+    function handleAccountClick(account) {
+        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+            var activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, {"redirect": "https://twitter.com/" + account});
+        });
+    } 
+
+    function handleHashtagClick(hashtag) {
+        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+            var activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, {"redirect": "https://twitter.com/hashtag/" + hashtag});
+        });
+    }
+
+    function handleLinkClick(link) {
+        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+            var activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, {"redirect": link});
+        });
     } 
 
     return (
         <>
-            <p className="tweetBody" onClick={handleTweetClick}>{contentFinal.map((el)=> {return el})}</p>
+            <p className="tweetBody">{contentFinal}</p>
         </>
     )
 }
