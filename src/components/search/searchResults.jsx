@@ -3,6 +3,7 @@ import Tweet from "../tweet/tweet";
 export default function SearchResults(props) {
     const { tweetData } = props;
     const tweetsLength = tweetData.length;
+
     return(
         <>
             {

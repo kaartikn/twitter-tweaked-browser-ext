@@ -52,7 +52,7 @@ export default function Search(props) {
           for (let index = 0; index < data.length; index++) {
             const element = data[index];
             if(element.media != null){
-              element.media = JSON.parse(element.media)[0];
+              element.media = JSON.parse(element.media);
             }
           }
           setTweetData(data);

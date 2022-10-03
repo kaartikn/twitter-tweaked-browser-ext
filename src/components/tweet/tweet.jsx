@@ -9,7 +9,7 @@ import ReplyButton from "./replyButton";
 import ProfileHeader from "./profileHeader";
 import TweetContent from "./tweetContent";
 
-export default function Tweet({props: { tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, tcolinks, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl, isTweetActionsHidden }}) {
+export default function Tweet({props: { tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, tcolinks, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl, isQuotedTweet }}) {
 
     const [ retweetCountState, setRetweetCount ] = useState(retweetCount + quoteCount);
     const [ likeCountState, setLikeCount ] =  useState(likeCount);
@@ -101,19 +101,14 @@ export default function Tweet({props: { tweetUrl, date, content, renderedContent
 
     function formatTweetUI() {
 
-        if(isTweetActionsHidden) {
+        if(isQuotedTweet) {
             // Look into specified rule to solve this
-            return (<span className="square rounded"> { tweet() } </span>)
+            return (<div className="my-3" style={{borderRadius: "0.375em", border: "1px solid rgb(56, 68, 77)", padding: "0.4em"}} >  { tweet() } </div>)
         }
 
         return (<> <hr /> { tweet() }</> )
 
     }
-
-// Apply these styles to the surrounding div in quoted tweet and get quote Tweet UI
-//     border-radius: 0.375em;
-// border: 1px solid white;
-// padding: 1em;
 
     function tweet() { 
         return (<div className="d-flex">
@@ -146,7 +141,7 @@ export default function Tweet({props: { tweetUrl, date, content, renderedContent
                             tcolinks = {tcolinks}
                         />
                         {
-                            isTweetActionsHidden ?
+                            isQuotedTweet ?
                             <></> :
                             <div className="d-flex justify-content-between">
                                 <ReplyButton

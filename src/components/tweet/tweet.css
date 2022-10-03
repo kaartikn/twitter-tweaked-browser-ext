@@ -84,3 +84,7 @@
 .actionFavourite {
     fill: #d51f81;
 }
+
+.pointer {
+    cursor: pointer;
+}

@@ -28,8 +28,36 @@ export default function TweetContent(props) {
 
     function formatMedia(){
         if (media != null){
-            if(media['duration'] == null){
-                return <Image src={media['fullUrl']} className='w-100 mt-2 mb-2' />
+            if(media[0]['duration'] == null){
+                console.log(media.length);
+                if (media.length % 2 == 0) {
+                    return (
+                    <div className="w-100 mt-2 mb-2 d-flex flex-wrap pointer" onClick={handleTweetClick}>
+                        {
+                            media.map((img) => {
+                                return <Image className="col-6 ml-1" src={img['fullUrl']} />
+                            })
+                        }
+                    </div>
+                    )
+                } 
+                if (media.length == 3){
+                    return (
+                    <div className="w-100 mt-2 mb-2 d-flex pointer" onClick={handleTweetClick}>
+                        <Image className="col-6 mr-1" src={media[0]['fullUrl']} />
+                        <div className="d-flex flex-column col-6">
+                            {
+                                media.slice(1).map((img) => {
+                                    return <Image className="col-6 ml-1 w-100" src={img['fullUrl']} />
+                                })
+                            }
+                        </div>
+                    </div>
+                    )
+                }
+
+                return <Image className="w-100 mt-2 mb-2 pointer" src={media[0]['fullUrl']} />
+
             } else {
                 return (
                     <div className="embed-responsive embed-responsive-16by9 mt-2 mb-2 w-100">
@@ -65,7 +93,7 @@ export default function TweetContent(props) {
                 "verified": quotedTweet['user']['verified'],
                 "profileImageUrl": quotedTweet['user']['profileImageUrl'],
                 "profileUrl": quotedTweet['user']['linkUrl'],
-                "isTweetActionsHidden": true
+                "isQuotedTweet": true
             }
             return <Tweet props={formattedQuoteTweet} />
         }
