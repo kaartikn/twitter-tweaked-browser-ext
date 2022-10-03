@@ -110,7 +110,12 @@ export default function Tweet({props: { tweetUrl, date, content, renderedContent
 
     }
 
-    function tweet() {
+// Apply these styles to the surrounding div in quoted tweet and get quote Tweet UI
+//     border-radius: 0.375em;
+// border: 1px solid white;
+// padding: 1em;
+
+    function tweet() { 
         return (<div className="d-flex">
             <div>
                 <Image
