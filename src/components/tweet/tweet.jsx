@@ -9,7 +9,7 @@ import ReplyButton from "./replyButton";
 import ProfileHeader from "./profileHeader";
 import TweetContent from "./tweetContent";
 
-export default function Tweet({props: {tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, tcolinks, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl}}) {
+export default function Tweet({props: { tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, tcolinks, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl, isTweetActionsHidden }}) {
 
     const [ retweetCountState, setRetweetCount ] = useState(retweetCount + quoteCount);
     const [ likeCountState, setLikeCount ] =  useState(likeCount);
@@ -99,35 +99,49 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
 
     }
 
-    return (
-        <>
-            <hr />
-            <div className="d-flex">
-                <div>
-                    <Image
-                        onClick={handleProfileClick}
-                        className="profile-image mt-2"
-                        src={profileImageUrl}
-                    />
-                </div>
-                <div className="d-flex flex-column body-container w-100">
-                    <ProfileHeader
-                        handleProfileClick = {handleProfileClick} 
-                        displayName = {displayName} 
-                        verified = {verified} 
-                        getTweetDate = {getTweetDate} 
-                        username = {username}
-                    />
-                    <div className="d-block">
-                        <div className="d-flex-column">
-                            <TweetContent 
-                                handleTweetClick = {handleTweetClick}
-                                content = {content}
-                                renderedContent = {renderedContent}
-                                mentionedUsers = {mentionedUsers}
-                                hashtags = {hashtags}
-                                tcolinks = {tcolinks}
-                            />
+    function formatTweetUI() {
+
+        if(isTweetActionsHidden) {
+            return (<span className="square border"> { tweet() } </span>)
+        }
+
+        return (<> <hr /> { tweet() }</> )
+
+    }
+
+    function tweet() {
+        return (<div className="d-flex">
+            <div>
+                <Image
+                    onClick={handleProfileClick}
+                    className="profile-image mt-2"
+                    src={profileImageUrl}
+                />
+            </div>
+            <div className="d-flex flex-column body-container w-100">
+                <ProfileHeader
+                    handleProfileClick = {handleProfileClick} 
+                    displayName = {displayName} 
+                    verified = {verified} 
+                    getTweetDate = {getTweetDate} 
+                    username = {username}
+                />
+                <div className="d-block">
+                    <div className="d-flex-column">
+                        <TweetContent 
+                            handleTweetClick = {handleTweetClick}
+                            content = {content}
+                            media = {media}
+                            quotedTweet = {quotedTweet}
+                            tweetUrl = {tweetUrl}
+                            renderedContent = {renderedContent}
+                            mentionedUsers = {mentionedUsers}
+                            hashtags = {hashtags}
+                            tcolinks = {tcolinks}
+                        />
+                        {
+                            isTweetActionsHidden ?
+                            <></> :
                             <div className="d-flex justify-content-between">
                                 <ReplyButton
                                     handleTweetClick = { handleTweetClick }
@@ -152,11 +166,19 @@ export default function Tweet({props: {tweetUrl, date, content, renderedContent,
                                     handleCopy = {handleCopy}
                                     id = {id}
                                 />
-                            </div>
                         </div>
+                        }
                     </div>
                 </div>
             </div>
+        </div>)
+    }
+
+    return (
+        <>
+            {
+                formatTweetUI()
+            }
         </>
     )
 }
