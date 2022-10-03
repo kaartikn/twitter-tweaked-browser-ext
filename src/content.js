@@ -1,3 +1,5 @@
+import { storeCredentials } from "./services/auth";
+
 const mo = new MutationObserver(onMutation);
 onMutation([{addedNodes: [document.documentElement]}]);
 observe();
@@ -9,14 +11,35 @@ if(window == top){
     var borderColor = (backgroundColor == "rgb(255, 255, 255)") ? "rgb(139, 152, 165)" : "rgb(22, 24, 28)";
     chrome.storage.local.set({backgroundColor: backgroundColor});
 
-    setupOnMessageListener();
-    handleEventsPostLoading();
-    
-    var iframe = setupSidePanelCSS();
+    const cookies = document.cookie.split(";");
+    var twitterSessionId; // To check if user logged into twitter and only show sidebar if they are
+
+    for (let index = 0; index < cookies.length; index++) {
+        if(cookies[index].trim().slice(0,4) == "twid"){
+            twitterSessionId = cookies[index].slice(6);
+        }
+    }
+
+    if (twitterSessionId != null) {
+
+        //Cache logged in status somewhere else so don't have to make these calls all the time
+        chrome.storage.local.get("tweakedAuth", function(result){
+            if(result.tweakedAuth != undefined){
+                JSON.parse(result.tweakedAuth);
+            }
+        })
+        
+        setupOnMessageListener();
+        handleEventsPostLoading();
+        
+        var iframe = setupSidePanelCSS();    
+    }
+
+    chrome.storage.local.get("auth", function(result){
+        console.log(result.auth);
+    })
 }
 
-// Function that hides that Twitter sidebar column as DOM elements are added to the DOM tree by twitter.
-// Initially, the Twitter sidepanel is hidden by default and only reappears if that's the setting chosen by the user through a function call later (after DOM loaded).
 function onMutation(mutations) {
     let stopped;
     for (const {addedNodes} of mutations) {
@@ -58,7 +81,18 @@ function setupOnMessageListener() {
             if ("redirect" in message){
                 chrome.runtime.sendMessage({redirect: message.redirect});
             }
-        }
+            if ("oauthToken" in message && "oauthVerifier" in message){
+                const auth = {
+                    "twitter_session_id": twitterSessionId,
+                    "oauth_token": message['oauthToken'],
+                    "oauth_verifier": message['oauthVerifier']
+                }
+                storeCredentials(auth, (loading) => {});
+                //call api to send this to backend
+                chrome.storage.local.set({auth: JSON.stringify(auth)});
+                chrome.runtime.sendMessage({redirect: "https://twitter.com/home"});
+            }
+        } 
     });
 }
 
