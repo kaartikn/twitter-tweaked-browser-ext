@@ -102,7 +102,8 @@ export default function Tweet({props: { tweetUrl, date, content, renderedContent
     function formatTweetUI() {
 
         if(isTweetActionsHidden) {
-            return (<span className="square border"> { tweet() } </span>)
+            // Look into specified rule to solve this
+            return (<span className="square rounded"> { tweet() } </span>)
         }
 
         return (<> <hr /> { tweet() }</> )
