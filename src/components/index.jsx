@@ -10,9 +10,16 @@ export default function Index(props){
 
     chrome.storage.local.get({ tweakedAuth: null }, function(result){ 
 
-        const parsedAuthArray = result.tweakedAuth;
-        console.log(parsedAuthArray);
-
+        const auth = JSON.parse(result.tweakedAuth);
+        const currentSessionId = auth['currentTwid'];
+        const authArray = auth['authArray'];
+        for (let index = 0; index < authArray.length; index++) {
+            const element = authArray[index];
+            if(element['twitter_session_id'] == currentSessionId){
+                setIsOauthApproved(true);
+                break;
+            }
+        }
      })
 
     const handleClick = (e) => {
@@ -22,8 +29,6 @@ export default function Index(props){
                 chrome.tabs.sendMessage(activeTab.id, {"redirect": data['payload']});
             });
         });
-
-
     }
 
     return (

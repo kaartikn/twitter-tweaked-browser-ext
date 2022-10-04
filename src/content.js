@@ -1,4 +1,4 @@
-import { storeCredentials } from "./services/auth";
+import { storeCredentialsInBackend } from "./services/auth";
 
 const mo = new MutationObserver(onMutation);
 onMutation([{addedNodes: [document.documentElement]}]);
@@ -14,35 +14,37 @@ if(window == top){
     const cookies = document.cookie.split(";");
     var userTwitterSessionId;
 
-    //refactor to a function call
-    for (let index = 0; index < cookies.length; index++) {
-        if(cookies[index].trim().slice(0,4) == "twid"){
-            userTwitterSessionId = cookies[index].slice(6);
-        }
-    }
+    setUserTwitterSessionId(cookies);
 
      // To check if user logged into twitter and only show sidebar if they are (so they don't see the sidebar on the loginpage of twitter.com)
     if (userTwitterSessionId != null) {
 
-
-        chrome.storage.local.get({ tweakedAuth: null }, function(result){ 
-
-            var authObject;
-            if(result.tweakedAuth == null){
-                authObject = { "currentTwid": userTwitterSessionId, "authArray": [] }
-            } else {
-                authObject = { "currentTwid": userTwitterSessionId, "authArray": JSON.parse(result.tweakedAuth)["authArray"] }
-            }
-            const stringifiedAuthObject = JSON.stringify(authObject);
-
-            chrome.storage.local.set({ tweakedAuth: stringifiedAuthObject });
-
-        })
-
+        setCurrentTwidInLocalStorage();
         setupOnMessageListener();
         handleEventsPostLoading();
         
         var iframe = setupSidePanelCSS();
+    }
+}
+
+function setCurrentTwidInLocalStorage() {
+    chrome.storage.local.get({ tweakedAuth: null }, function (result) {
+        var authObject;
+        if (result.tweakedAuth == null) {
+            authObject = { "currentTwid": userTwitterSessionId, "authArray": [] };
+        } else {
+            authObject = { "currentTwid": userTwitterSessionId, "authArray": JSON.parse(result.tweakedAuth)["authArray"] };
+        }
+        const stringifiedAuthObject = JSON.stringify(authObject);
+        chrome.storage.local.set({ tweakedAuth: stringifiedAuthObject });
+    });
+}
+
+function setUserTwitterSessionId(cookies) {
+    for (let index = 0; index < cookies.length; index++) {
+        if (cookies[index].trim().slice(0, 4) == "twid") {
+            userTwitterSessionId = cookies[index].slice(6);
+        }
     }
 }
 
@@ -93,37 +95,40 @@ function setupOnMessageListener() {
                     "oauth_token": message['oauthToken'],
                     "oauth_verifier": message['oauthVerifier']
                 }
-                storeCredentials(auth, (loading) => {});
-                //call api to send this to backend
-
-                chrome.storage.local.get({ tweakedAuth: null }, function(result){ 
-
-                    var parsedAuthArray;
-                    if (result.tweakedAuth == null) parsedAuthArray = [];
-                    else parsedAuthArray = JSON.parse(result.tweakedAuth)["authArray"]
-
-                    var isAuthInAuthArr = false;
-                    for (let index = 0; index < parsedAuthArray.length; index++) {
-                        if (parsedAuthArray[index]["twitter_session_id"] == userTwitterSessionId){
-                            isAuthInAuthArr = true
-                        };
-                    }
-                    if (!isAuthInAuthArr) {
-                        parsedAuthArray.push(auth);
-                    }
-                    parsedAuthArray;
-
-                    const authObject = { "currentTwid": userTwitterSessionId, "authArray": (parsedAuthArray)}
-                    const stringifiedAuthObject = JSON.stringify(authObject);
-
-                    chrome.storage.local.set({ tweakedAuth: stringifiedAuthObject }, function() {
-                        chrome.runtime.sendMessage({redirect: "https://twitter.com/home"});
-                    });    
-
-                })
-
+                storeCredentialsInBackend(auth, (loading) => {});
+                storeCredentialsInLocalStorage(auth);
             }
         } 
+    });
+}
+
+function storeCredentialsInLocalStorage(auth) {
+    chrome.storage.local.get({ tweakedAuth: null }, function (result) {
+
+        var parsedAuthArray;
+        if (result.tweakedAuth == null)
+            parsedAuthArray = [];
+        else
+            parsedAuthArray = JSON.parse(result.tweakedAuth)["authArray"];
+
+        var isAuthInAuthArr = false;
+        for (let index = 0; index < parsedAuthArray.length; index++) {
+            if (parsedAuthArray[index]["twitter_session_id"] == userTwitterSessionId) {
+                isAuthInAuthArr = true;
+            };
+        }
+        if (!isAuthInAuthArr) {
+            parsedAuthArray.push(auth);
+        }
+        parsedAuthArray;
+
+        const authObject = { "currentTwid": userTwitterSessionId, "authArray": (parsedAuthArray) };
+        const stringifiedAuthObject = JSON.stringify(authObject);
+
+        chrome.storage.local.set({ tweakedAuth: stringifiedAuthObject }, function () {
+            chrome.runtime.sendMessage({ redirect: "https://twitter.com/home" });
+        });
+
     });
 }
 
