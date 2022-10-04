@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
-import MyDropdown from "./components/accordions";
+import Authorized from "./components/authorized";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Image from "react-bootstrap/Image";
 import { useEffect, createContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import "./popup.css"
+import Index from "./components";
 
 export const ThemeContext = createContext(null)
 
@@ -50,27 +51,27 @@ function Popup() {
         {
             isStyleUpdated ? // To prevent stack size exceeding error
             <ThemeContext.Provider value={{ backgroundColor: bgColor, textColor: textColor}}>
-            <div>
-                {
-                    isTwitterTweakedVisible ?
-                    <>
-                        <div className="d-flex headline-container">
-                            <FontAwesomeIcon className="closeButton" icon={faX} onClick={handleClick} />
-                            <h4 className="col-9 welcome-text">Welcome to Twitter-Tweaked!</h4>
+                <div>
+                    {
+                        isTwitterTweakedVisible ?
+                        <>
+                            <div className="d-flex headline-container">
+                                <FontAwesomeIcon className="closeButton" icon={faX} onClick={handleClick} />
+                                <h4 className="col-9 welcome-text">Welcome to Twitter-Tweaked!</h4>
+                            </div>
+                            <Index />
+                        </> :
+                        <div className="d-flex align-items-center twitter-tweaked-button" onClick={handleClick}> 
+                            <p className="col-1 text">«</p> 
+                            <Image 
+                                className="col-3 pic"
+                                src="icon48.png"
+                            />
+                            <p className="col-8 text">Open Twitter Tweaked</p> 
                         </div>
-                        <MyDropdown />
-                    </> :
-                    <div className="d-flex align-items-center twitter-tweaked-button" onClick={handleClick}> 
-                        <p className="col-1 text">«</p> 
-                        <Image 
-                            className="col-3 pic"
-                            src="icon48.png"
-                        />
-                        <p className="col-8 text">Open Twitter Tweaked</p> 
-                    </div>
-                }
-            </div>
-        </ThemeContext.Provider> :
+                    }
+                </div>
+            </ThemeContext.Provider> :
         <></>
         }
         </>

@@ -6,7 +6,7 @@ import Conversations from './conversations';
 import Favourites from './favourites';
 import PostTweet from './postTweet';
 
-export default function MyDropdown(props) {
+export default function Authorized(props) {
 
     return (
         <>

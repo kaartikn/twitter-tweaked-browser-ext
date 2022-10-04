@@ -29,7 +29,6 @@ export default function TweetContent(props) {
     function formatMedia(){
         if (media != null){
             if(media[0]['duration'] == null){
-                console.log(media.length);
                 if (media.length % 2 == 0) {
                     return (
                     <div className="w-100 mt-2 mb-2 d-flex flex-wrap pointer" onClick={handleTweetClick}>
