@@ -10,7 +10,7 @@ export default function Authorized(props) {
 
     return (
         <>
-            <Accordion flush defaultActiveKey={0}>
+            <Accordion flush>
                 <Search eventKey={0} />
                 <Highlights eventKey={1} />
                 <Conversations eventKey={2} />

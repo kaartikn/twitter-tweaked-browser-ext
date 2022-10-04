@@ -56,7 +56,7 @@ function Popup() {
                         isTwitterTweakedVisible ?
                         <>
                             <div className="d-flex headline-container">
-                                <FontAwesomeIcon className="closeButton" icon={faX} onClick={handleClick} />
+                                <FontAwesomeIcon className="closeButton mt-2" style={{marginLeft: "0.5rem"}} icon={faX} onClick={handleClick} />
                                 <h4 className="col-9 welcome-text">Welcome to Twitter-Tweaked!</h4>
                             </div>
                             <Index />

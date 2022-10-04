@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { getAuthUrl } from "../services/auth";
 import Authorized from "./authorized";
 import Cookies from 'js-cookie';
+import Unauthorized from "./unauthorized";
 
 export default function Index(props){
     const [ isOauthApproved, setIsOauthApproved ] = useState(false);
@@ -36,7 +37,7 @@ export default function Index(props){
             {
                 isOauthApproved ?
                 <Authorized /> :
-                <Button variant="primary" onClick={handleClick}> Log in here </Button>
+                <Unauthorized handleClick={handleClick} />
             }
         </>
     )

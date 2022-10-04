@@ -136,7 +136,7 @@ function storeCredentialsInLocalStorage(auth) {
 function handleEventsPostLoading() {
     window.addEventListener("load", function load(event) {
         chrome.storage.local.get({ isTwitterTweakedVisible: true }, function (result) {
-            isSidepanelVisible = !result.isTwitterTweakedVisible;
+            const isSidepanelVisible = !result.isTwitterTweakedVisible;
             if (isSidepanelVisible) sidebarColumn.style.display = "block";
             toggleSidePanelVisibility(result.isTwitterTweakedVisible);
             toggleTwitterTweakedVisibility(result.isTwitterTweakedVisible);
@@ -171,7 +171,8 @@ function setupSidePanelCSS() {
 function toggleTwitterTweaked(){
 
     chrome.storage.local.get("isTwitterTweakedVisible", function(result){
-        newIsTwitterTweakedVisible = !result.isTwitterTweakedVisible;
+        const newIsTwitterTweakedVisible = !result.isTwitterTweakedVisible;
+        console.log(newIsTwitterTweakedVisible);
         isSidepanelVisible = result.isTwitterTweakedVisible;
         toggleSidePanelVisibility(newIsTwitterTweakedVisible);
         toggleTwitterTweakedVisibility(newIsTwitterTweakedVisible);
