@@ -1,7 +1,7 @@
 {
-    "name": "Twitter Supercharged",
+    "name": "Twitter-Tweaked",
     "version": "1.0.0",
-    "description": "Supercharge your Twitter Experience!",
+    "description": "Tweak your Twitter Experience to be for the better!",
     "manifest_version": 3,
     "action": {},
     "host_permission": [
@@ -10,6 +10,10 @@
     ],
     "background": {
       "service_worker": "background.js"
+    },
+    "icons": {
+      "48": "icon48.png",
+      "128": "icon128.png"
     },
     "permissions": [
       "tabs",

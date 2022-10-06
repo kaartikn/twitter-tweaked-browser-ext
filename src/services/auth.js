@@ -1,5 +1,5 @@
 import { useFetch } from "../misc/useFetch";
-
+import { URL_NAME } from "./const";
 
 export function getAuthUrl(setLoading) {
     return useFetch(
