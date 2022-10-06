@@ -1,10 +1,11 @@
 import { languages } from "../components/search/subcomponents/language_menu";
 import { Months } from "../components/search/subcomponents/startDate";
 import { useFetch } from "../misc/useFetch";
+import { URL_NAME } from "./const";
 
 export function doAdvancedSearch(advancedSearchBody, setLoading) {
     return useFetch(
-        "http://127.0.0.1:8081/tweets/search", 
+        URL_NAME + "/tweets/search", 
         "POST", 
         "1546282785752551426-Z6wecftUZNlF5VTqePnYTWlppvz0xT", 
         "95W4P9j0tkJJsKYrbGRRh3fXRO1KSwwTTIherhdhS8lBx", 

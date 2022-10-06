@@ -3,7 +3,7 @@ import { useFetch } from "../misc/useFetch";
 
 export function getAuthUrl(setLoading) {
     return useFetch(
-        "http://127.0.0.1:8081/authURL", 
+        URL_NAME + "/authURL", 
         "POST", 
         null, 
         null, 
@@ -14,7 +14,7 @@ export function getAuthUrl(setLoading) {
 
 export function storeCredentialsInBackend(storeCredentialsBody, setLoading) {
     return useFetch(
-        "http://127.0.0.1:8081/auth", 
+        URL_NAME + "/auth", 
         "POST", 
         null, 
         null, 

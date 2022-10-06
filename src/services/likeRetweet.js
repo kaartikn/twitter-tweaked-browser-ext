@@ -1,12 +1,12 @@
 import { useFetch } from "../misc/useFetch";
+import { URL_NAME } from "./const";
 
 const accessToken = "1546282785752551426-Z6wecftUZNlF5VTqePnYTWlppvz0xT";
 const accessTokenSecret = "95W4P9j0tkJJsKYrbGRRh3fXRO1KSwwTTIherhdhS8lBx";
-const baseEndpoint = "http://127.0.0.1:8081/";
 
 export function retweet(body, setLoading) {
     return useFetch(
-        baseEndpoint + "tweets/retweet", 
+        URL_NAME + "tweets/retweet", 
         "POST", 
         accessToken, 
         accessTokenSecret, 
@@ -17,7 +17,7 @@ export function retweet(body, setLoading) {
 
 export function unretweet(body, setLoading) {
     return useFetch(
-        baseEndpoint + "tweets/unretweet", 
+        URL_NAME + "tweets/unretweet", 
         "POST", 
         accessToken, 
         accessTokenSecret, 
@@ -28,7 +28,7 @@ export function unretweet(body, setLoading) {
 
 export function favourite(body, setLoading) {
     return useFetch(
-        baseEndpoint + "tweets/favourite", 
+        URL_NAME + "tweets/favourite", 
         "POST", 
         accessToken, 
         accessTokenSecret, 
@@ -39,7 +39,7 @@ export function favourite(body, setLoading) {
 
 export function unfavourite(body, setLoading) {
     return useFetch(
-        baseEndpoint + "tweets/unfavourite", 
+        URL_NAME + "tweets/unfavourite", 
         "POST", 
         accessToken, 
         accessTokenSecret, 
