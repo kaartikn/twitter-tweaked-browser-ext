@@ -18,7 +18,6 @@
     "permissions": [
       "tabs",
       "activeTab",
-      "scripting",
       "storage",
       "clipboardWrite"
     ],
