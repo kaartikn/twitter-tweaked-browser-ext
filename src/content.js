@@ -135,7 +135,7 @@ function storeCredentialsInLocalStorage(auth) {
 // Shows / hides the twitter side panel & twitter tweaked accordingly depending on the user's settings.
 function handleEventsPostLoading() {
     window.addEventListener("load", function load(event) {
-        chrome.storage.local.get({ isTwitterTweakedVisible: true }, function (result) {
+        chrome.storage.local.get({ isTwitterTweakedVisible: false }, function (result) {
             const isSidepanelVisible = !result.isTwitterTweakedVisible;
             if (isSidepanelVisible) sidebarColumn.style.display = "block";
             toggleSidePanelVisibility(result.isTwitterTweakedVisible);
