@@ -25,3 +25,11 @@
     margin-bottom: 1em;
     margin-top: 1em;
 }
+
+.standard-button {
+    background: rgb(29, 155, 240) !important;
+    border: 2px solid rgb(29, 155, 240) !important;
+    border-radius: 3px;
+    padding: 5px 10px;
+    color: white;
+}

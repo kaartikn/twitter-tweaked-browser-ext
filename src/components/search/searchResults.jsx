@@ -15,7 +15,7 @@ export default function SearchResults(props) {
                         })
                     }
                 </> :
-                <p>No results here!</p>
+                <p className="text-center mt-2">No results based on your search!</p>
             }
         </>
     )
