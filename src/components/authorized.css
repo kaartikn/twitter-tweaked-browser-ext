@@ -11,3 +11,8 @@
     color: white !important;
     font-weight: 500;
 }
+
+.form-check-input:checked {
+    background-color: rgb(29, 155, 240) !important;
+    border-color: rgb(29, 155, 240) !important;
+}
