@@ -118,7 +118,7 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
             <Dropdown className="mb-1 col-6">
 
                 <Dropdown.Toggle
-                className='w-100'
+                className='w-100 standard-button'
                 id="month"
                 title="Month">
                     {startMonth}
@@ -141,7 +141,7 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
 
                 <Dropdown.Toggle
                 id="day"
-                className='w-100'
+                className='w-100 standard-button'
                 title={startDay}>
                     {startDay}
                 </Dropdown.Toggle>
@@ -163,7 +163,7 @@ export default function StartDate({props: { startMonth, setStartMonth, startDay,
 
                 <Dropdown.Toggle
                 id="year"
-                className='w-100'
+                className='w-100 standard-button'
                 title="Year">
                     {startYear}
                 </Dropdown.Toggle>

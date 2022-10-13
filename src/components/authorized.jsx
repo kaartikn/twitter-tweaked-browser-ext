@@ -5,6 +5,7 @@ import Highlights from './highlights';
 import Conversations from './conversations';
 import Favourites from './favourites';
 import PostTweet from './postTweet';
+import "./authorized.css";
 
 export default function Authorized(props) {
 

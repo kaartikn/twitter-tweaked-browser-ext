@@ -68,7 +68,6 @@ export default function SearchForm(props) {
                 <hr />
 
                 </Form>
-                <hr />
             </>
     )
 }

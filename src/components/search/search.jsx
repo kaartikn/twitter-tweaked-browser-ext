@@ -63,6 +63,17 @@ export default function Search(props) {
         })
     }
 
+  const handleViewAllTweets = (e) => {
+    chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+        var activeTab = tabs[0];
+        var formattedSearchQuery = queryData.replaceAll(" ", "%20")
+        // console.log(formattedSearchQuery)
+        const redirectUrl = "https://twitter.com/search?q=" + formattedSearchQuery;
+        chrome.tabs.sendMessage(activeTab.id, {"redirect": redirectUrl});
+    });
+  }
+
+
     const clearSearchQueries = (e) => {
         setAllWords("");
         setExactPhrase("");
@@ -89,26 +100,23 @@ export default function Search(props) {
     }
 
     var contextType = useContext(ThemeContext);
-
     return (
         <>
       <Accordion.Item eventKey={ eventKey } style={{backgroundColor: contextType.backgroundColor, color: contextType.textColor}}>
-        <Accordion.Header>Search</Accordion.Header>
+        <Accordion.Header className='text-white'>Search</Accordion.Header>
         <Accordion.Body  >
-            {/* Once results appear, offer the user the ability to search again */}
-            {/* Swap main advanced search component for the results */}
-
             {
               viewTweets ?
               <>
-                <Button className='w-100'> See Full Results </Button>
                 <Button variant="link" className='w-100 mt-1' onClick={() => setViewTweets(false)}>Search Again</Button>
                 <SearchResults tweetData = {tweetData} />
+                <Button variant="link" className='w-100 mt-3 btn-link' onClick={handleViewAllTweets} > See Full Results </Button>
               </> :
               <>
-                <Button disabled={loading} className='w-100' onClick={handleSearch}> Search </Button>
-                <Button variant="link" className='w-100 mt-1' onClick={clearSearchQueries}>Clear Search Query</Button>
+                <p className='text-center'>Customize your search and hit the "Search" button below to view the results!</p>
+                {/* <Button variant="link" className='w-100' onClick={clearSearchQueries}>Reset Search Fields</Button> */}
                 <SearchForm allWords = {allWords} setAllWords = {setAllWords} exactPhrase = {exactPhrase} setExactPhrase = {setExactPhrase} anyWords = {anyWords} setAnyWords = {setAnyWords} noneWords = {noneWords}  setNoneWords = {setNoneWords}  hashtags = {hashtags} setHashtags = {setHashtags} language = {language} setLanguage = {setLanguage} fromAccounts = {fromAccounts} setFromAccounts = {setFromAccounts} toAccounts = {toAccounts} setToAccounts = {setToAccounts} mentioningAccounts = {mentioningAccounts} setMentioningAccounts = {setMentioningAccounts}  repliesBool = {repliesBool} setRepliesBool = {setRepliesBool} onlyShowReplies = {onlyShowReplies} setOnlyShowReplies = {setOnlyShowReplies} linksBool = {linksBool} setLinksBool = {setLinksBool} onlyShowTweetsWithLinksBool = {onlyShowTweetsWithLinksBool} setOnlyShowTweetsWithLinksBool = {setOnlyShowTweetsWithLinksBool} minimumReplies = {minimumReplies} setMinimumReplies = {setMinimumReplies} minimumLikes = {minimumLikes} setMinimumLikes = {setMinimumLikes}  minimumRetweets = {minimumRetweets} setMinimumRetweets = {setMinimumRetweets} startMonth = {startMonth} setStartMonth = {setStartMonth} startDay = {startDay} setStartDay = {setStartDay} startYear = {startYear} setStartYear = {setStartYear} endMonth = {endMonth} setEndMonth = {setEndMonth} endDay = {endDay} setEndDay = {setEndDay} endYear = {endYear} setEndYear = {setEndYear} />
+                <Button  disabled={loading} className='w-100 standard-button mb-1' onClick={handleSearch}> {loading?<>Searching</> :<>Search</>}</Button>
               </>
             }
 

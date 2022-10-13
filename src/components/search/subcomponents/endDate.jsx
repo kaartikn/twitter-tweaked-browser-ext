@@ -103,7 +103,7 @@ export default function EndDate({props: { endMonth, setEndMonth, endDay, setEndD
             <Dropdown className="mb-1 col-6">
 
                 <Dropdown.Toggle
-                className='w-100'
+                className='w-100 standard-button'
                 id="month"
                 title="Month">
                     {endMonth}
@@ -126,7 +126,7 @@ export default function EndDate({props: { endMonth, setEndMonth, endDay, setEndD
 
                 <Dropdown.Toggle
                 id="day"
-                className='w-100'
+                className='w-100 standard-button'
                 title={endDay}>
                     {endDay}
                 </Dropdown.Toggle>
@@ -148,7 +148,7 @@ export default function EndDate({props: { endMonth, setEndMonth, endDay, setEndD
 
                 <Dropdown.Toggle
                 id="year"
-                className='w-100'
+                className='w-100 standard-button'
                 title="Year">
                     {endYear}
                 </Dropdown.Toggle>

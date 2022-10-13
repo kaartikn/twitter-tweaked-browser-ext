@@ -16,6 +16,7 @@ function Popup() {
     const [isTwitterTweakedVisible, setIsTwitterTweakedVisible] = useState(false);
     const [bgColor, setBgColor] = useState(null);
     const [textColor, setTextColor] = useState(null);
+    const [displayColor, setDisplayColor] = useState(null);
     const [isStyleUpdated, setIsStyleUpdated] = useState(null);
 
     useEffect(() => {

@@ -60,7 +60,10 @@ export default function TweetContent(props) {
             } else {
                 return (
                     <div className="embed-responsive embed-responsive-16by9 mt-2 mb-2 w-100">
-                        <iframe className="embed-responsive-item w-100" src={media['variants'][1]['url']} allowFullScreen></iframe>
+                        {
+                            console.log(media)
+                        }
+                        <iframe className="embed-responsive-item w-100" src={media[0]['variants'][1]['url']} allowFullScreen></iframe>
                     </div> 
               )
             }
