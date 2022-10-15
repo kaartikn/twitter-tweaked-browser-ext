@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { storeCredentialsInBackend } from "./services/auth";
 
 const mo = new MutationObserver(onMutation);
@@ -90,14 +91,35 @@ function setupOnMessageListener() {
                 chrome.runtime.sendMessage({redirect: message.redirect});
             }
             if ("oauthToken" in message && "oauthVerifier" in message){
-                const auth = {
-                    "twitter_session_id": userTwitterSessionId,
-                    "oauth_token": message['oauthToken'],
-                    "oauth_verifier": message['oauthVerifier']
-                }
-                storeCredentialsInBackend(auth, (loading) => {});
-                storeCredentialsInLocalStorage(auth);
+
+                chrome.storage.local.get({ requestCredentials: null }, function(result){ 
+
+                    const requestCredentials = JSON.parse(result.requestCredentials);
+                    const requestToken = requestCredentials['requestToken'];
+                    const requestSecret = requestCredentials['requestSecret'];
+
+                    const auth = {
+                        "twitter_session_id": userTwitterSessionId,
+                        "request_token": requestToken,
+                        "request_secret": requestSecret,
+                        "oauth_verifier": message['oauthVerifier']
+                    }
+
+                    storeCredentialsInBackend(auth, (loading) => {
+                    }).then((data) => {
+                        const authorizedData = {
+                            "twitter_session_id": userTwitterSessionId,
+                            "access_token": data['access_token'],
+                            "access_token_secret": data['access_token_secret']
+                        }
+                        storeCredentialsInLocalStorage(authorizedData);
+                    });
+                  
+
+                 })
+
             }
+            
         } 
     });
 }

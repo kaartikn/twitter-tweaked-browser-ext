@@ -26,7 +26,17 @@ export default function Index(props){
         chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
             var activeTab = tabs[0];
             getAuthUrl((e) => {}).then((data) => {
-                chrome.tabs.sendMessage(activeTab.id, {"redirect": data['payload']});
+                const requestToken = data['payload']['request_token'];
+                const requestSecret = data['payload']['request_secret'];
+                const requestCredentials = {
+                    "requestToken": requestToken,
+                    "requestSecret": requestSecret
+                }
+                const requestCredentialsStringified = JSON.stringify(requestCredentials);
+                chrome.storage.local.set({ requestCredentials: requestCredentialsStringified });
+                console.log(requestCredentialsStringified)
+        
+                chrome.tabs.sendMessage(activeTab.id, {"redirect": data['payload']['auth_url']});
             });
         });
     }
