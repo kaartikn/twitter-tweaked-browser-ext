@@ -3,7 +3,7 @@ import { URL_NAME } from "./const";
 
 export function getAuthUrl(setLoading) {
     return useFetch(
-        URL_NAME + "/authURL", 
+        URL_NAME + "authURL", 
         "POST", 
         null, 
         null, 
@@ -14,7 +14,7 @@ export function getAuthUrl(setLoading) {
 
 export function storeCredentialsInBackend(storeCredentialsBody, setLoading) {
     return useFetch(
-        URL_NAME + "/auth", 
+        URL_NAME + "auth", 
         "POST", 
         null, 
         null, 

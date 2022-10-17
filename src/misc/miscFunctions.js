@@ -20,3 +20,20 @@ function range(start, stop, step) {
 
     return result;
 };
+
+export const getAccessTokenFromCache = async () => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get({ tweakedAuth: null }, function(result){ 
+            const auth = JSON.parse(result.tweakedAuth);
+            const currentSessionId = auth['currentTwid'];
+            const authArray = auth['authArray'];
+            for (let index = 0; index < authArray.length; index++) {
+                const element = authArray[index];
+                if(element['twitter_session_id'] == currentSessionId){
+                    resolve(element);
+                }
+            }
+            reject(null)
+         })
+    })
+}

@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 import { getAuthUrl } from "../services/auth";
 import Authorized from "./authorized";
 import Unauthorized from "./unauthorized";
@@ -34,8 +32,7 @@ export default function Index(props){
                 }
                 const requestCredentialsStringified = JSON.stringify(requestCredentials);
                 chrome.storage.local.set({ requestCredentials: requestCredentialsStringified });
-                console.log(requestCredentialsStringified)
-        
+               
                 chrome.tabs.sendMessage(activeTab.id, {"redirect": data['payload']['auth_url']});
             });
         });

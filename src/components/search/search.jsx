@@ -7,6 +7,8 @@ import { doAdvancedSearch, formatAdvancedSearchBody } from '../../services/advan
 import SearchForm from './searchForm';
 import SearchResults from './searchResults';
 import { ThemeContext } from '../../popup';
+import { data } from 'autoprefixer';
+import { getAccessTokenFromCache } from '../../misc/miscFunctions';
 
 export default function Search(props) {
 
@@ -44,23 +46,26 @@ export default function Search(props) {
 
     const handleSearch = (e) => {
       const advancedSearchBody = formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minimumReplies, minimumLikes, minimumRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, repliesBool, onlyShowReplies, linksBool, onlyShowTweetsWithLinksBool);
-      const tweets = doAdvancedSearch(advancedSearchBody, setLoading);
-      tweets.then(
-        (successData) =>{
-          setQueryData(successData.query);
-          const data = JSON.parse(successData.tweets);
-          for (let index = 0; index < data.length; index++) {
-            const element = data[index];
-            if(element.media != null){
-              element.media = JSON.parse(element.media);
-            }
-          }
-          setTweetData(data);
-          setViewTweets(true);
-        }, 
-        (errorData) => {
-          // Handle error
-        })
+      getAccessTokenFromCache().then((accessTokenObj) => {
+          const accessToken = accessTokenObj['access_token'];
+          const accessTokenSecret = accessTokenObj['access_token_secret'];
+          doAdvancedSearch(accessToken, accessTokenSecret, advancedSearchBody, setLoading).then(
+            (successData) =>{
+              setQueryData(successData.query);
+              const data = JSON.parse(successData.tweets);
+              for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                if(element.media != null){
+                  element.media = JSON.parse(element.media);
+                }
+              }
+              setTweetData(data);
+              setViewTweets(true);
+            }, 
+            (errorData) => {
+              // Handle error
+            })
+      });
     }
 
   const handleViewAllTweets = (e) => {

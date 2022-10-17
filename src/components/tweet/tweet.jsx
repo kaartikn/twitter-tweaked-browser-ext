@@ -8,6 +8,7 @@ import CopyButton from "./copyButton";
 import ReplyButton from "./replyButton";
 import ProfileHeader from "./profileHeader";
 import TweetContent from "./tweetContent";
+import { getAccessTokenFromCache } from "../../misc/miscFunctions";
 
 export default function Tweet({props: { tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, tcolinks, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl, isQuotedTweet }}) {
 
@@ -40,25 +41,33 @@ export default function Tweet({props: { tweetUrl, date, content, renderedContent
 
     const handleLikeClick = (e) => {
         setSelfLiked(!selfLiked);
-        if (!selfLiked) {
-            favourite(formatTweetInteractionBody(id), setLoading);
-            setLikeCount(likeCountState + 1);
-        }else{
-            unfavourite(formatTweetInteractionBody(id), setLoading);
-            setLikeCount(likeCountState - 1);
-        }
+        getAccessTokenFromCache().then((accessTokenObj) => {
+            const access_token = accessTokenObj['access_token'];
+            const access_token_secret = accessTokenObj['access_token_secret'];
+            if (!selfLiked) {
+                setLikeCount(likeCountState + 1);
+                favourite(access_token, access_token_secret, formatTweetInteractionBody(id), setLoading);
+            }else{
+                unfavourite(access_token, access_token_secret, formatTweetInteractionBody(id), setLoading);
+                setLikeCount(likeCountState - 1);
+            }
+        });
     }
 
     const handleRetweetClick = (e) => {
         document.body.click(); // to close the retweet overlay
         setSelfRetweet(!selfRetweet);
-        if (!selfRetweet) {
-            retweet(formatTweetInteractionBody(id), setLoading);
-            setRetweetCount(retweetCountState + 1)
-        } else { 
-            unretweet(formatTweetInteractionBody(id), setLoading);
-            setRetweetCount(retweetCountState - 1)
-        };
+        getAccessTokenFromCache().then((accessTokenObj) => {
+            const access_token = accessTokenObj['access_token'];
+            const access_token_secret = accessTokenObj['access_token_secret'];
+            if (!selfRetweet) {
+                retweet(access_token, access_token_secret, formatTweetInteractionBody(id), setLoading);
+                setRetweetCount(retweetCountState + 1)
+            } else { 
+                unretweet(access_token, access_token_secret, formatTweetInteractionBody(id), setLoading);
+                setRetweetCount(retweetCountState - 1)
+            };
+        });
     }
 
 

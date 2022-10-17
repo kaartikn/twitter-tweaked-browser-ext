@@ -194,7 +194,6 @@ function toggleTwitterTweaked(){
 
     chrome.storage.local.get("isTwitterTweakedVisible", function(result){
         const newIsTwitterTweakedVisible = !result.isTwitterTweakedVisible;
-        console.log(newIsTwitterTweakedVisible);
         isSidepanelVisible = result.isTwitterTweakedVisible;
         toggleSidePanelVisibility(newIsTwitterTweakedVisible);
         toggleTwitterTweakedVisibility(newIsTwitterTweakedVisible);
