@@ -34,7 +34,7 @@ export default function TweetContent(props) {
                     <div className="w-100 mt-2 mb-2 d-flex flex-wrap pointer" onClick={handleTweetClick}>
                         {
                             media.map((img) => {
-                                return <Image className="col-6 ml-1" src={img['fullUrl']} />
+                                return <Image className="col-6 ml-1" key={img['fullUrl']} src={img['fullUrl']} />
                             })
                         }
                     </div>

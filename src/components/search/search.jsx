@@ -46,11 +46,14 @@ export default function Search(props) {
 
     const handleSearch = (e) => {
       const advancedSearchBody = formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minimumReplies, minimumLikes, minimumRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, repliesBool, onlyShowReplies, linksBool, onlyShowTweetsWithLinksBool);
+      console.log(performance.now());
       getAccessTokenFromCache().then((accessTokenObj) => {
+          console.log("After getting access token: " + performance.now());
           const accessToken = accessTokenObj['access_token'];
           const accessTokenSecret = accessTokenObj['access_token_secret'];
           doAdvancedSearch(accessToken, accessTokenSecret, advancedSearchBody, setLoading).then(
             (successData) =>{
+              console.log("After getting tweet data: " + performance.now());
               setQueryData(successData.query);
               const data = JSON.parse(successData.tweets);
               for (let index = 0; index < data.length; index++) {
@@ -59,8 +62,11 @@ export default function Search(props) {
                   element.media = JSON.parse(element.media);
                 }
               }
+              console.log("After parsing media: " + performance.now());
               setTweetData(data);
+              console.log("After setting tweet data prop: " + performance.now());
               setViewTweets(true);
+              console.log("After setting view data prop: " + performance.now());
             }, 
             (errorData) => {
               // Handle error
@@ -118,6 +124,8 @@ export default function Search(props) {
               </> :
               <>
                 <p className='text-justify'>To do a basic search, use the "All of these words" fields. <br /> For an advanced search, use multiple fields. <br/><br/> Hit the "Search" button at end to see the results!</p>
+                <br/>
+                <p style={{fontSize: "0.9em"}}><i>Note: searching takes ~ 5 seconds.</i></p>
                 {/* <Button variant="link" className='w-100' onClick={clearSearchQueries}>Reset Search Fields</Button> */}
                 <SearchForm allWords = {allWords} setAllWords = {setAllWords} exactPhrase = {exactPhrase} setExactPhrase = {setExactPhrase} anyWords = {anyWords} setAnyWords = {setAnyWords} noneWords = {noneWords}  setNoneWords = {setNoneWords}  hashtags = {hashtags} setHashtags = {setHashtags} language = {language} setLanguage = {setLanguage} fromAccounts = {fromAccounts} setFromAccounts = {setFromAccounts} toAccounts = {toAccounts} setToAccounts = {setToAccounts} mentioningAccounts = {mentioningAccounts} setMentioningAccounts = {setMentioningAccounts}  repliesBool = {repliesBool} setRepliesBool = {setRepliesBool} onlyShowReplies = {onlyShowReplies} setOnlyShowReplies = {setOnlyShowReplies} linksBool = {linksBool} setLinksBool = {setLinksBool} onlyShowTweetsWithLinksBool = {onlyShowTweetsWithLinksBool} setOnlyShowTweetsWithLinksBool = {setOnlyShowTweetsWithLinksBool} minimumReplies = {minimumReplies} setMinimumReplies = {setMinimumReplies} minimumLikes = {minimumLikes} setMinimumLikes = {setMinimumLikes}  minimumRetweets = {minimumRetweets} setMinimumRetweets = {setMinimumRetweets} startMonth = {startMonth} setStartMonth = {setStartMonth} startDay = {startDay} setStartDay = {setStartDay} startYear = {startYear} setStartYear = {setStartYear} endMonth = {endMonth} setEndMonth = {setEndMonth} endDay = {endDay} setEndDay = {setEndDay} endYear = {endYear} setEndYear = {setEndYear} />
                 <Button  disabled={loading} className='w-100 standard-button mb-1' onClick={handleSearch}> {loading?<>Searching</> :<>Search</>}</Button>
