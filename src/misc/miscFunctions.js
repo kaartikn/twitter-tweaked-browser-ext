@@ -21,6 +21,27 @@ function range(start, stop, step) {
     return result;
 };
 
+export const getCurrentTwidFromCache = async () => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get({ tweakedAuth: null }, function(result){ 
+            const auth = JSON.parse(result.tweakedAuth);
+            const currentSessionId = auth['currentTwid'];
+            resolve(currentSessionId)
+            reject(null)
+         })
+    })
+}
+
+export const getFollowingMapFromCache = async () => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get({ followingData: null }, function(result){
+            const parsedFollowingData = (result.followingData != null) ? JSON.parse(result.followingData) : '{}' ;
+            resolve(parsedFollowingData)
+            reject(null)
+         })
+    })
+}
+
 export const getAccessTokenFromCache = async () => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get({ tweakedAuth: null }, function(result){ 

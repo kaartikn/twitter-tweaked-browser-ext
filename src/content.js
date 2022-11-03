@@ -142,7 +142,6 @@ function storeCredentialsInLocalStorage(auth) {
         if (!isAuthInAuthArr) {
             parsedAuthArray.push(auth);
         }
-        parsedAuthArray;
 
         const authObject = { "currentTwid": userTwitterSessionId, "authArray": (parsedAuthArray) };
         const stringifiedAuthObject = JSON.stringify(authObject);

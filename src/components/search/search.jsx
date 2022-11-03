@@ -46,14 +46,11 @@ export default function Search(props) {
 
     const handleSearch = (e) => {
       const advancedSearchBody = formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minimumReplies, minimumLikes, minimumRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, repliesBool, onlyShowReplies, linksBool, onlyShowTweetsWithLinksBool);
-      console.log(performance.now());
       getAccessTokenFromCache().then((accessTokenObj) => {
-          console.log("After getting access token: " + performance.now());
           const accessToken = accessTokenObj['access_token'];
           const accessTokenSecret = accessTokenObj['access_token_secret'];
           doAdvancedSearch(accessToken, accessTokenSecret, advancedSearchBody, setLoading).then(
             (successData) =>{
-              console.log("After getting tweet data: " + performance.now());
               setQueryData(successData.query);
               const data = JSON.parse(successData.tweets);
               for (let index = 0; index < data.length; index++) {
@@ -62,11 +59,8 @@ export default function Search(props) {
                   element.media = JSON.parse(element.media);
                 }
               }
-              console.log("After parsing media: " + performance.now());
               setTweetData(data);
-              console.log("After setting tweet data prop: " + performance.now());
               setViewTweets(true);
-              console.log("After setting view data prop: " + performance.now());
             }, 
             (errorData) => {
               // Handle error
