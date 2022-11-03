@@ -35,7 +35,7 @@ export const getCurrentTwidFromCache = async () => {
 export const getFollowingMapFromCache = async () => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get({ followingData: null }, function(result){
-            const parsedFollowingData = (result.followingData != null) ? JSON.parse(result.followingData) : '{}' ;
+            const parsedFollowingData = (result.followingData != null) ? JSON.parse(result.followingData) : {};
             resolve(parsedFollowingData)
             reject(null)
          })

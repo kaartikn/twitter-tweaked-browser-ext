@@ -12,10 +12,16 @@ export default function Highlights(props) {
     var contextType = useContext(ThemeContext);
 
     const [ accountIds, setAccountIds ] = useState(null);
+    const [ profileId, setProfileId ] = useState(null);
 
     useEffect(() => {
       cacheFollowing();
     }, [])
+
+    useEffect(() => {
+      console.log(profileId);
+      console.log(accountIds);
+    }, [profileId])
 
     function cacheFollowing(){
 
@@ -37,21 +43,21 @@ export default function Highlights(props) {
                       .sort((a, b) => a.sort - b.sort)
                       .map(({ value }) => value) 
                     setAccountIds(shuffledIds);
+                    setProfileId(shuffledIds.pop());
+                    followingMap[currentTwid] = shuffledIds;
                     const stringifiedFollowingMap = JSON.stringify(followingMap);
-                    chrome.storage.local.set({ followingData: stringifiedFollowingMap });
-
+                    chrome.storage.local.set({ followingData: stringifiedFollowingMap }, function () {});
                 })
               });
             } else {
-
+              console.log("cached")
               const shuffledIds = currentData
                 .map(value => ({ value, sort: Math.random() }))
                 .sort((a, b) => a.sort - b.sort)
                 .map(({ value }) => value) 
               setAccountIds(shuffledIds);
-
+              setProfileId(shuffledIds.pop());
             }
-
         })
     })
     }
