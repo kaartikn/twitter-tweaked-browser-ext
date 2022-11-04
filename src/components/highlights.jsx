@@ -2,9 +2,10 @@ import Accordion from 'react-bootstrap/Accordion';
 import { useContext } from 'react';
 import { ThemeContext } from '../popup';
 import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache } from '../misc/miscFunctions';
-import { getFollowingIds } from '../services/userDetails';
+import { getFollowingIds, getUserFromUserId } from '../services/userDetails';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import HighlightsProfileHeader from './highlights/highlightProfileHeader';
 
 export default function Highlights(props) {
     const { eventKey } = props;
@@ -13,14 +14,18 @@ export default function Highlights(props) {
 
     const [ accountIds, setAccountIds ] = useState(null);
     const [ profileId, setProfileId ] = useState(null);
+    const [ profileData, setProfileData ] = useState(null);
 
     useEffect(() => {
       cacheFollowing();
     }, [])
 
     useEffect(() => {
-      console.log(profileId);
-      console.log(accountIds);
+      if(profileId != null){
+        getUserFromUserId(profileId).then((data) => {
+          setProfileData(JSON.parse(data))
+        });  
+      }
     }, [profileId])
 
     function cacheFollowing(){
@@ -62,12 +67,26 @@ export default function Highlights(props) {
     })
     }
 
+    const handleShuffleClick = (e) => {
+      // accountIds.pop()
+    }
+
     return (
         <>
       <Accordion.Item eventKey={ eventKey } style={{backgroundColor: contextType.backgroundColor, color: contextType.textColor}} >
         <Accordion.Header>Highlights</Accordion.Header>
         <Accordion.Body>
-          Coming soon!
+          {
+            profileData == null ?
+            <></> :
+            <HighlightsProfileHeader
+              displayName = {profileData['displayname']}
+              verified = {profileData['verified']}
+              description = {profileData['description']}
+              username = {profileData['username']}
+              profileImageUrl = {profileData['profileImageUrl']}
+            />
+          }
         </Accordion.Body>
       </Accordion.Item>
         </>

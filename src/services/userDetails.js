@@ -16,8 +16,8 @@ export function getUserFromUserId(userId) {
     return useFetch(
         URL_NAME + "users?user-id=" + userId,
         "GET",
-        accessToken, 
-        accessTokenSecret, 
+        null,
+        null, 
         null,
         (val) => {} 
     );
@@ -27,8 +27,8 @@ export function getUserFromUsername(username) {
     return useFetch(
         URL_NAME + "users?username=" + username,
         "GET",
-        accessToken, 
-        accessTokenSecret, 
+        null, 
+        null, 
         null,
         (val) => {} 
     );
