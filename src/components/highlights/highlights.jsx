@@ -1,12 +1,14 @@
 import Accordion from 'react-bootstrap/Accordion';
 import { useContext } from 'react';
 import { ThemeContext } from '../../popup';
-import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache } from '../../misc/miscFunctions';
+import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache, parseTweetData } from '../../misc/miscFunctions';
 import { getFollowingIds, getUserFromUserId } from '../../services/userDetails';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import "./highlights.css";
 import HighlightsProfileHeader from './highlightProfileHeader';
+import { getUsersTopTweets } from '../../services/advancedSearch';
+import SearchResults from '../search/searchResults';
 
 export default function Highlights(props) {
     const { eventKey } = props;
@@ -19,6 +21,7 @@ export default function Highlights(props) {
     const [ profileData, setProfileData ] = useState(null);
     const [ profileLoading, setProfileLoading ] = useState(true);
     const [ highlightsLoading, setHighlightsLoading ] = useState(true);
+    const [ tweetData, setTweetData ] = useState(null);
 
     useEffect(() => {
       cacheFollowing();
@@ -27,8 +30,24 @@ export default function Highlights(props) {
     useEffect(() => {
       if(profileId != null){
         getUserFromUserId(profileId).then((data) => {
-          setProfileLoading(false)
-          setProfileData(JSON.parse(data))
+          setProfileLoading(false);
+          const parsedData = JSON.parse(data);
+          setProfileData(parsedData);
+
+          getAccessTokenFromCache().then((accessTokenObj) => {
+
+            const access_token = accessTokenObj['access_token'];
+            const access_token_secret = accessTokenObj['access_token_secret'];
+
+            getUsersTopTweets(access_token, access_token_secret, setHighlightsLoading, parsedData['username']).then((tweets) => {
+              console.log(tweets);
+              const parsedTweets = parseTweetData(tweets)
+              console.log(parsedTweets);
+              setHighlightsLoading(false);
+              setTweetData(parsedTweets);
+            });
+          })
+
         });  
       }
     }, [profileId])
@@ -66,6 +85,8 @@ export default function Highlights(props) {
     }
 
     const handleShuffleClick = () => {
+      setProfileLoading(true);
+      setHighlightsLoading(true);
       var newPos = (accountIdPos + 1 < accountIds.length) ? accountIdPos + 1 : 0;
       setAccountIdPos(newPos);
       setProfileId(accountIds[newPos]);
@@ -103,7 +124,25 @@ export default function Highlights(props) {
                 profileImageUrl = {profileData['profileImageUrl']}
                 handleShuffleClick={handleShuffleClick}
               />
+            </>
+          }
+          {
+            (tweetData == null || highlightsLoading == true) ?
+            <>
               <hr />
+              <div className='d-flex justify-content-center'>
+                <div className="snippet" data-title=".dot-floating">
+                  <div className="stage">
+                    <div className="dot-pulse"></div>
+                  </div>
+                </div>
+              </div>
+            </>
+            :
+            <>
+              <SearchResults 
+                tweetData={tweetData}
+               />
             </>
           }
         </Accordion.Body>

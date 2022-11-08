@@ -47,7 +47,7 @@ export default function TweetContent(props) {
                         <div className="d-flex flex-column col-6">
                             {
                                 media.slice(1).map((img) => {
-                                    return <Image className="col-6 ml-1 w-100" src={img['fullUrl']} />
+                                    return <Image className="col-6 ml-1 w-100" key={img['fullUrl']} src={img['fullUrl']} />
                                 })
                             }
                         </div>

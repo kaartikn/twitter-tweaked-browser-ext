@@ -22,7 +22,7 @@ export default function HighlightsProfileHeader(props) {
                 <div>
                     <Image
                         onClick={handleProfileClick}
-                        className="profile-image mt-2"
+                        className="main-profile-image mt-2"
                         src={profileImageUrl}
                     />
                 </div>

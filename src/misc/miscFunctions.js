@@ -58,3 +58,14 @@ export const getAccessTokenFromCache = async () => {
          })
     })
 }
+
+export function parseTweetData(successData){
+    const data = JSON.parse(successData.tweets);
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      if(element.media != null){
+        element.media = JSON.parse(element.media);
+      }
+    }
+    return data;
+}

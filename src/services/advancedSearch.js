@@ -14,6 +14,17 @@ export function doAdvancedSearch(accessToken, accessTokenSecret, advancedSearchB
     );
 }
 
+export function getUsersTopTweets(accessToken, accessTokenSecret, setLoading, username) {
+    return useFetch(
+        URL_NAME + "tweets/top/user?username=" + username,
+        "GET",
+        accessToken,
+        accessTokenSecret,
+        null,
+        setLoading
+    );
+}
+
 // Data cleaning / formatting functions
 
 export function formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minReplies, minFaves, minRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, showReplies, showRepliesOnly, showLinks, showLinksOnly){
