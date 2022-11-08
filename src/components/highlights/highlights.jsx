@@ -39,13 +39,16 @@ export default function Highlights(props) {
             const access_token = accessTokenObj['access_token'];
             const access_token_secret = accessTokenObj['access_token_secret'];
 
-            getUsersTopTweets(access_token, access_token_secret, setHighlightsLoading, parsedData['username']).then((tweets) => {
-              console.log(tweets);
-              const parsedTweets = parseTweetData(tweets)
-              console.log(parsedTweets);
-              setHighlightsLoading(false);
-              setTweetData(parsedTweets);
-            });
+            if (!parsedData['protected']) {
+              getUsersTopTweets(access_token, access_token_secret, setHighlightsLoading, parsedData['username']).then((tweets) => {
+                console.log(tweets);
+                const parsedTweets = parseTweetData(tweets)
+                console.log(parsedTweets);
+                setHighlightsLoading(false);
+                setTweetData(parsedTweets);
+              });
+            }
+
           })
 
         });  
@@ -99,6 +102,16 @@ export default function Highlights(props) {
       .map(({ value }) => value)
     }
 
+    function displayLoadingAnimation() {
+      return (<div className='d-flex justify-content-center'>
+        <div className="snippet" data-title=".dot-floating">
+          <div className="stage">
+            <div className="dot-pulse"></div>
+            </div>
+          </div>
+        </div>)
+    }
+
     return (
         <>
       <Accordion.Item eventKey={ eventKey } style={{backgroundColor: contextType.backgroundColor, color: contextType.textColor}} >
@@ -106,15 +119,7 @@ export default function Highlights(props) {
         <Accordion.Body>
           {
             (profileData == null && profileLoading == true)  ?
-            <>
-              <div className='d-flex justify-content-center'>
-                  <div className="snippet" data-title=".dot-floating">
-                    <div className="stage">
-                      <div className="dot-pulse"></div>
-                  </div>
-                </div>
-              </div>            
-            </> :
+            displayLoadingAnimation() :
             <>
               <HighlightsProfileHeader
                 displayName = {profileData['displayname']}
@@ -128,22 +133,28 @@ export default function Highlights(props) {
             </>
           }
           {
-            (tweetData == null || highlightsLoading == true) ?
+
+            (profileData == null && profileLoading == true)  ?
             <>
-              <hr />
-              <div className='d-flex justify-content-center'>
-                <div className="snippet" data-title=".dot-floating">
-                  <div className="stage">
-                    <div className="dot-pulse"></div>
-                  </div>
-                </div>
-              </div>
-            </>
-            :
+            </> :
             <>
-              <SearchResults 
-                tweetData={tweetData}
-               />
+              <hr id='highlightsSeparator' />
+              {
+                (profileData['protected']) ?
+                <p className='protectedAccountMessage'>Cannot display highlighted Tweets for protected account.</p> :
+                (tweetData == null || highlightsLoading == true) ?
+                <>
+                  {displayLoadingAnimation()}
+                </>
+                :
+                
+                <>
+                  <SearchResults 
+                    tweetData={tweetData}
+                    search={false}
+                  />
+                </>
+              }
             </>
           }
         </Accordion.Body>

@@ -113,11 +113,11 @@ export default function Search(props) {
               viewTweets ?
               <>
                 <Button variant="link" className='w-100 mt-1' onClick={() => setViewTweets(false)}>Search Again</Button>
-                <SearchResults tweetData = {tweetData} />
+                <SearchResults tweetData = {tweetData} search={true} />
                 {tweetData.length == 0 ?<></>:<><Button variant="link" className='w-100 mt-3 btn-link' onClick={handleViewAllTweets} > See Full Results </Button></>}
               </> :
               <>
-                <p className='text-justify'>To do a basic search, use the "All of these words" fields. <br /> For an advanced search, use multiple fields. <br/><br/> Hit the "Search" button at end to see the results!</p>
+                <p className='text-justify'>To do a basic search, use the "All of these words" fields. <br /> For an advanced search, use multiple fields. <br/><br/> Hit the "Search" button at the end to view the results!</p>
                 <br/>
                 <p style={{fontSize: "0.9em"}}><i>Note: searching takes ~ 5 seconds.</i></p>
                 {/* <Button variant="link" className='w-100' onClick={clearSearchQueries}>Reset Search Fields</Button> */}

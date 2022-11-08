@@ -115,7 +115,7 @@ export default function Tweet({props: { tweetUrl, date, content, renderedContent
             return (<div className="my-3" style={{borderRadius: "0.375em", border: "1px solid rgb(56, 68, 77)", padding: "0.4em"}} >  { tweet() } </div>)
         }
 
-        return (<> <hr /> { tweet() }</> )
+        return (<> { tweet() } <hr /> </> )
 
     }
 

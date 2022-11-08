@@ -1,3 +1,10 @@
+.protectedAccountMessage {
+  font-size: 0.8em;
+  color: gray;
+  text-align: center;
+  font-style: italic;
+}
+
 .dot-pulse {
     position: relative;
     left: -9999px;
