@@ -13,6 +13,7 @@ export default function Highlights(props) {
 
     var contextType = useContext(ThemeContext);
 
+    const [ accountIdPos, setAccountIdPos ] = useState(0);
     const [ accountIds, setAccountIds ] = useState(null);
     const [ profileId, setProfileId ] = useState(null);
     const [ profileData, setProfileData ] = useState(null);
@@ -46,13 +47,9 @@ export default function Highlights(props) {
                 const access_token_secret = accessTokenObj['access_token_secret'];
 
                 getFollowingIds(access_token, access_token_secret).then((ids) => {
-                    
-                    const shuffledIds = ids
-                      .map(value => ({ value, sort: Math.random() }))
-                      .sort((a, b) => a.sort - b.sort)
-                      .map(({ value }) => value) 
+                    const shuffledIds = shuffleIds(ids)
                     setAccountIds(shuffledIds);
-                    setProfileId(shuffledIds.pop());
+                    setProfileId(shuffledIds[accountIdPos]);
                     followingMap[currentTwid] = shuffledIds;
                     const stringifiedFollowingMap = JSON.stringify(followingMap);
                     chrome.storage.local.set({ followingData: stringifiedFollowingMap }, function () {});
@@ -60,20 +57,25 @@ export default function Highlights(props) {
               });
             } else {
               console.log("cached")
-              const shuffledIds = currentData
-                .map(value => ({ value, sort: Math.random() }))
-                .sort((a, b) => a.sort - b.sort)
-                .map(({ value }) => value) 
+              const shuffledIds = shuffleIds(currentData)
               setAccountIds(shuffledIds);
-              setProfileId(shuffledIds.pop());
+              setProfileId(shuffledIds[accountIdPos]);
             }
         })
     })
     }
 
     const handleShuffleClick = (e) => {
-      const newId = accountIds.pop();
-      setProfileId(newId);
+      var newPos = (accountIdPos + 1 < accountIds.length) ? accountIdPos + 1 : 0;
+      setAccountIdPos(newPos);
+      setProfileId(accountIds[newPos]);
+    }
+
+    function shuffleIds(ids) {
+      return ids
+      .map(value => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
     }
 
     return (
@@ -85,9 +87,9 @@ export default function Highlights(props) {
             (profileData == null && profileLoading == true)  ?
             <>
               <div className='d-flex justify-content-center'>
-                  <div class="snippet" data-title=".dot-floating">
-                    <div class="stage">
-                      <div class="dot-pulse"></div>
+                  <div className="snippet" data-title=".dot-floating">
+                    <div className="stage">
+                      <div className="dot-pulse"></div>
                   </div>
                 </div>
               </div>            
