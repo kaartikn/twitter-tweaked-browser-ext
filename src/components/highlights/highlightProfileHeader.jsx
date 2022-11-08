@@ -18,7 +18,6 @@ export default function HighlightsProfileHeader(props) {
     const contextType = useContext(ThemeContext);
 
     return (
-        <>
             <div className="d-flex">
                 <div>
                     <Image
@@ -48,7 +47,5 @@ export default function HighlightsProfileHeader(props) {
                         <p onClick={handleShuffleClick} className="align-text-center" style={{fontSize: "0.8em", cursor: "pointer"}}>Shuffle</p>
                 </div>
             </div>
-            <hr />
-        </>
     )
 }

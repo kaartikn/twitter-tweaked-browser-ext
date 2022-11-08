@@ -1,7 +1,7 @@
 import Accordion from 'react-bootstrap/Accordion';
 import Search from './search/search'
 import './accordions.css';
-import Highlights from './highlights';
+import Highlights from './highlights/highlights';
 import Conversations from './conversations';
 import Favourites from './favourites';
 import PostTweet from './postTweet';

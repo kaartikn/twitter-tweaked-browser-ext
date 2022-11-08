@@ -1,12 +1,12 @@
 import Accordion from 'react-bootstrap/Accordion';
 import { useContext } from 'react';
-import { ThemeContext } from '../popup';
-import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache } from '../misc/miscFunctions';
-import { getFollowingIds, getUserFromUserId } from '../services/userDetails';
+import { ThemeContext } from '../../popup';
+import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache } from '../../misc/miscFunctions';
+import { getFollowingIds, getUserFromUserId } from '../../services/userDetails';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import "./highlights.css";
-import HighlightsProfileHeader from './highlights/highlightProfileHeader';
+import HighlightsProfileHeader from './highlightProfileHeader';
 
 export default function Highlights(props) {
     const { eventKey } = props;
@@ -65,7 +65,7 @@ export default function Highlights(props) {
     })
     }
 
-    const handleShuffleClick = (e) => {
+    const handleShuffleClick = () => {
       var newPos = (accountIdPos + 1 < accountIds.length) ? accountIdPos + 1 : 0;
       setAccountIdPos(newPos);
       setProfileId(accountIds[newPos]);
@@ -94,14 +94,17 @@ export default function Highlights(props) {
                 </div>
               </div>            
             </> :
-            <HighlightsProfileHeader
-              displayName = {profileData['displayname']}
-              verified = {profileData['verified']}
-              description = {profileData['description']}
-              username = {profileData['username']}
-              profileImageUrl = {profileData['profileImageUrl']}
-              handleShuffleClick={handleShuffleClick}
-            />
+            <>
+              <HighlightsProfileHeader
+                displayName = {profileData['displayname']}
+                verified = {profileData['verified']}
+                description = {profileData['description']}
+                username = {profileData['username']}
+                profileImageUrl = {profileData['profileImageUrl']}
+                handleShuffleClick={handleShuffleClick}
+              />
+              <hr />
+            </>
           }
         </Accordion.Body>
       </Accordion.Item>
