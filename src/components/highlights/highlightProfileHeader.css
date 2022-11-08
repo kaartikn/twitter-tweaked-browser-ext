@@ -4,3 +4,15 @@
     max-height: 3em;
     cursor: pointer;
 }
+
+.shuffleIcon {
+    width: 2.5em;
+    /* height: 2.5em; */
+    /* vertical-align: text-bottom; */
+    /* position: relative; */
+    max-width: 100%;
+    /* display: inline-block; */
+    transform: scale(0.6);
+    fill: gray;
+    cursor: pointer;
+}

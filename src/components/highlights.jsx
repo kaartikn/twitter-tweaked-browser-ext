@@ -5,6 +5,7 @@ import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCa
 import { getFollowingIds, getUserFromUserId } from '../services/userDetails';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import "./highlights.css";
 import HighlightsProfileHeader from './highlights/highlightProfileHeader';
 
 export default function Highlights(props) {
@@ -15,6 +16,8 @@ export default function Highlights(props) {
     const [ accountIds, setAccountIds ] = useState(null);
     const [ profileId, setProfileId ] = useState(null);
     const [ profileData, setProfileData ] = useState(null);
+    const [ profileLoading, setProfileLoading ] = useState(true);
+    const [ highlightsLoading, setHighlightsLoading ] = useState(true);
 
     useEffect(() => {
       cacheFollowing();
@@ -23,6 +26,7 @@ export default function Highlights(props) {
     useEffect(() => {
       if(profileId != null){
         getUserFromUserId(profileId).then((data) => {
+          setProfileLoading(false)
           setProfileData(JSON.parse(data))
         });  
       }
@@ -68,7 +72,8 @@ export default function Highlights(props) {
     }
 
     const handleShuffleClick = (e) => {
-      // accountIds.pop()
+      const newId = accountIds.pop();
+      setProfileId(newId);
     }
 
     return (
@@ -77,14 +82,23 @@ export default function Highlights(props) {
         <Accordion.Header>Highlights</Accordion.Header>
         <Accordion.Body>
           {
-            profileData == null ?
-            <></> :
+            (profileData == null && profileLoading == true)  ?
+            <>
+              <div className='d-flex justify-content-center'>
+                  <div class="snippet" data-title=".dot-floating">
+                    <div class="stage">
+                      <div class="dot-pulse"></div>
+                  </div>
+                </div>
+              </div>            
+            </> :
             <HighlightsProfileHeader
               displayName = {profileData['displayname']}
               verified = {profileData['verified']}
               description = {profileData['description']}
               username = {profileData['username']}
               profileImageUrl = {profileData['profileImageUrl']}
+              handleShuffleClick={handleShuffleClick}
             />
           }
         </Accordion.Body>
