@@ -119,6 +119,7 @@ export default function Highlights(props) {
               <HighlightsProfileHeader
                 displayName = {profileData['displayname']}
                 verified = {profileData['verified']}
+                protectedAccount = {profileData['protected']}
                 description = {profileData['description']}
                 username = {profileData['username']}
                 profileImageUrl = {profileData['profileImageUrl']}
