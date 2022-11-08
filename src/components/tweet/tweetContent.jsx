@@ -1,6 +1,7 @@
 import "./tweetContent.css";
 import Image from "react-bootstrap/Image";
 import Tweet from "./tweet";
+import { handleAccountClick, handleHashtagClick, handleLinkClick } from "../../misc/miscFunctions";
 
 export default function TweetContent(props) {
 
@@ -100,27 +101,6 @@ export default function TweetContent(props) {
     }
 
     formatQuotedTweet();
-
-    function handleAccountClick(account) {
-        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            var activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, {"redirect": "https://twitter.com/" + account});
-        });
-    } 
-
-    function handleHashtagClick(hashtag) {
-        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            var activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, {"redirect": "https://twitter.com/hashtag/" + hashtag});
-        });
-    }
-
-    function handleLinkClick(link) {
-        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            var activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, {"redirect": link});
-        });
-    } 
 
     return (
         <>

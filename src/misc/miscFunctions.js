@@ -69,3 +69,24 @@ export function parseTweetData(successData){
     }
     return data;
 }
+
+export function handleAccountClick(account) {
+    chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+        var activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, {"redirect": "https://twitter.com/" + account});
+    });
+} 
+
+export function handleHashtagClick(hashtag) {
+    chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+        var activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, {"redirect": "https://twitter.com/hashtag/" + hashtag.substring(1) + "?src=hashtag_click"});
+    });
+}
+
+export function handleLinkClick(link) {
+    chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+        var activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, {"redirect": link});
+    });
+}

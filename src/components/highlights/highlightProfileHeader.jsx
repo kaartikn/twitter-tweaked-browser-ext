@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { ThemeContext } from "../../popup"
 import "./highlightProfileHeader.css"
 import Image from "react-bootstrap/Image";
+import { handleAccountClick, handleHashtagClick, handleLinkClick } from "../../misc/miscFunctions";
 
 export default function HighlightsProfileHeader(props) {
 
@@ -14,9 +15,28 @@ export default function HighlightsProfileHeader(props) {
         });
     }
 
+    var descriptionFinal = []
+    
+    function formatParagraph(){
+        const contentArr = description.split(/\s+/);
+        descriptionFinal = contentArr.map((word, index) => {
+            const finalWord = word.trim();
+            if (finalWord.charAt(0) == '@'){
+                return <span style={{pointer: "cursor"}} key={index} className='taggedUser' onClick={() => handleAccountClick(finalWord)}>{finalWord} </span>;
+            } else if (finalWord.charAt(0) == '#') {
+                return <span style={{pointer: "cursor"}} key={index} className='hashtaggedfinalWord' onClick={() => handleHashtagClick(finalWord)}>{finalWord} </span>;
+            } else if (finalWord.substring(0, 4) == "http"){
+                return <span style={{pointer: "cursor"}} key={index} onClick={() => handleLinkClick(finalWord)} className='linkedSite'>{finalWord} </span>;
+            } else {
+                return <span key={index}>{finalWord} </span>;
+            }
+        });
+    }
+
+    formatParagraph();
+
     //Use to set colors later
     const contextType = useContext(ThemeContext);
-    console.log(protectedAccount)
 
     return (
             <div className="d-flex">
@@ -44,8 +64,8 @@ export default function HighlightsProfileHeader(props) {
                     <div className="username">
                         <p className="d-inline" onClick={handleProfileClick}>@{username}</p>
                     </div>
-                    <div className="username">
-                        <p className="d-inline" onClick={handleProfileClick}>{description}</p>
+                    <div>
+                        <p className="d-inline">{descriptionFinal}</p>
                     </div>
                 </div>
                 <div className="flex-fill d-flex align-items-center">
