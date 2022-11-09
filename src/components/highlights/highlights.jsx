@@ -3,13 +3,14 @@ import Button from 'react-bootstrap/Button';
 import { useContext } from 'react';
 import { ThemeContext } from '../../popup';
 import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
-import { getFollowingIds, getUserFromUserId } from '../../services/userDetails';
+import { getFollowingIds, getUserFromUserId, getUserFromUserIdOrUsername } from '../../services/userDetails';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import "./highlights.css";
 import HighlightsProfileHeader from './highlightProfileHeader';
 import { getUsersTopTweets } from '../../services/advancedSearch';
 import SearchResults from '../search/searchResults';
+import { NON_ACCOUNT_URLS } from '../../misc/twitterURLS';
 
 export default function Highlights(props) {
     const { eventKey } = props;
@@ -26,12 +27,32 @@ export default function Highlights(props) {
     const [ tweetData, setTweetData ] = useState(null);
 
     useEffect(() => {
-      cacheFollowing();
+      initializeAccountIds();
+
+      // chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+      //   let url = tabs[0].url;
+      //   if (isURLAccountURL(url)){
+      //     const username = url.split("/")[3];
+      //     const profileIdObject = createProfileIdObject(username, false);
+      //     setProfileId(profileIdObject);
+    
+      //   } 
+
+      // });
+
+      chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+        if (changeInfo.url && isURLAccountURL(changeInfo.url)){
+          const username = changeInfo.url.split("/")[3];
+          const profileIdObject = createProfileIdObject(username, false);
+          setProfileId(profileIdObject);
+        }
+      });
+
     }, [])
 
     useEffect(() => {
       if(profileId != null){
-        getUserFromUserId(profileId).then((data) => {
+        getUserFromUserIdOrUsername(profileId['profileId'], profileId['isProfileId']).then((data) => {
           setProfileLoading(false);
           const parsedData = JSON.parse(data);
           setProfileData(parsedData);
@@ -52,11 +73,11 @@ export default function Highlights(props) {
 
           })
 
-        });  
+        });
       }
     }, [profileId])
 
-    function cacheFollowing(){
+    function initializeAccountIds(){
 
       getFollowingMapFromCache().then((followingMap) => {
         getCurrentTwidFromCache().then((currentTwid) => {
@@ -72,7 +93,8 @@ export default function Highlights(props) {
                 getFollowingIds(access_token, access_token_secret).then((ids) => {
                     const shuffledIds = shuffleIds(ids)
                     setAccountIds(shuffledIds);
-                    setProfileId(shuffledIds[accountIdPos]);
+                    const profileIdObject = createProfileIdObject(shuffledIds[accountIdPos], true);
+                    setProfileId(profileIdObject);
                     followingMap[currentTwid] = shuffledIds;
                     const stringifiedFollowingMap = JSON.stringify(followingMap);
                     chrome.storage.local.set({ followingData: stringifiedFollowingMap }, function () {});
@@ -81,10 +103,19 @@ export default function Highlights(props) {
             } else {
               const shuffledIds = shuffleIds(currentData)
               setAccountIds(shuffledIds);
-              setProfileId(shuffledIds[accountIdPos]);
+              const profileIdObject = createProfileIdObject(shuffledIds[accountIdPos], true);
+              setProfileId(profileIdObject);
             }
         })
     })
+    }
+
+    function createProfileIdObject(profileId, isProfileId) {
+      const profileIdObject = {
+        "profileId": profileId,
+        "isProfileId": isProfileId
+      }
+      return profileIdObject;
     }
 
     const handleShuffleClick = () => {
@@ -92,7 +123,8 @@ export default function Highlights(props) {
       setHighlightsLoading(true);
       var newPos = (accountIdPos + 1 < accountIds.length) ? accountIdPos + 1 : 0;
       setAccountIdPos(newPos);
-      setProfileId(accountIds[newPos]);
+      const profileIdObject = createProfileIdObject(accountIds[newPos], true);
+      setProfileId(profileIdObject);
     }
 
     function shuffleIds(ids) {
@@ -110,6 +142,10 @@ export default function Highlights(props) {
             </div>
           </div>
         </div>)
+    }
+
+    function isURLAccountURL(url) {
+      return !NON_ACCOUNT_URLS.some(non_account_url => url.startsWith(non_account_url))
     }
 
     return (

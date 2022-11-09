@@ -12,6 +12,14 @@ export function getFollowingIds(accessToken, accessTokenSecret) {
     );
 }
 
+export function getUserFromUserIdOrUsername(userId, isUserId){
+    if (isUserId){
+        return getUserFromUserId(userId);
+    } else {
+        return getUserFromUsername(userId);
+    }
+}
+
 export function getUserFromUserId(userId) {
     return useFetch(
         URL_NAME + "users?user-id=" + userId,

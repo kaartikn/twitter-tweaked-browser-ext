@@ -63,7 +63,6 @@ export default function TweetContent(props) {
     }
 
     function formatMediaType(media, colLength, single = false){
-        console.log(media);
         if (media['duration'] == null){
             if (!single) {
                 const classes = "mt-2 mb-2 pointer " + colLength;
