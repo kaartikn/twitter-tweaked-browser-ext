@@ -1,7 +1,8 @@
 import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button';
 import { useContext } from 'react';
 import { ThemeContext } from '../../popup';
-import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache, parseTweetData } from '../../misc/miscFunctions';
+import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
 import { getFollowingIds, getUserFromUserId } from '../../services/userDetails';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -21,6 +22,7 @@ export default function Highlights(props) {
     const [ profileData, setProfileData ] = useState(null);
     const [ profileLoading, setProfileLoading ] = useState(true);
     const [ highlightsLoading, setHighlightsLoading ] = useState(true);
+    const [ queryData, setQueryData ] = useState(null);
     const [ tweetData, setTweetData ] = useState(null);
 
     useEffect(() => {
@@ -41,6 +43,7 @@ export default function Highlights(props) {
 
             if (!parsedData['protected']) {
               getUsersTopTweets(access_token, access_token_secret, setHighlightsLoading, parsedData['username']).then((tweets) => {
+                setQueryData(tweets.query);
                 const parsedTweets = parseTweetData(tweets)
                 setHighlightsLoading(false);
                 setTweetData(parsedTweets);
@@ -144,12 +147,12 @@ export default function Highlights(props) {
                   {displayLoadingAnimation()}
                 </>
                 :
-                
                 <>
                   <SearchResults 
                     tweetData={tweetData}
                     search={false}
                   />
+                {tweetData.length == 0 ?<></>:<><Button variant="link" className='w-100 mt-3 btn-link' onClick={() => handleViewAllTweets(queryData)}> See more </Button></>}
                 </>
               }
             </>

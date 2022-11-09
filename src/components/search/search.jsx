@@ -8,7 +8,7 @@ import SearchForm from './searchForm';
 import SearchResults from './searchResults';
 import { ThemeContext } from '../../popup';
 import { data } from 'autoprefixer';
-import { getAccessTokenFromCache, parseTweetData } from '../../misc/miscFunctions';
+import { getAccessTokenFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
 
 export default function Search(props) {
 
@@ -62,16 +62,6 @@ export default function Search(props) {
       });
     }
 
-  const handleViewAllTweets = (e) => {
-    chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-        var activeTab = tabs[0];
-        var formattedSearchQuery = queryData.replaceAll(" ", "%20")
-        const redirectUrl = "https://twitter.com/search?q=" + formattedSearchQuery;
-        chrome.tabs.sendMessage(activeTab.id, {"redirect": redirectUrl});
-    });
-  }
-
-
     const clearSearchQueries = (e) => {
         setAllWords("");
         setExactPhrase("");
@@ -108,7 +98,7 @@ export default function Search(props) {
               <>
                 <Button variant="link" className='w-100 mt-1' onClick={() => setViewTweets(false)}>Search Again</Button>
                 <SearchResults tweetData = {tweetData} search={true} />
-                {tweetData.length == 0 ?<></>:<><Button variant="link" className='w-100 mt-3 btn-link' onClick={handleViewAllTweets} > See Full Results </Button></>}
+                {tweetData.length == 0 ?<></>:<><Button variant="link" className='w-100 mt-3 btn-link' onClick={() => handleViewAllTweets(queryData)} > See Full Results </Button></>}
               </> :
               <>
                 <p className='text-justify'>To do a basic search, use the "All of these words" fields. <br /> For an advanced search, use multiple fields. <br/><br/> Hit the "Search" button at the end to view the results!</p>

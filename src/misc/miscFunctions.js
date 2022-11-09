@@ -70,6 +70,15 @@ export function parseTweetData(successData){
     return data;
 }
 
+export function handleViewAllTweets(queryData){
+    chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+        var activeTab = tabs[0];
+        var formattedSearchQuery = queryData.replaceAll(" ", "%20")
+        const redirectUrl = "https://twitter.com/search?q=" + formattedSearchQuery + "&src=typed_query";
+        chrome.tabs.sendMessage(activeTab.id, {"redirect": redirectUrl});
+    });
+  }
+
 export function handleAccountClick(account) {
     chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
         var activeTab = tabs[0];
