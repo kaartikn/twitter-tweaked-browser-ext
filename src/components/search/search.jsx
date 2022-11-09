@@ -8,7 +8,7 @@ import SearchForm from './searchForm';
 import SearchResults from './searchResults';
 import { ThemeContext } from '../../popup';
 import { data } from 'autoprefixer';
-import { getAccessTokenFromCache } from '../../misc/miscFunctions';
+import { getAccessTokenFromCache, parseTweetData } from '../../misc/miscFunctions';
 
 export default function Search(props) {
 
@@ -52,13 +52,7 @@ export default function Search(props) {
           doAdvancedSearch(accessToken, accessTokenSecret, advancedSearchBody, setLoading).then(
             (successData) =>{
               setQueryData(successData.query);
-              const data = JSON.parse(successData.tweets);
-              for (let index = 0; index < data.length; index++) {
-                const element = data[index];
-                if(element.media != null){
-                  element.media = JSON.parse(element.media);
-                }
-              }
+              const data = parseTweetData(successData);
               setTweetData(data);
               setViewTweets(true);
             }, 

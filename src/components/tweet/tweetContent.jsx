@@ -29,44 +29,77 @@ export default function TweetContent(props) {
 
     function formatMedia(){
         if (media != null){
-            if(media[0]['duration'] == null){
-                if (media.length % 2 == 0) {
-                    return (
-                    <div className="w-100 mt-2 mb-2 d-flex flex-wrap pointer" onClick={handleTweetClick}>
+            if (media.length % 2 == 0) {
+                return (
+                <div className="w-100 mt-2 mb-2 d-flex flex-wrap pointer mediaHeight" onClick={handleTweetClick}>
+                    {
+                        media.map((mediaElement) => {
+                            return formatMediaType(mediaElement, "col-6")
+                        })
+                    }
+                </div>
+                )
+            } 
+            if (media.length == 3){
+                return (
+                <div className="w-100 mt-2 mb-2 d-flex pointer mediaHeight" onClick={handleTweetClick}>
+                    {
+                        formatMediaType(media[0], "col-6")
+                    }
+                    <div className="d-flex flex-column col-6">
                         {
-                            media.map((img) => {
-                                return <Image className="col-6 ml-1" key={img['fullUrl']} src={img['fullUrl']} />
+                            media.slice(1).map((mediaElement) => {
+                                return formatMediaType(mediaElement, "col-11")
                             })
                         }
                     </div>
-                    )
-                } 
-                if (media.length == 3){
-                    return (
-                    <div className="w-100 mt-2 mb-2 d-flex pointer" onClick={handleTweetClick}>
-                        <Image className="col-6 mr-1" src={media[0]['fullUrl']} />
-                        <div className="d-flex flex-column col-6">
-                            {
-                                media.slice(1).map((img) => {
-                                    return <Image className="col-6 ml-1 w-100" key={img['fullUrl']} src={img['fullUrl']} />
-                                })
-                            }
-                        </div>
-                    </div>
-                    )
-                }
+                </div>
+                )
+            } 
 
-                return <Image className="w-100 mt-2 mb-2 pointer" src={media[0]['fullUrl']} />
-
-            } else {
-                return (
-                    <div className="embed-responsive embed-responsive-16by9 mt-2 mb-2 w-100">
-                        <iframe className="embed-responsive-item w-100" src={media[0]['variants'][1]['url']} allowFullScreen></iframe>
-                    </div> 
-              )
-            }
+            return formatMediaType(media[0], "col-6", true)
         }
         return <></>
+    }
+
+    function formatMediaType(media, colLength, single = false){
+        console.log(media);
+        if (media['duration'] == null){
+            if (!single) {
+                const classes = "mt-2 mb-2 pointer " + colLength;
+                return <Image className={classes} src={media['fullUrl']} key={media['fullUrl']} />
+            } else {
+                return <Image className="w-100" src={media['fullUrl']} key={media['fullUrl']} />
+            }
+        } else {
+            var classes = "mt-2 mb-2 " + colLength;
+            const longVideo = media['variants'].find((variant) => variant['bitrate'] == 950000);
+            if (longVideo != null && longVideo != undefined){
+                if (single) {
+                    classes += " w-100 longVideo"
+                    return (<div className={classes}>
+                        <iframe className="h-100 w-100" src={longVideo['url']} allowFullScreen></iframe>
+                    </div>)
+                } else {
+                    return (<div className={classes}>
+                        <iframe className="h-100 w-100" src={longVideo['url']} allowFullScreen></iframe>
+                    </div>)
+                }
+            } else {
+                const availableVideo = media['variants'].find((variant) => variant['bitrate'] != null);
+                if(single) {
+                    classes += " w-100"
+                    return (<div className={classes}>
+                        <iframe className="h-100 w-100" src={availableVideo['url']} allowFullScreen></iframe>
+                    </div>)
+                } else {
+                    return (<div className={classes}>
+                        <iframe className="h-100 w-100" src={availableVideo['url']} allowFullScreen></iframe>
+                    </div>)
+                }
+
+            }
+        }
     }
 
     function formatQuotedTweet(){

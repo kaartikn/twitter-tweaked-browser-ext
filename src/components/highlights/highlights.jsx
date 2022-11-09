@@ -41,9 +41,7 @@ export default function Highlights(props) {
 
             if (!parsedData['protected']) {
               getUsersTopTweets(access_token, access_token_secret, setHighlightsLoading, parsedData['username']).then((tweets) => {
-                console.log(tweets);
                 const parsedTweets = parseTweetData(tweets)
-                console.log(parsedTweets);
                 setHighlightsLoading(false);
                 setTweetData(parsedTweets);
               });
@@ -78,7 +76,6 @@ export default function Highlights(props) {
                 })
               });
             } else {
-              console.log("cached")
               const shuffledIds = shuffleIds(currentData)
               setAccountIds(shuffledIds);
               setProfileId(shuffledIds[accountIdPos]);

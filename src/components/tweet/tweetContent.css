@@ -5,3 +5,7 @@
 .taggedUser:hover, .hashtaggedfinalWord:hover, .linkedSite:hover {
     text-decoration: underline;
 }
+
+.longVideo {
+    height: 50vh;
+}
