@@ -111,14 +111,14 @@ function setupOnMessageListener() {
                         const accessToken = data['access_token'];
                         const accessTokenSecret = data['access_token_secret'];
     
-                        getUsername(accessToken, accessTokenSecret).then((username) => {
+                        getUsernameForUser(accessToken, accessTokenSecret).then((res) => {
                             const authorizedData = {
                                 "twitter_session_id": userTwitterSessionId,
-                                "username": username,
+                                "username": res['username'],
                                 "access_token": accessToken,
                                 "access_token_secret": accessTokenSecret
                             }
-                            storeCredentialsInLocalStorage(authorizedData);    
+                            storeCredentialsInLocalStorage(authorizedData);
                         })
                         
                     });
@@ -160,9 +160,6 @@ function storeCredentialsInLocalStorage(auth) {
     });
 }
 
-function getUsername(accessToken, accessTokenSecret){
-    return getUsernameForUser(accessToken, accessTokenSecret);
-}
 
 function redirectToHomepage(){
     chrome.runtime.sendMessage({ redirect: "https://twitter.com/home" });

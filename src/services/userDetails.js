@@ -38,7 +38,7 @@ export function getUserFromUsername(username) {
         null, 
         null, 
         null,
-        (val) => {} 
+        (val) => {}
     );
 }
 
@@ -48,6 +48,7 @@ export function getUsernameForUser(accessToken, accessTokenSecret){
         "GET",
         accessToken,
         accessTokenSecret,
-        () => {}
+        null,
+        (val) => {}
     )
 }

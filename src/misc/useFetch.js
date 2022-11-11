@@ -10,7 +10,12 @@ export function useFetch(url, method, accessToken, accessTokenSecret, bodyConten
     ...(bodyContent != null ) && {body: JSON.stringify(bodyContent)}
   }
 
-  setLoading(true);
+  try {
+    setLoading(true);    
+  } catch (error) {
+    console.log(error);
+  }
+
 
   return fetch(url, headers)
             .then((response) => {
