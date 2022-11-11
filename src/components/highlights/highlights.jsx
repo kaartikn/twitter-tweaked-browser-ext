@@ -25,6 +25,7 @@ export default function Highlights(props) {
     const [ highlightsLoading, setHighlightsLoading ] = useState(true);
     const [ queryData, setQueryData ] = useState(null);
     const [ tweetData, setTweetData ] = useState(null);
+    const [ backlog, setBacklog ] = useState([]);
 
     useEffect(() => {
       initializeAccountIds();
@@ -41,7 +42,7 @@ export default function Highlights(props) {
       // });
 
       chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-        if (changeInfo.url && isURLAccountURL(changeInfo.url)){
+        if (changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
           const username = changeInfo.url.split("/")[3];
           const profileIdObject = createProfileIdObject(username, false);
           setProfileId(profileIdObject);
@@ -65,9 +66,15 @@ export default function Highlights(props) {
             if (!parsedData['protected']) {
               getUsersTopTweets(access_token, access_token_secret, setHighlightsLoading, parsedData['username']).then((tweets) => {
                 setQueryData(tweets.query);
-                const parsedTweets = parseTweetData(tweets)
-                setHighlightsLoading(false);
-                setTweetData(parsedTweets);
+                const parsedTweets = parseTweetData(tweets);
+                // backlog.unshift();
+                // if(backlog.length == 0 || !profileId['isProfileId']){
+                  setHighlightsLoading(false);
+                  setTweetData(parsedTweets);
+                // } else {
+                //   const finalElement = backlog.pop();
+                //   setBacklog([finalElement]);
+                // }
               });
             }
 
@@ -76,6 +83,10 @@ export default function Highlights(props) {
         });
       }
     }, [profileId])
+
+    // useEffect(() => {
+    //   // const profileId = 
+    // }, [backlog])
 
     function initializeAccountIds(){
 
@@ -119,12 +130,21 @@ export default function Highlights(props) {
     }
 
     const handleShuffleClick = () => {
-      setProfileLoading(true);
-      setHighlightsLoading(true);
+
       var newPos = (accountIdPos + 1 < accountIds.length) ? accountIdPos + 1 : 0;
       setAccountIdPos(newPos);
-      const profileIdObject = createProfileIdObject(accountIds[newPos], true);
-      setProfileId(profileIdObject);
+      const profileId = accountIds[newPos];
+
+      // backlog.push(profileId);
+      // if(!highlightsLoading){
+        setProfileLoading(true);
+        setHighlightsLoading(true);
+  
+        const profileIdObject = createProfileIdObject(profileId, true);
+        setProfileId(profileIdObject);
+      // }
+
+
     }
 
     function shuffleIds(ids) {
