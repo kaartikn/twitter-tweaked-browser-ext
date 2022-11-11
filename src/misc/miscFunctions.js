@@ -42,7 +42,7 @@ export const getFollowingMapFromCache = async () => {
     })
 }
 
-export const getAccessTokenFromCache = async () => {
+export const getAuthorizedDataFromCache = async () => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get({ tweakedAuth: null }, function(result){ 
             const auth = JSON.parse(result.tweakedAuth);

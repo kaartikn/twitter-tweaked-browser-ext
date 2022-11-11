@@ -2,7 +2,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import { useContext } from 'react';
 import { ThemeContext } from '../../popup';
-import { getAccessTokenFromCache, getCurrentTwidFromCache, getFollowingMapFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
+import { getAuthorizedDataFromCache, getCurrentTwidFromCache, getFollowingMapFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
 import { getFollowingIds, getUserFromUserId, getUserFromUserIdOrUsername } from '../../services/userDetails';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -58,7 +58,7 @@ export default function Highlights(props) {
           const parsedData = JSON.parse(data);
           setProfileData(parsedData);
 
-          getAccessTokenFromCache().then((accessTokenObj) => {
+          getAuthorizedDataFromCache().then((accessTokenObj) => {
 
             const access_token = accessTokenObj['access_token'];
             const access_token_secret = accessTokenObj['access_token_secret'];
@@ -96,7 +96,7 @@ export default function Highlights(props) {
             const currentData = followingMap[currentTwid];
             if (currentData == null) {
 
-              getAccessTokenFromCache().then((accessTokenObj) => {
+              getAuthorizedDataFromCache().then((accessTokenObj) => {
 
                 const access_token = accessTokenObj['access_token'];
                 const access_token_secret = accessTokenObj['access_token_secret'];

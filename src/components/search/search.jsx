@@ -8,7 +8,7 @@ import SearchForm from './searchForm';
 import SearchResults from './searchResults';
 import { ThemeContext } from '../../popup';
 import { data } from 'autoprefixer';
-import { getAccessTokenFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
+import { getAuthorizedDataFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
 
 export default function Search(props) {
 
@@ -46,7 +46,7 @@ export default function Search(props) {
 
     const handleSearch = (e) => {
       const advancedSearchBody = formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minimumReplies, minimumLikes, minimumRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, repliesBool, onlyShowReplies, linksBool, onlyShowTweetsWithLinksBool);
-      getAccessTokenFromCache().then((accessTokenObj) => {
+      getAuthorizedDataFromCache().then((accessTokenObj) => {
           const accessToken = accessTokenObj['access_token'];
           const accessTokenSecret = accessTokenObj['access_token_secret'];
           doAdvancedSearch(accessToken, accessTokenSecret, advancedSearchBody, setLoading).then(

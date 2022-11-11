@@ -8,7 +8,7 @@ import CopyButton from "./copyButton";
 import ReplyButton from "./replyButton";
 import ProfileHeader from "./profileHeader";
 import TweetContent from "./tweetContent";
-import { getAccessTokenFromCache } from "../../misc/miscFunctions";
+import { getAuthorizedDataFromCache } from "../../misc/miscFunctions";
 
 export default function Tweet({props: { tweetUrl, date, content, renderedContent, replyCount, retweetCount, likeCount, quoteCount, media, quotedTweet, id, mentionedUsers, hashtags, tcolinks, favorited, retweeted, username, displayName, verified, profileImageUrl, profileUrl, isQuotedTweet }}) {
 
@@ -41,7 +41,7 @@ export default function Tweet({props: { tweetUrl, date, content, renderedContent
 
     const handleLikeClick = (e) => {
         setSelfLiked(!selfLiked);
-        getAccessTokenFromCache().then((accessTokenObj) => {
+        getAuthorizedDataFromCache().then((accessTokenObj) => {
             const access_token = accessTokenObj['access_token'];
             const access_token_secret = accessTokenObj['access_token_secret'];
             if (!selfLiked) {
@@ -57,7 +57,7 @@ export default function Tweet({props: { tweetUrl, date, content, renderedContent
     const handleRetweetClick = (e) => {
         document.body.click(); // to close the retweet overlay
         setSelfRetweet(!selfRetweet);
-        getAccessTokenFromCache().then((accessTokenObj) => {
+        getAuthorizedDataFromCache().then((accessTokenObj) => {
             const access_token = accessTokenObj['access_token'];
             const access_token_secret = accessTokenObj['access_token_secret'];
             if (!selfRetweet) {

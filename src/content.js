@@ -1,5 +1,6 @@
 import { data } from "autoprefixer";
 import { storeCredentialsInBackend } from "./services/auth";
+import { getUsernameForUser } from "./services/userDetails";
 
 const mo = new MutationObserver(onMutation);
 onMutation([{addedNodes: [document.documentElement]}]);
@@ -107,12 +108,19 @@ function setupOnMessageListener() {
 
                     storeCredentialsInBackend(auth, (loading) => {
                     }).then((data) => {
-                        const authorizedData = {
-                            "twitter_session_id": userTwitterSessionId,
-                            "access_token": data['access_token'],
-                            "access_token_secret": data['access_token_secret']
-                        }
-                        storeCredentialsInLocalStorage(authorizedData);
+                        const accessToken = data['access_token'];
+                        const accessTokenSecret = data['access_token_secret'];
+    
+                        getUsername(accessToken, accessTokenSecret).then((username) => {
+                            const authorizedData = {
+                                "twitter_session_id": userTwitterSessionId,
+                                "username": username,
+                                "access_token": accessToken,
+                                "access_token_secret": accessTokenSecret
+                            }
+                            storeCredentialsInLocalStorage(authorizedData);    
+                        })
+                        
                     });
                   
 
@@ -147,10 +155,17 @@ function storeCredentialsInLocalStorage(auth) {
         const stringifiedAuthObject = JSON.stringify(authObject);
 
         chrome.storage.local.set({ tweakedAuth: stringifiedAuthObject }, function () {
-            chrome.runtime.sendMessage({ redirect: "https://twitter.com/home" });
+            redirectToHomepage();
         });
-
     });
+}
+
+function getUsername(accessToken, accessTokenSecret){
+    return getUsernameForUser(accessToken, accessTokenSecret);
+}
+
+function redirectToHomepage(){
+    chrome.runtime.sendMessage({ redirect: "https://twitter.com/home" });
 }
 
 // Shows / hides the twitter side panel & twitter tweaked accordingly depending on the user's settings.

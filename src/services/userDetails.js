@@ -42,3 +42,12 @@ export function getUserFromUsername(username) {
     );
 }
 
+export function getUsernameForUser(accessToken, accessTokenSecret){
+    return useFetch(
+        URL_NAME + "user",
+        "GET",
+        accessToken,
+        accessTokenSecret,
+        () => {}
+    )
+}
