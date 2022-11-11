@@ -99,3 +99,13 @@ export function handleLinkClick(link) {
         chrome.tabs.sendMessage(activeTab.id, {"redirect": link});
     });
 }
+
+export function displayLoadingAnimation() {
+    return (<div className='d-flex justify-content-center'>
+      <div className="snippet" data-title=".dot-floating">
+        <div className="stage">
+          <div className="dot-pulse"></div>
+          </div>
+        </div>
+      </div>)
+  }

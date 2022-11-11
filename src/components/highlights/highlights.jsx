@@ -2,7 +2,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import { useContext } from 'react';
 import { ThemeContext } from '../../popup';
-import { getAuthorizedDataFromCache, getCurrentTwidFromCache, getFollowingMapFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
+import { displayLoadingAnimation, getAuthorizedDataFromCache, getCurrentTwidFromCache, getFollowingMapFromCache, handleViewAllTweets, parseTweetData } from '../../misc/miscFunctions';
 import { getFollowingIds, getUserFromUserId, getUserFromUserIdOrUsername } from '../../services/userDetails';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -154,16 +154,6 @@ export default function Highlights(props) {
       .map(({ value }) => value)
     }
 
-    function displayLoadingAnimation() {
-      return (<div className='d-flex justify-content-center'>
-        <div className="snippet" data-title=".dot-floating">
-          <div className="stage">
-            <div className="dot-pulse"></div>
-            </div>
-          </div>
-        </div>)
-    }
-
     function isURLAccountURL(url) {
       return !NON_ACCOUNT_URLS.some(non_account_url => url.startsWith(non_account_url))
     }
@@ -197,7 +187,7 @@ export default function Highlights(props) {
               <hr id='highlightsSeparator' />
               {
                 (profileData['protected']) ?
-                <p className='protectedAccountMessage'>Cannot display highlighted Tweets for protected account.</p> :
+                <p className='protectedAccountMessage'>Cannot display highlighted Tweets for a protected account.</p> :
                 (tweetData == null || highlightsLoading == true) ?
                 <>
                   {displayLoadingAnimation()}

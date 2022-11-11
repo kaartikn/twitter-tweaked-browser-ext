@@ -25,6 +25,17 @@ export function getUsersTopTweets(accessToken, accessTokenSecret, setLoading, us
     );
 }
 
+export function getConversationWithUser(accessToken, accessTokenSecret, setLoading, ownUsername, otherUsername){
+    return useFetch(
+        URL_NAME + "tweets/conversation/user?user1=" + ownUsername + "&user2=" + otherUsername,
+        "GET",
+        accessToken,
+        accessTokenSecret,
+        null,
+        setLoading
+    )
+}
+
 // Data cleaning / formatting functions
 
 export function formatAdvancedSearchBody(allWords, exactPhrase, anyWords, noneWords, hashtags, fromAccounts, toAccounts, mentioningAccounts, minReplies, minFaves, minRetweets, language, startDay, startMonth, startYear, endDay, endMonth, endYear, showReplies, showRepliesOnly, showLinks, showLinksOnly){
