@@ -1,12 +1,12 @@
 import { useContext } from "react"
-import { ThemeContext } from "../../popup"
-import "./highlightProfileHeader.css"
+import { ThemeContext } from "../popup"
+import "./mainProfileHeader.css";
 import Image from "react-bootstrap/Image";
-import { handleAccountClick, handleHashtagClick, handleLinkClick } from "../../misc/miscFunctions";
+import { handleAccountClick, handleHashtagClick, handleLinkClick } from "../misc/miscFunctions";
 
-export default function HighlightsProfileHeader(props) {
+export default function MainProfileHeader(props) {
 
-    const { displayName, verified, protectedAccount, description, username, profileImageUrl, handleShuffleClick } = props
+    const { displayName, verified, protectedAccount, description, username, profileImageUrl, handleShuffleClick, shuffle } = props
 
     const handleProfileClick = (e) => {
         chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
@@ -68,9 +68,14 @@ export default function HighlightsProfileHeader(props) {
                         <p className="d-inline">{descriptionFinal}</p>
                     </div>
                 </div>
-                <div className="flex-fill d-flex align-items-center">
+
+                {
+                    shuffle ?
+                    (<div className="flex-fill d-flex align-items-center">
                         <p onClick={handleShuffleClick} className="align-text-center shuffleText" style={{fontSize: "0.8em", cursor: "pointer", whiteSpace: "nowrap"}}>⇋ Shuffle</p>
-                </div>
+                    </div>) :
+                    <></>
+                }
             </div>
     )
 }

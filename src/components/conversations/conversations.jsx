@@ -6,7 +6,7 @@ import { ThemeContext } from '../../popup';
 import { useState } from 'react';
 import ConversationSearchHeader from './conversationSearchHeader';
 import SearchResults from '../search/searchResults';
-import HighlightsProfileHeader from '../highlights/highlightProfileHeader';
+import MainProfileHeader from '../mainProfileHeader';
 import { getUserFromUserIdOrUsername } from '../../services/userDetails';
 import { getConversationWithUser } from '../../services/advancedSearch';
 import { NON_ACCOUNT_URLS } from '../../misc/twitterURLS';
@@ -127,7 +127,8 @@ export default function Conversations(props) {
               <>
               {
                 isProfileValid ?
-                <HighlightsProfileHeader
+                <MainProfileHeader
+                  shuffle = {false}
                   displayName = {profileData['displayname']}
                   verified = {profileData['verified']}
                   protectedAccount = {profileData['protected']}
@@ -151,7 +152,7 @@ export default function Conversations(props) {
                 <hr id='highlightsSeparator' />
                 {
                   (profileData['protected']) ?
-                  <p className='protectedAccountMessage'>Cannot display highlighted Tweets for a protected account.</p> :
+                  <p className='protectedAccountMessage'>Cannot display conversations with a protected account.</p> :
                   (tweetData == null || highlightsLoading == true) ?
                   <>
                     {displayLoadingAnimation()}

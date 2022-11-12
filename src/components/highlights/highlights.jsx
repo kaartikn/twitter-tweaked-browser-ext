@@ -7,7 +7,7 @@ import { getFollowingIds, getUserFromUserId, getUserFromUserIdOrUsername } from 
 import { useState } from 'react';
 import { useEffect } from 'react';
 import "./highlights.css";
-import HighlightsProfileHeader from './highlightProfileHeader';
+import MainProfileHeader from '../mainProfileHeader';
 import { getUsersTopTweets } from '../../services/advancedSearch';
 import SearchResults from '../search/searchResults';
 import { NON_ACCOUNT_URLS } from '../../misc/twitterURLS';
@@ -186,7 +186,8 @@ export default function Highlights(props) {
             (profileData == null && profileLoading == true)  ?
             displayLoadingAnimation() :
             <>
-              <HighlightsProfileHeader
+              <MainProfileHeader
+                shuffle = {true}
                 displayName = {profileData['displayname']}
                 verified = {profileData['verified']}
                 protectedAccount = {profileData['protected']}
