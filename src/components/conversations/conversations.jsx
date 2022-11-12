@@ -14,6 +14,7 @@ import { NON_ACCOUNT_URLS } from '../../misc/twitterURLS';
 export default function Conversations(props) {
     const {eventKey} = props;
 
+    const [ currentTabId, setCurrentTabId ] = useState(null);
     const [ profileId, setProfileId ] = useState("");
     const [ searched, setSearched ] = useState(false);
     const [ profileData, setProfileData ] = useState(null);
@@ -26,26 +27,36 @@ export default function Conversations(props) {
 
     useEffect(() => {
 
-      // chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-      //   let url = tabs[0].url;
-      //   if (isURLAccountURL(url)){
-      //     const username = url.split("/")[3];
-      //     const profileIdObject = createProfileIdObject(username, false);
-      //     setProfileId(profileIdObject);
+      chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+
+        setCurrentTabId(tabs[0]['id']);
+
+        // let url = tabs[0].url;
+        // if (isURLAccountURL(url)){
+        //   const username = url.split("/")[3];
+        //   const profileIdObject = createProfileIdObject(username, false);
+        //   setProfileId(profileIdObject);
     
-      //   } 
+        // } 
 
-      // });
-
-
-      chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-        if (changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
-          const username = changeInfo.url.split("/")[3];
-          setProfileId(username);
-          setSearched(true);
-        }
       });
+
     }, [])
+
+    useEffect(() => {
+      if (currentTabId != null){
+
+        console.log(currentTabId);
+
+        chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+          if (currentTabId == tabId && changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
+            const username = changeInfo.url.split("/")[3];
+            setProfileId(username);
+            setSearched(true);
+          }
+        });  
+      }
+    }, [currentTabId])
 
     useEffect(() => {
       if(searched && profileId != ""){

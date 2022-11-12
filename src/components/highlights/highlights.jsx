@@ -17,6 +17,7 @@ export default function Highlights(props) {
 
     var contextType = useContext(ThemeContext);
 
+    const [ currentTabId, setCurrentTabId ] = useState(null);
     const [ accountIdPos, setAccountIdPos ] = useState(0);
     const [ accountIds, setAccountIds ] = useState(null);
     const [ profileId, setProfileId ] = useState(null);
@@ -28,28 +29,37 @@ export default function Highlights(props) {
     const [ backlog, setBacklog ] = useState([]);
 
     useEffect(() => {
-      initializeAccountIds();
 
-      // chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-      //   let url = tabs[0].url;
-      //   if (isURLAccountURL(url)){
-      //     const username = url.split("/")[3];
-      //     const profileIdObject = createProfileIdObject(username, false);
-      //     setProfileId(profileIdObject);
+      chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+
+        setCurrentTabId(tabs[0]['id']);
+
+        // let url = tabs[0].url;
+        // if (isURLAccountURL(url)){
+        //   const username = url.split("/")[3];
+        //   const profileIdObject = createProfileIdObject(username, false);
+        //   setProfileId(profileIdObject);
     
-      //   } 
+        // } 
 
-      // });
-
-      chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-        if (changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
-          const username = changeInfo.url.split("/")[3];
-          const profileIdObject = createProfileIdObject(username, false);
-          setProfileId(profileIdObject);
-        }
       });
 
     }, [])
+
+    useEffect(() => {
+      initializeAccountIdsPromise().then(() => {
+        if (currentTabId != null) {
+          chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {  
+            if (tabId == currentTabId && changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
+              const username = changeInfo.url.split("/")[3];
+              const profileIdObject = createProfileIdObject(username, false);
+              setProfileId(profileIdObject);
+            }
+          });          
+        }
+      });
+    }, [currentTabId])
+
 
     useEffect(() => {
       if(profileId != null){
@@ -88,8 +98,14 @@ export default function Highlights(props) {
     //   // const profileId = 
     // }, [backlog])
 
-    function initializeAccountIds(){
+    const initializeAccountIdsPromise = async () => {
+      return new Promise((resolve, reject) => {
+        resolve(initializeAccountIds());
+        reject(null);
+      })  
+    }    
 
+    function initializeAccountIds() {
       getFollowingMapFromCache().then((followingMap) => {
         getCurrentTwidFromCache().then((currentTwid) => {
             
@@ -109,6 +125,7 @@ export default function Highlights(props) {
                     followingMap[currentTwid] = shuffledIds;
                     const stringifiedFollowingMap = JSON.stringify(followingMap);
                     chrome.storage.local.set({ followingData: stringifiedFollowingMap }, function () {});
+                    return;
                 })
               });
             } else {
@@ -116,9 +133,11 @@ export default function Highlights(props) {
               setAccountIds(shuffledIds);
               const profileIdObject = createProfileIdObject(shuffledIds[accountIdPos], true);
               setProfileId(profileIdObject);
+              return;
             }
         })
-    })
+      })
+      return;
     }
 
     function createProfileIdObject(profileId, isProfileId) {
