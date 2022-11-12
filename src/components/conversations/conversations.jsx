@@ -17,6 +17,7 @@ export default function Conversations(props) {
     const [ currentTabId, setCurrentTabId ] = useState(null);
     const [ profileId, setProfileId ] = useState("");
     const [ searched, setSearched ] = useState(false);
+    const [ isProfileValid, setIsProfileValid ] = useState(true);
     const [ profileData, setProfileData ] = useState(null);
     const [ profileLoading, setProfileLoading ] = useState(false);
     const [ highlightsLoading, setHighlightsLoading ] = useState(false);
@@ -46,8 +47,6 @@ export default function Conversations(props) {
     useEffect(() => {
       if (currentTabId != null){
 
-        console.log(currentTabId);
-
         chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
           if (currentTabId == tabId && changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
             const username = changeInfo.url.split("/")[3];
@@ -61,8 +60,9 @@ export default function Conversations(props) {
     useEffect(() => {
       if(searched && profileId != ""){
         getUserFromUserIdOrUsername(profileId, false).then((data) => {
-          if (data != "null") {
+          if (data != "null" && data != undefined) {
             setProfileLoading(false);
+            setIsProfileValid(true);
             const parsedData = JSON.parse(data);
             setProfileData(parsedData);
   
@@ -80,18 +80,26 @@ export default function Conversations(props) {
                     setTweetData(parsedTweets);
                     setSearched(false);
                 });
+              } else{
+                setSearched(false);
               }
             })  
           } else {
-            console.log("Failure");
+            setProfileLoading(false);
+            setHighlightsLoading(false);
+            setSearched(false);
+            setIsProfileValid(false);
           }
-        }, (failed) => {
-          console.log(failed);
         });
       }
     }, [searched])
 
-    const handleSearchClick = () => { setSearched(true); }
+    const handleSearchClick = () => {
+      console.log(profileId);
+      setProfileLoading(true);
+      setHighlightsLoading(true);
+      setSearched(true); 
+    }
 
     function isURLAccountURL(url) {
       return !NON_ACCOUNT_URLS.some(non_account_url => url.startsWith(non_account_url))
@@ -117,6 +125,8 @@ export default function Conversations(props) {
               profileLoading  ?
               displayLoadingAnimation() :
               <>
+              {
+                isProfileValid ?
                 <HighlightsProfileHeader
                   displayName = {profileData['displayname']}
                   verified = {profileData['verified']}
@@ -125,13 +135,16 @@ export default function Conversations(props) {
                   username = {profileData['username']}
                   profileImageUrl = {profileData['profileImageUrl']}
                   handleShuffleClick={() => {}}
-                />
+                /> :
+                <p className='protectedAccountMessage'>Profile does not exist.</p>
+
+              }
+
               </>
             }
   
             {
-
-              (profileData == null)  ?
+              (profileData == null || !isProfileValid)  ?
               <>
               </> :
               <>

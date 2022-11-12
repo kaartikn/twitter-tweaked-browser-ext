@@ -54,7 +54,6 @@ export default function Highlights(props) {
                 const username = changeInfo.url.split("/")[3];
                 const profileIdObject = createProfileIdObject(username, false);
                 setProfileId(profileIdObject);
-                console.log("ProfileID set from inside on update listener, " + username);
               }
             });
           })
@@ -122,7 +121,6 @@ export default function Highlights(props) {
                     const shuffledIds = shuffleIds(ids)
                     setAccountIds(shuffledIds);
                     const profileIdObject = createProfileIdObject(shuffledIds[accountIdPos], true);
-                    console.log("ProfileID set from inside get following Ids, " + shuffledIds[accountIdPos]);
                     setProfileId(profileIdObject);
                     followingMap[currentTwid] = shuffledIds;
                     const stringifiedFollowingMap = JSON.stringify(followingMap);
@@ -134,7 +132,6 @@ export default function Highlights(props) {
               const shuffledIds = shuffleIds(currentData)
               setAccountIds(shuffledIds);
               const profileIdObject = createProfileIdObject(shuffledIds[accountIdPos], true);
-              console.log("ProfileID set from outside get following Ids, " + shuffledIds[accountIdPos]);
               setProfileId(profileIdObject);
               return;
             }
