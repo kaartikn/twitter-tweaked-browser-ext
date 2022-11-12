@@ -47,17 +47,18 @@ export default function Highlights(props) {
     }, [])
 
     useEffect(() => {
-      initializeAccountIdsPromise().then(() => {
-        if (currentTabId != null) {
-          chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {  
-            if (tabId == currentTabId && changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
-              const username = changeInfo.url.split("/")[3];
-              const profileIdObject = createProfileIdObject(username, false);
-              setProfileId(profileIdObject);
-            }
-          });          
-        }
-      });
+      if (currentTabId != null) {
+        initializeAccountIdsPromise().then(() => {
+            chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {  
+              if (tabId == currentTabId && changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
+                const username = changeInfo.url.split("/")[3];
+                const profileIdObject = createProfileIdObject(username, false);
+                setProfileId(profileIdObject);
+                console.log("ProfileID set from inside on update listener, " + username);
+              }
+            });
+          })
+        };
     }, [currentTabId])
 
 
@@ -121,6 +122,7 @@ export default function Highlights(props) {
                     const shuffledIds = shuffleIds(ids)
                     setAccountIds(shuffledIds);
                     const profileIdObject = createProfileIdObject(shuffledIds[accountIdPos], true);
+                    console.log("ProfileID set from inside get following Ids, " + shuffledIds[accountIdPos]);
                     setProfileId(profileIdObject);
                     followingMap[currentTwid] = shuffledIds;
                     const stringifiedFollowingMap = JSON.stringify(followingMap);
@@ -132,6 +134,7 @@ export default function Highlights(props) {
               const shuffledIds = shuffleIds(currentData)
               setAccountIds(shuffledIds);
               const profileIdObject = createProfileIdObject(shuffledIds[accountIdPos], true);
+              console.log("ProfileID set from outside get following Ids, " + shuffledIds[accountIdPos]);
               setProfileId(profileIdObject);
               return;
             }
