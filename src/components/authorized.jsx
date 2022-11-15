@@ -12,9 +12,9 @@ export default function Authorized(props) {
     return (
         <>
             <Accordion flush>
-                <Search eventKey={0} />
-                <Highlights eventKey={1} />
-                <Conversations eventKey={2} />
+                <Highlights eventKey={0} />
+                <Conversations eventKey={1} />
+                <Search eventKey={2} />
                 <Favourites eventKey={3} />
                 <PostTweet eventKey={4} />
             </Accordion>

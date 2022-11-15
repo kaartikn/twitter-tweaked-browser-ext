@@ -27,9 +27,9 @@ export default function Search(props) {
     const [ onlyShowReplies, setOnlyShowReplies ] = useState(false);
     const [ linksBool, setLinksBool ] = useState(true);
     const [ onlyShowTweetsWithLinksBool, setOnlyShowTweetsWithLinksBool ] = useState(false);
-    const [ minimumReplies, setMinimumReplies ] = useState(0);
-    const [ minimumLikes, setMinimumLikes ] = useState(0);
-    const [ minimumRetweets, setMinimumRetweets ] = useState(0);
+    const [ minimumReplies, setMinimumReplies ] = useState("");
+    const [ minimumLikes, setMinimumLikes ] = useState("");
+    const [ minimumRetweets, setMinimumRetweets ] = useState("");
 
     const [ startMonth, setStartMonth ] = useState("Month");
     const [ startDay, setStartDay ] = useState("Day");
@@ -76,9 +76,9 @@ export default function Search(props) {
         setOnlyShowReplies(false);
         setLinksBool(true);
         setOnlyShowTweetsWithLinksBool(false);
-        setMinimumReplies(0);
-        setMinimumLikes(0);
-        setMinimumRetweets(0);
+        setMinimumReplies("");
+        setMinimumLikes("");
+        setMinimumRetweets("");
         setStartMonth("Month");
         setStartDay("Day");
         setStartYear("Year");
@@ -101,7 +101,7 @@ export default function Search(props) {
                 {tweetData.length == 0 ?<></>:<><Button variant="link" className='w-100 mt-3 btn-link' onClick={() => handleViewAllTweets(queryData)} > See Full Results </Button></>}
               </> :
               <>
-                <p className='text-justify'>To do a basic search, use the "All of these words" fields. <br /> For an advanced search, use multiple fields. <br/><br/> Hit the "Search" button at the end to view the results!</p>
+                <p className='text-justify'>To do a basic search, use the "All of these words" field alone. <br /> For a detailed search, use multiple fields. <br/><br/> Hit the "Search" button at the end to view the results!</p>
                 <br/>
                 <p style={{fontSize: "0.9em"}}><i>Note: searching takes ~ 5 seconds.</i></p>
                 {/* <Button variant="link" className='w-100' onClick={clearSearchQueries}>Reset Search Fields</Button> */}

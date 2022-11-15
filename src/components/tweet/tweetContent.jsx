@@ -76,11 +76,11 @@ export default function TweetContent(props) {
             if (longVideo != null && longVideo != undefined){
                 if (single) {
                     classes += " w-100 longVideo"
-                    return (<div className={classes}>
+                    return (<div className={classes} key={longVideo['url']}>
                         <iframe className="h-100 w-100" src={longVideo['url']} allowFullScreen></iframe>
                     </div>)
                 } else {
-                    return (<div className={classes}>
+                    return (<div className={classes} key={longVideo['url']}>
                         <iframe className="h-100 w-100" src={longVideo['url']} allowFullScreen></iframe>
                     </div>)
                 }
@@ -88,11 +88,11 @@ export default function TweetContent(props) {
                 const availableVideo = media['variants'].find((variant) => variant['bitrate'] != null);
                 if(single) {
                     classes += " w-100"
-                    return (<div className={classes}>
+                    return (<div className={classes} key={availableVideo['url']}>
                         <iframe className="h-100 w-100" src={availableVideo['url']} allowFullScreen></iframe>
                     </div>)
                 } else {
-                    return (<div className={classes}>
+                    return (<div className={classes} key={availableVideo['url']}>
                         <iframe className="h-100 w-100" src={availableVideo['url']} allowFullScreen></iframe>
                     </div>)
                 }

@@ -74,7 +74,7 @@ export function handleViewAllTweets(queryData){
     chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
         var activeTab = tabs[0];
         var formattedSearchQuery = queryData.replaceAll(" ", "%20")
-        const redirectUrl = "https://twitter.com/search?q=" + formattedSearchQuery + "&src=typed_query";
+        const redirectUrl = "https://twitter.com/search?q=" + formattedSearchQuery + "&src=typed_query&f=live";
         chrome.tabs.sendMessage(activeTab.id, {"redirect": redirectUrl});
     });
   }
