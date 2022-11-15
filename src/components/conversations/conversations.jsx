@@ -15,6 +15,7 @@ export default function Conversations(props) {
     const {eventKey} = props;
 
     const [ currentTabId, setCurrentTabId ] = useState(null);
+    const [ currentTabUsername, setCurrentTabUsername ] = useState();
     const [ profileId, setProfileId ] = useState("");
     const [ searched, setSearched ] = useState(false);
     const [ isProfileValid, setIsProfileValid ] = useState(true);
@@ -50,12 +51,23 @@ export default function Conversations(props) {
         chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
           if (currentTabId == tabId && changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
             const username = changeInfo.url.split("/")[3];
-            setProfileId(username);
-            setSearched(true);
+            setCurrentTabUsername(username);
           }
         });  
       }
     }, [currentTabId])
+
+    useEffect(() => {
+      if(currentTabUsername != null){
+        if (profileData == null){
+          setProfileId(currentTabUsername);
+          setSearched(true);          
+        }else if (profileData['username'] != currentTabUsername){
+          setProfileId(currentTabUsername);
+          setSearched(true);
+        }
+      }
+    }, [currentTabUsername])
 
     useEffect(() => {
       if(searched && profileId != ""){
@@ -95,7 +107,6 @@ export default function Conversations(props) {
     }, [searched])
 
     const handleSearchClick = () => {
-      console.log(profileId);
       setProfileLoading(true);
       setHighlightsLoading(true);
       setSearched(true); 

@@ -27,6 +27,7 @@ export default function Highlights(props) {
     const [ highlightsLoading, setHighlightsLoading ] = useState(true);
     const [ queryData, setQueryData ] = useState(null);
     const [ tweetData, setTweetData ] = useState(null);
+    const [ currentUsername, setCurrentUsername ] =  useState();
     const [ backlog, setBacklog ] = useState([]);
 
     useEffect(() => {
@@ -53,42 +54,31 @@ export default function Highlights(props) {
             chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {  
               if (tabId == currentTabId && changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
                 const username = changeInfo.url.split("/")[3];
-
-                checkIfUsernameChanged(username);
+                setCurrentUsername(username);
               }
             });
           })
         };
     }, [currentTabId])
 
-    function checkIfUsernameChanged(username){
-      console.log("function Called");
-      console.log(currentUser);
-      const previous = currentUser == null ? null : currentUser['current'];
-      console.log(previous);
-      if (previous != username){
-        var usernameObj;
-        if (previous == null){
-          usernameObj = {"previous": username, "current": username};
+    useEffect(() => {      
+      if(currentUsername != null){
+        if (currentUser == null){
+          const usernameObj = {'prev': currentUsername, 'current': currentUsername};
+          setCurrentUser(usernameObj);
         } else {
-          usernameObj = {"previous": previous, "current": username};
+          const previous = currentUser['current'];
+          if (previous != currentUsername){
+            const usernameObj = {'prev': previous, 'current': currentUsername};
+            setCurrentUser(usernameObj);
+          }  
         }
-        console.log(usernameObj);
-        setCurrentUser(usernameObj);
-      } else { //handling null case
-        // if (currentUser == null){
-        //   const usernameObj = {"previous": previous, "current": username};
-        //   console.log(usernameObj);
-        //   setCurrentUser(usernameObj);
-        // }
       }
-    }
-
+    }, [currentUsername])
+    
     useEffect(() => {
       if (currentUser != null){
-        console.log("in current user effect");
         const profileIdObject = createProfileIdObject(currentUser['current'], false);
-        console.log(profileIdObject);
         setProfileId(profileIdObject);
       }
     }, [currentUser])
