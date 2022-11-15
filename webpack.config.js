@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -32,6 +33,20 @@ module.exports = {
       test: /\.(scss|sass|css)$/,
       use: [ 'style-loader', 'css-loader', 'postcss-loader','sass-loader']
     }],
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          ecma: 6,
+          output: { 
+             ascii_only: true 
+          },
+        },
+      }),
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
