@@ -1,7 +1,7 @@
 {
     "name": "Twitter-Tweaked",
-    "version": "1.0.0",
-    "description": "Tweak your Twitter Experience to be for the better!",
+    "version": "1.0.1",
+    "description": "A sidebar that will tweak your experience on Twitter to be phenomenal!",
     "manifest_version": 3,
     "action": {},
     "host_permission": [

@@ -1,7 +1,7 @@
 {
   "name": "twitter-tweaked",
-  "version": "1.0.0",
-  "description": "A browser extension to supercharge your Twitter Experience",
+  "version": "1.0.1",
+  "description": "A sidebar that will tweak your experience on Twitter to be phenomenal.",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --watch --config webpack.dev.js",
