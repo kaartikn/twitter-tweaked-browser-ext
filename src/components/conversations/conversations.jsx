@@ -112,7 +112,8 @@ export default function Conversations(props) {
             <Accordion.Header>Conversations</Accordion.Header>
             <Accordion.Body>
 
-            <p style={{fontSize: "0.9em"}} className="mb-2" >View your previous interactions with a user.</p>
+            <p style={{fontSize: "0.9em"}} className="mb-2" >View your previous interactions with a user. </p>
+            <p style={{fontSize: "0.8em"}}><i> • Note: Both your account and the other user's account must not be protected to view conversations. • </i></p>
             <ConversationSearchHeader props={{"otherUsername": profileId, "setOtherUsername": setProfileId, "handleSearchClick": handleSearchClick}} />
 
             <hr />

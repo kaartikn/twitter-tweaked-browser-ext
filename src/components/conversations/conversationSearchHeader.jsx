@@ -21,7 +21,7 @@ export default function ConversationSearchHeader({props: {otherUsername, setOthe
                 <InputGroup.Text onClick={handleSearchClick} className='searchButton'>Search</InputGroup.Text>
             </InputGroup>
 
-            <Form.Text className="text-muted">Example: kaartik___</Form.Text>
+            <Form.Text className="text-muted">Example: kaartik___ (without @ symbol) </Form.Text>
 
         </>
     )

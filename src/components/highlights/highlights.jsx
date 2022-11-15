@@ -17,6 +17,7 @@ export default function Highlights(props) {
 
     var contextType = useContext(ThemeContext);
 
+    const [ currentUser, setCurrentUser ] = useState(null);
     const [ currentTabId, setCurrentTabId ] = useState(null);
     const [ accountIdPos, setAccountIdPos ] = useState(0);
     const [ accountIds, setAccountIds ] = useState(null);
@@ -52,13 +53,45 @@ export default function Highlights(props) {
             chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {  
               if (tabId == currentTabId && changeInfo.url && isURLAccountURL(changeInfo.url) && changeInfo.url.startsWith("https://twitter.com/")){
                 const username = changeInfo.url.split("/")[3];
-                const profileIdObject = createProfileIdObject(username, false);
-                setProfileId(profileIdObject);
+
+                checkIfUsernameChanged(username);
               }
             });
           })
         };
     }, [currentTabId])
+
+    function checkIfUsernameChanged(username){
+      console.log("function Called");
+      console.log(currentUser);
+      const previous = currentUser == null ? null : currentUser['current'];
+      console.log(previous);
+      if (previous != username){
+        var usernameObj;
+        if (previous == null){
+          usernameObj = {"previous": username, "current": username};
+        } else {
+          usernameObj = {"previous": previous, "current": username};
+        }
+        console.log(usernameObj);
+        setCurrentUser(usernameObj);
+      } else { //handling null case
+        // if (currentUser == null){
+        //   const usernameObj = {"previous": previous, "current": username};
+        //   console.log(usernameObj);
+        //   setCurrentUser(usernameObj);
+        // }
+      }
+    }
+
+    useEffect(() => {
+      if (currentUser != null){
+        console.log("in current user effect");
+        const profileIdObject = createProfileIdObject(currentUser['current'], false);
+        console.log(profileIdObject);
+        setProfileId(profileIdObject);
+      }
+    }, [currentUser])
 
 
     useEffect(() => {
